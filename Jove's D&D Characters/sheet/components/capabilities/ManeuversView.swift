@@ -1,0 +1,21 @@
+import Foundation
+import SBJLayout
+
+@JCSLayoutElementBuilder
+func maneuvers(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimension: TrackSize = .fill()) -> JCSLayoutElements {
+	if c.capabilities.maneuvers.hasContent {
+		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
+			SectionTitle(theme, jargon.maneuverTitle)
+			Grid(horzFlow: .init(dimension, gap: 2)) {
+				c.capabilities.maneuvers.map { item in
+					Panel(theme) {
+						Grid(vertFlow: .init(dimension)) {
+							JCSText(item.name, font: theme.maneuverNameFont, color: theme.ink, align: .centerBottom, maxLines: 1)
+							JCSText(item.detail, font: theme.maneuverBodyFont, color: theme.ink, maxLines: 3)
+						}
+					}
+				}
+			}
+		}
+	}
+}

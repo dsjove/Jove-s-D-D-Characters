@@ -10,6 +10,12 @@ public protocol StringPresentable {
 	func multiLineDescription(jargon: any Jargon) -> String
 }
 
+public extension String {
+	var multiLineDescription: String {
+		replacingOccurrences(of: " ", with: "\n")
+	}
+}
+
 public extension StringPresentable {
 	func description(jargon: any Jargon) -> String { description }
 

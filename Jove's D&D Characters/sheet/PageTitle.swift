@@ -34,3 +34,36 @@ struct PageTitle: JCSLayoutElement {
 		grid.draw(in: contentRect, measured: contentRect.size, align: align)
 	}
 }
+
+struct PageTitle2: JCSLayoutElement {
+	let isEmpty: Bool
+	let grid: any JCSLayoutElement
+
+	init(_ theme: Theme, _ title: String, _ subtitle: String? = nil) {
+		isEmpty = title.isEmpty && subtitle?.isEmpty ?? true
+		grid = SBJLayout.Panel(
+				insets: .init(
+					left: theme.pageHeaderInset.width,
+					right: theme.pageHeaderInset.width,
+					top: theme.pageHeaderInset.height,
+					bottom: theme.pageHeaderInset.height),
+				align: .center,
+				background: theme.pageHeaderPanel!) {
+			Grid(vertFlow: .init(.fill())) {
+				JCSText(title, font: theme.largeAttributeFont, color: theme.pageHeaderTextColor)
+				JCSText(subtitle, font: theme.pageHeaderSubtitleFont, color: theme.pageHeaderTextColor)
+			}
+		}
+	}
+
+	func measure(bounds: CGSize) -> CGSize {
+		guard !isEmpty else { return .zero }
+		return grid.measure(bounds: bounds)
+	}
+
+	func draw(in allocated: CGRect, measured: CGSize, align: Alignment) {
+		guard !isEmpty else { return }
+		grid.draw(in: allocated, measured: measured, align: align)
+	}
+}
+

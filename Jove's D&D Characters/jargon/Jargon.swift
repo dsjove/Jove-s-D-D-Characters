@@ -103,9 +103,9 @@ public extension Jargon {
 	var maxHitPointsTitle: String { "Max HP" }
 	var currentHitPointsTitle: String { "Current\nHP" }
 	var temporaryHitPointsTitle: String { "Temp HP" }
-	var deathSavesTitle: String { "Death Saves" }
-	var deathSaveSuccessTitle: String { "Success" }
-	var deathSaveFailureTitle: String { "Failure" }
+	var deathSavesTitle: String { "Death\nSaves" }
+	var deathSaveSuccessTitle: String { "S" }
+	var deathSaveFailureTitle: String { "F" }
 	var reminderMarker: String { "□" }
 	var deathSaveMarker: String { "◯" }
 	var missingValueText: String { "—" }

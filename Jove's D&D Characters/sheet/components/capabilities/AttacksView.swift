@@ -13,11 +13,11 @@ func attacks(
 			SectionTitle(theme, jargon.attacksTitle)
 			Panel(theme) {
 				let columns: [Track] = [
-					.init(.intrinsic(), gap: 20),
-					.init(.intrinsic(), gap: 20),
-					.init(.intrinsic(), gap: 20),
-					.init(.intrinsic(), gap: 20),
-					.init(dimension, gap: 20),
+					.init(.intrinsic(), gap: 5),
+					.init(.intrinsic(), gap: 5),
+					.init(dimension, gap: 5),
+					.init(dimension, gap: 5),
+					.init(dimension, gap: 5),
 				]
 				Grid(table: columns) {
 					jargon.attackSections.map {
@@ -26,23 +26,23 @@ func attacks(
 					c.capabilities.attacks.map { attack in
 						[
 							JCSText(
-								attack.name,
-								font: theme.proficiencyLineFont,
+								attack.name.multiLineDescription,
+								font: theme.maneuverBodyFont,
 								color: theme.ink
 							),
 							JCSText(
 								attack.sheetResolutionDescription(jargon: jargon),
-								font: theme.pageHeaderSubtitleFont,
+								font: theme.maneuverBodyFont,
 								color: theme.ink
 							),
 							JCSText(
 								attack.sheetDamageDescription(jargon: jargon),
-								font: theme.proficiencyLineFont,
+								font: theme.maneuverBodyFont,
 								color: theme.ink
 							),
 							JCSText(
 								attack.sheetDeliveryDescription(jargon: jargon),
-								font: theme.proficiencyLineFont,
+								font: theme.maneuverBodyFont,
 								color: theme.ink
 							),
 							JCSText(

@@ -10,8 +10,8 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 			: "Successes \(value.deathSaveSuccesses) • Failures \(value.deathSaveFailures)"
 		modelSection(theme, "Health Details", fields: [
 			.init("Life State", value.lifeState.description),
-			.init("Hit Dice", value.hitDice.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ")),
-			.init("Remaining Hit Dice", value.remainingHitDice.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ")),
+			.init("Hit Dice", value.hitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? ""),
+			.init("Remaining Hit Dice", value.remainingHitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? ""),
 			.init("Death Saves", deathSaves),
 			.init("Stable", value.isStable ? "Yes" : nil),
 		], dimension)

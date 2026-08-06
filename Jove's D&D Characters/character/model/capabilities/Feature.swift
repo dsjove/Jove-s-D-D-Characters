@@ -1,10 +1,10 @@
 import Foundation
 
-public struct Feature: Codable, Sendable, EmptyCheckable {
-	public let name: String
-	public let source: String
+public struct Feature: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let name: String // H+P/G — rules feature or custom content
+	public let source: String // H+P/G — rules feature or custom content
 	public let counter: ResourceCounter?
-	public let detail: String
+	public let detail: String // H+P/G — rules feature or custom content
 
 	public init(
 		_ name: String = .init(),
@@ -20,5 +20,10 @@ public struct Feature: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		name.isEmpty && source.isEmpty && counter.isEmpty && detail.isEmpty
+	}
+
+	public func invariant() throws {
+		if !isEmpty { try requireMeaningful(name, \Self.name) }
+		try validate(counter, at: \Self.counter)
 	}
 }

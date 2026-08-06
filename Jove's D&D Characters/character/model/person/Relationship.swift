@@ -1,9 +1,9 @@
 import Foundation
 
-public struct Relationship: Codable, Sendable, EmptyCheckable {
-	public let name: String
-	public let role: String
-	public let detail: String
+public struct Relationship: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let name: String // P/G — player-authored; may evolve through campaign
+	public let role: String // P/G — player-authored; may evolve through campaign
+	public let detail: String // P/G — player-authored; may evolve through campaign
 
 	public init(
 		_ name: String = .init(),
@@ -17,5 +17,9 @@ public struct Relationship: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		name.isEmpty && role.isEmpty && detail.isEmpty
+	}
+
+	public func invariant() throws {
+		if !isEmpty { try requireMeaningful(name, \Self.name) }
 	}
 }

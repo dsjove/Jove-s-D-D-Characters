@@ -1,11 +1,11 @@
 import Foundation
 
-public struct Defenses: Codable, Sendable, EmptyCheckable {
-	public let damageResistances: [Attack.DamageType]
-	public let vulnerabilities: [Attack.DamageType]
-	public let damageImmunities: [Attack.DamageType]
-	public let conditionImmunities: [Attack.Condition]
-	public let notes: [String]
+public struct Defenses: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let damageResistances: [Attack.DamageType] // H+P/G+S — rules/choices; active effects may change in play
+	public let vulnerabilities: [Attack.DamageType] // H+P/G+S — rules/choices; active effects may change in play
+	public let damageImmunities: [Attack.DamageType] // H+P/G+S — rules/choices; active effects may change in play
+	public let conditionImmunities: [Attack.Condition] // H+P/G+S — rules/choices; active effects may change in play
+	public let notes: [String] // H+P/G+S — rules/choices; active effects may change in play
 
 	public init(
 		damageResistances: [Attack.DamageType] = [],
@@ -23,5 +23,10 @@ public struct Defenses: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		damageResistances.isEmpty && vulnerabilities.isEmpty && damageImmunities.isEmpty && conditionImmunities.isEmpty && notes.isEmpty
+	}
+
+	public func invariant() throws {
+		try require(Set(damageResistances).isDisjoint(with: Set(vulnerabilities)), \Self.damageResistances, "must not overlap vulnerabilities")
+		try require(Set(damageImmunities).isDisjoint(with: Set(vulnerabilities)), \Self.damageImmunities, "must not overlap vulnerabilities")
 	}
 }

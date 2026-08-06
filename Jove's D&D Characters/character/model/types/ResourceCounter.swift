@@ -8,11 +8,11 @@ public enum Recharge: String, JCSEnum {
 	case oncePerDay
 }
 
-public struct ResourceCounter: Codable, Sendable, EmptyCheckable {
-	public let recharge: Recharge?
-	public let maximum: Int?
-	public let used: Int
-	public let suffix: String
+public struct ResourceCounter: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let recharge: Recharge? // H+A/G — rules/level or GM-defined limit
+	public let maximum: Int? // H+A/G — rules/level or GM-defined limit; range: 0... when set
+	public let used: Int // S — changes during play; resets per recharge; range: 0...maximum, or 0... when maximum is unset
+	public let suffix: String // P/H — display text from rules or author
 
 	public init(
 		recharge: Recharge? = nil,
@@ -33,6 +33,13 @@ public struct ResourceCounter: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		recharge == nil && maximum == nil && used == 0 && suffix.isEmpty
+	}
+
+
+	public func invariant() throws {
+		if let maximum { try require(maximum >= 0, \Self.maximum, "must be at least 0 when set") }
+		try require(used >= 0, \Self.used, "must be at least 0")
+		if let maximum { try require(used <= maximum, \Self.used, "must not exceed maximum") }
 	}
 }
 

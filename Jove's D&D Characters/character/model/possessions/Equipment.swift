@@ -12,16 +12,16 @@ public enum AttunementState: String, JCSEnum {
 	case attuned
 }
 
-public struct Equipment: Codable, Sendable, EmptyCheckable {
-	public let name: String
-	public let location: EquipmentLocation
-	public let quantity: Int
-	public let unitWeight: Unit<WeightUnit>?
-	public let armorContribution: Int?
-	public let attunement: AttunementState
+public struct Equipment: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let name: String // I+P/G — inventory entry from player or GM
+	public let location: EquipmentLocation // I+S — changes with inventory/loadout or use
+	public let quantity: Int // I+S — changes with inventory/loadout or use; range: 0...
+	public let unitWeight: Unit<WeightUnit>? // H/G — item rule or GM definition
+	public let armorContribution: Int? // H/G — item rule or GM definition; range: any Int when set
+	public let attunement: AttunementState // I+S — changes with inventory/loadout or use
 	public let charges: ResourceCounter?
-	public let isConsumable: Bool
-	public let notes: [String]
+	public let isConsumable: Bool // H/G — item rule or GM definition
+	public let notes: [String] // I+P/G — inventory entry from player or GM
 
 	public init(
 		_ name: String = .init(),
@@ -55,5 +55,13 @@ public struct Equipment: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		name.isEmpty && quantity == 0 && unitWeight == nil && armorContribution == nil && charges.isEmpty && notes.isEmpty
+	}
+
+	public func invariant() throws {
+		try require(quantity >= 0, \Self.quantity, "must be at least 0")
+		if !isEmpty { try requireMeaningful(name, \Self.name) }
+		if let unitWeight { try require(unitWeight.value.isFinite && unitWeight.value >= 0, \Self.unitWeight, "must be finite and at least 0") }
+		try validate(charges, at: \Self.charges)
+		if attunement == .attuned { try require(quantity > 0, \Self.attunement, "cannot be attuned when quantity is 0") }
 	}
 }

@@ -1,12 +1,12 @@
 import Foundation
 
-public struct Proficiencies: Codable, Sendable, EmptyCheckable {
-	public let savingThrows: [Ability]
-	public let languages: [String]
-	public let tools: [String]
-	public let armor: [String]
-	public let weapons: [String]
-	public let expertise: [String]
+public struct Proficiencies: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let savingThrows: [Ability] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
+	public let languages: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
+	public let tools: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
+	public let armor: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
+	public let weapons: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
+	public let expertise: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
 	public let other: [DetailedSection]
 
 	public init(
@@ -29,5 +29,10 @@ public struct Proficiencies: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		savingThrows.isEmpty && languages.isEmpty && tools.isEmpty && armor.isEmpty && weapons.isEmpty && expertise.isEmpty && other.isEffectivelyEmpty
+	}
+
+	public func invariant() throws {
+		try validate(other, at: \Self.other)
+		try requireUnique(savingThrows, \Self.savingThrows, "must not contain duplicates")
 	}
 }

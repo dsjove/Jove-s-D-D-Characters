@@ -26,13 +26,15 @@ extension Ability {
 	}
 }
 
-public struct AbilityScore: Codable, Sendable, EmptyCheckable {
-	public let ability: Ability
-	public let score: Int
-	public let modifier: Int
-	public let savingThrow: Int
+public struct AbilityScore: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public static let die = Die.d20
 
-	public init(_ ability: Ability = .strength, score: Int = 0, modifier: Int = 0, savingThrow: Int = 0) {
+	public let ability: Ability // H — fixed rules key
+	public let score: Int? // P/R+A ? — nil means not established; range: 1...30 when set
+	public let modifier: Int? // C(score) ? — nil means not yet derived; range: -5...10 when set
+	public let savingThrow: Int? // C(score+H+A) ? — nil means not yet derived; range: any Int when set
+
+	public init(_ ability: Ability = .strength, score: Int? = nil, modifier: Int? = nil, savingThrow: Int? = nil) {
 		self.ability = ability
 		self.score = score
 		self.modifier = modifier
@@ -40,12 +42,20 @@ public struct AbilityScore: Codable, Sendable, EmptyCheckable {
 	}
 
 	public var isEmpty: Bool {
-		score == 0 && modifier == 0 && savingThrow == 0
+		score == nil && modifier == nil && savingThrow == nil
+	}
+
+	public func invariant() throws {
+		if let score { try require((1...30).contains(score), \Self.score, "must be in 1...30 when set") }
+		if let modifier { try require((-5...10).contains(modifier), \Self.modifier, "must be in -5...10 when set") }
+		if let score, let modifier {
+			try require(modifier == Int(floor(Double(score - 10) / 2.0)), \Self.modifier, "must equal the modifier derived from score")
+		}
 	}
 }
 
 extension AbilityScore {
 	public var sheetModMultiLineDescription: String {
-		"Mod \(modifier.signedDescription())\nSave \(savingThrow.signedDescription())"
+		"Mod \(modifier?.signedDescription() ?? "")\nSave \(savingThrow?.signedDescription() ?? "")"
 	}
 }

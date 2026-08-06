@@ -1,11 +1,11 @@
 import Foundation
 
-public struct Valuable: Codable, Sendable, EmptyCheckable {
-	public let name: String
-	public let detail: String
-	public let itemCount: Int
-	public let currency: Currency?
-	public let currencyCount: Int
+public struct Valuable: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let name: String // I+P/G — inventory/treasure description
+	public let detail: String // I+P/G — inventory/treasure description
+	public let itemCount: Int // I — changes through acquisition, sale, use, or loss; range: 0...
+	public let currency: Currency? // H/G — valuation denomination
+	public let currencyCount: Int // I — changes through acquisition, sale, use, or loss; range: 0...
 
 	public init(
 		_ name: String = .init(),
@@ -30,6 +30,13 @@ public struct Valuable: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		name.isEmpty && detail.isEmpty && currency == nil && currencyCount == 0
+	}
+
+	public func invariant() throws {
+		try require(itemCount >= 0, \Self.itemCount, "must be at least 0")
+		try require(currencyCount >= 0, \Self.currencyCount, "must be at least 0")
+		if !isEmpty { try requireMeaningful(name, \Self.name) }
+		if currency == nil { try require(currencyCount == 0, \Self.currencyCount, "must be 0 when currency is nil") }
 	}
 }
 

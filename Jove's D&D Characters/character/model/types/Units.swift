@@ -208,9 +208,9 @@ public enum VolumeUnit: String, UnitType {
 	}
 }
 
-public struct Unit<Kind: UnitType>: Codable, Sendable {
-	public let value: Double
-	public let kind: Kind
+public struct Unit<Kind: UnitType>: Codable, Sendable, InvariantCheckable {
+	public let value: Double // O — inherits volatility from the containing property
+	public let kind: Kind // O — inherits volatility from the containing property
 
 	public init(_ value: Double = 0, _ kind: Kind) {
 		self.value = value
@@ -223,6 +223,13 @@ public struct Unit<Kind: UnitType>: Codable, Sendable {
 
 	public var description: String {
 		"\(kind.format(value: value)) \(kind.abbreviation)"
+	}
+
+
+	public func invariant() throws {
+		try require(value.isFinite, \Self.value, "must be finite")
+		try require(kind.toBase.isFinite && kind.toBase > 0, \Self.kind.toBase, "must be finite and greater than 0")
+		try require(kind.stepAmount.isFinite && kind.stepAmount > 0, \Self.kind.stepAmount, "must be finite and greater than 0")
 	}
 }
 

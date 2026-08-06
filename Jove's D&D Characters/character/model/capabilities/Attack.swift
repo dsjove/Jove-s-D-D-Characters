@@ -1,22 +1,22 @@
 import Foundation
 
-public struct Attack: Codable, Sendable, EmptyCheckable {
+public struct Attack: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public static let attackDie = Die.d20
 
-	public let name: String
-	public let source: Source
-	public let delivery: Delivery
-	public let resolution: Resolution
-	public let ability: Ability?
-	public let isProficient: Bool
-	public let attackBonus: Int?
+	public let name: String // H+P/G — rules content, player build, or GM customization
+	public let source: Source // H+P/G — rules content, player build, or GM customization
+	public let delivery: Delivery // H+P/G — rules content, player build, or GM customization
+	public let resolution: Resolution // H+P/G — rules content, player build, or GM customization
+	public let ability: Ability? // H+P/G — rules content, player build, or GM customization
+	public let isProficient: Bool // H+P/G — rules content, player build, or GM customization
+	public let attackBonus: Int? // C(H+P+A+S) — derived from ability/proficiency/items/effects; range: any Int when set
 	public let range: Range
 	public let target: Target
 	public let damage: [Damage]
-	public let criticalThreshold: Int
-	public let properties: Set<Property>
+	public let criticalThreshold: Int // H+P/G — rules content, player build, or GM customization; range: 1...20
+	public let properties: Set<Property> // H+P/G — rules content, player build, or GM customization
 	public let effects: [Effect]
-	public let notes: String
+	public let notes: String // H+P/G — rules content, player build, or GM customization
 
 	public init(
 		_ name: String = .init(),
@@ -53,6 +53,21 @@ public struct Attack: Codable, Sendable, EmptyCheckable {
 	public var isEmpty: Bool {
 		name.isEmpty && damage.isEffectivelyEmpty && effects.isEffectivelyEmpty && notes.isEmpty
 	}
+
+	public func invariant() throws {
+		if !isEmpty { try requireMeaningful(name, \Self.name) }
+		try require((1...Self.attackDie.sides).contains(criticalThreshold), \Self.criticalThreshold, "must be in 1...\(Self.attackDie.sides)")
+		try validate(range, at: \Self.range)
+		try validate(target, at: \Self.target)
+		try validate(damage, at: \Self.damage)
+		try validate(effects, at: \Self.effects)
+		switch resolution {
+		case .attackRoll, .automatic:
+			break
+		case .savingThrow(_, let dc, _):
+			try require(dc >= 1, \Self.resolution, "must be at least 1")
+		}
+	}
 }
 
 public extension Attack {
@@ -87,10 +102,10 @@ public extension Attack {
 		case charisma
 	}
 
-	struct Range: Codable, Sendable, EmptyCheckable {
-		public let kind: Kind
-		public let normal: Unit<LengthUnit>
-		public let long: Unit<LengthUnit>?
+	struct Range: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+		public let kind: Kind // H+P/G — rules definition or custom content
+		public let normal: Unit<LengthUnit> // H+P/G — rules definition or custom content
+		public let long: Unit<LengthUnit>? // H+P/G — rules definition or custom content
 
 		public init(
 			_ kind: Kind = .reach,
@@ -120,13 +135,23 @@ public extension Attack {
 		public var isEmpty: Bool {
 			normal.value == 0 && long.isEmpty
 		}
+	
+
+		public func invariant() throws {
+			try require(normal.value.isFinite && normal.value >= 0, \Self.normal.value, "must be finite and at least 0")
+			if let long {
+				try require(long.value.isFinite && long.value >= 0, \Self.long, "must be finite and at least 0")
+				let converted = long.kind.convert(long.value, to: normal.kind)
+				try require(converted >= normal.value, \Self.long, "must not be shorter than normal range")
+			}
+		}
 	}
 
-	struct Target: Codable, Sendable, EmptyCheckable {
-		public let kind: Kind
-		public let count: Int?
+	struct Target: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+		public let kind: Kind // H+P/G — rules definition or custom content
+		public let count: Int? // H+P/G — rules definition or custom content; range: 1... when set
 		public let area: Area?
-		public let restrictions: String
+		public let restrictions: String // H+P/G — rules definition or custom content
 
 		public init(
 			_ kind: Kind = .creature,
@@ -156,12 +181,18 @@ public extension Attack {
 		public var isEmpty: Bool {
 			count == nil && area.isEmpty && restrictions.isEmpty
 		}
+
+		public func invariant() throws {
+			if let count { try require(count >= 1, \Self.count, "must be at least 1 when set") }
+			try validate(area, at: \Self.area)
+			if kind == .area { try require(area != nil, \Self.area, "must be set when kind is area") }
+		}
 	}
 
-	struct Area: Codable, Sendable, EmptyCheckable {
-		public let shape: Shape
-		public let size: Unit<LengthUnit>
-		public let width: Unit<LengthUnit>?
+	struct Area: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+		public let shape: Shape // H+P/G — rules definition or custom content
+		public let size: Unit<LengthUnit> // H+P/G — rules definition or custom content
+		public let width: Unit<LengthUnit>? // H+P/G — rules definition or custom content
 
 		public init(
 			_ shape: Shape = .sphere,
@@ -184,14 +215,20 @@ public extension Attack {
 		public var isEmpty: Bool {
 			size.value == 0 && width.isEmpty
 		}
+
+		public func invariant() throws {
+			try require(size.value.isFinite && size.value >= 0, \Self.size.value, "must be finite and at least 0")
+			if let width { try require(width.value.isFinite && width.value >= 0, \Self.width, "must be finite and at least 0") }
+			if shape == .line { try require(width != nil, \Self.width, "must be set for a line area") }
+		}
 	}
 
-	struct Damage: Codable, Sendable, EmptyCheckable {
+	struct Damage: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 		public let roll: Roll
-		public let type: DamageType
-		public let timing: Timing
-		public let appliesAbilityModifier: Bool
-		public let condition: String
+		public let type: DamageType // H+P/G — rules definition or custom content
+		public let timing: Timing // H+P/G — rules definition or custom content
+		public let appliesAbilityModifier: Bool // H+P/G — rules definition or custom content
+		public let condition: String // H+P/G — rules definition or custom content
 
 		public init(
 			_ roll: Roll = .init(),
@@ -209,6 +246,11 @@ public extension Attack {
 
 		public var isEmpty: Bool {
 			roll.isEmpty && condition.isEmpty
+		}
+	
+
+		public func invariant() throws {
+			try validate(roll, at: \Self.roll)
 		}
 	}
 
@@ -258,12 +300,12 @@ public extension Attack {
 		case magical
 	}
 
-	struct Effect: Codable, Sendable, EmptyCheckable {
-		public let trigger: Trigger
-		public let condition: Condition?
-		public let duration: Duration?
+	struct Effect: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+		public let trigger: Trigger // H+P/G — rules definition or custom content
+		public let condition: Condition? // H+P/G — rules definition or custom content
+		public let duration: Duration? // H+P/G — rules definition or custom content
 		public let savingThrow: SavingThrow?
-		public let description: String
+		public let description: String // H+P/G — rules definition or custom content
 
 		public init(
 			trigger: Trigger = .onHit,
@@ -281,6 +323,20 @@ public extension Attack {
 
 		public var isEmpty: Bool {
 			condition == nil && duration == nil && savingThrow.isEmpty && description.isEmpty
+		}
+
+		public func invariant() throws {
+			try validate(savingThrow, at: \Self.savingThrow)
+			if let duration {
+				switch duration {
+				case .rounds(let value), .minutes(let value), .hours(let value):
+					try require(value >= 1, \Self.duration, "numeric duration must be at least 1")
+				case .special(let description):
+					try requireMeaningful(description, \Self.duration)
+				default:
+					break
+				}
+			}
 		}
 	}
 
@@ -314,34 +370,39 @@ public extension Attack {
 		case instantaneous
 		case untilStartOfNextTurn
 		case untilEndOfNextTurn
-		case rounds(Int)
-		case minutes(Int)
-		case hours(Int)
+		case rounds(Int) // range: 1...
+		case minutes(Int) // range: 1...
+		case hours(Int) // range: 1...
 		case untilSaveSucceeds
 		case permanent
 		case special(String)
 	}
 
-	struct SavingThrow: Codable, Sendable, EmptyCheckable {
-		public let ability: Ability
-		public let dc: Int
-		public let timing: SaveTiming
-		public let success: SaveResult
+	struct SavingThrow: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+		public let ability: Ability // H+P/G — rules definition or custom content
+		public let dc: Int? // H/C/G ? — nil means the DC has not been established; range: 1... when set
+		public let timing: SaveTiming // H+P/G — rules definition or custom content
+		public let success: SaveResult // H+P/G — rules definition or custom content
 
 		public init(
 			ability: Ability = .strength,
-			dc: Int = 0,
+			dc: Int? = nil,
 			timing: SaveTiming = .whenApplied,
 			success: SaveResult = .noEffect
 		) {
 			self.ability = ability
-			self.dc = max(dc, 0)
+			self.dc = dc.map { max($0, 1) }
 			self.timing = timing
 			self.success = success
 		}
 
 		public var isEmpty: Bool {
-			dc == 0
+			dc == nil
+		}
+	
+
+		public func invariant() throws {
+			if let dc { try require(dc >= 1, \Self.dc, "must be at least 1 when set") }
 		}
 	}
 

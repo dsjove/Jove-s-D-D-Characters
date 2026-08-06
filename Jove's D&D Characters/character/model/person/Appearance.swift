@@ -1,14 +1,14 @@
 import Foundation
 
-public struct Appearance: Codable, Sendable, EmptyCheckable {
-	public let age: Unit<TimeUnit>?
-	public let height: Unit<LengthUnit>?
-	public let weight: Unit<WeightUnit>?
-	public let build: String
-	public let skin: String
-	public let eyes: String
-	public let hair: String
-	public let portrait: String
+public struct Appearance: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let age: Unit<TimeUnit>? // P+T/G — initial value plus time/campaign effects
+	public let height: Unit<LengthUnit>? // P/G — player-authored or campaign-altered description
+	public let weight: Unit<WeightUnit>? // P/G — player-authored or campaign-altered description
+	public let build: String // P/G — player-authored or campaign-altered description
+	public let skin: String // P/G — player-authored or campaign-altered description
+	public let eyes: String // P/G — player-authored or campaign-altered description
+	public let hair: String // P/G — player-authored or campaign-altered description
+	public let portrait: String // P/G — player-authored or campaign-altered description
 
 	public init(
 		age: Unit<TimeUnit>? = nil,
@@ -32,5 +32,11 @@ public struct Appearance: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		age == nil && height == nil && weight == nil && build.isEmpty && skin.isEmpty && eyes.isEmpty && hair.isEmpty && portrait.isEmpty
+	}
+
+	public func invariant() throws {
+		if let age { try require(age.value.isFinite && age.value >= 0, \Self.age, "must be finite and at least 0") }
+		if let height { try require(height.value.isFinite && height.value >= 0, \Self.height, "must be finite and at least 0") }
+		if let weight { try require(weight.value.isFinite && weight.value >= 0, \Self.weight, "must be finite and at least 0") }
 	}
 }

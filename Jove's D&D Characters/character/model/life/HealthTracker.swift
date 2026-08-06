@@ -60,23 +60,23 @@ public final class HealthTracker: HealthCounterInfo {
 	public var hitPoints: Int? { _hitPoints }
 	public var temporaryHitPoints: Int? { _temporaryHitPoints }
 
-	private var _maxHitPoints: Int
-	private var _hitPoints: Int
-	private var _temporaryHitPoints: Int
+	private var _maxHitPoints: Int // range: 1...
+	private var _hitPoints: Int // range: 0..._maxHitPoints
+	private var _temporaryHitPoints: Int // range: 0...
 
-	public private(set) var hitDice: [Dice]
-	public private(set) var remainingHitDice: [Dice]
+	public private(set) var hitDice: [Dice]?
+	public private(set) var remainingHitDice: [Dice]?
 
-	public private(set) var deathSaveSuccesses: Int
-	public private(set) var deathSaveFailures: Int
+	public private(set) var deathSaveSuccesses: Int // range: 0...3
+	public private(set) var deathSaveFailures: Int // range: 0...3
 
 	public private(set) var isStable: Bool
 
 	public init(
 		maxHitPoints: Int,
 		hitPoints: Int,
-		hitDice: [Dice] = [],
-		remainingHitDice: [Dice] = [],
+		hitDice: [Dice]? = nil,
+		remainingHitDice: [Dice]? = nil,
 		temporaryHitPoints: Int,
 		isStableAtZero: Bool = false
 	) {

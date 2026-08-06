@@ -1,0 +1,67 @@
+# Property Volatility Legend
+
+This annotation records where each leaf/POD property gets its value and what can cause that value to change. It is descriptive only; it does not change Swift mutability, initialization, Codable behavior, or any other contract.
+
+## Tokens
+
+- `P` — Player-authored or player-selected.
+- `R` — A die roll or direct roll result.
+- `H` — Handbook/rules source.
+- `C` — Computed or derived from other values.
+- `G` — GM/campaign/world decision or adjudication.
+- `A` — Advancement change: level-up, feat, improvement, or another persistent progression event.
+- `S` — Session state: damage, healing, conditions, expended uses, preparation, rests, or another in-play state change.
+- `I` — Inventory/economy event: acquisition, use, transfer, purchase, sale, loss, or loadout change.
+- `T` — Passage of time.
+- `O` — Owner/context inherited: this generic value object changes only when the containing property changes.
+
+## Combination notation
+
+- `P+H` — Both sources participate. Example: a player selects an option defined by the handbook.
+- `P/G` — Either source may be authoritative, depending on the campaign.
+- `C(score)` — Computed from the named input.
+- `H→A` — A handbook threshold or rule drives an advancement value.
+- `C(R+H+S)` — Computed from a roll, rules data, and current session circumstances.
+- Parenthetical text such as `S (reset on rest)` describes the event or reset boundary.
+
+## Scope
+
+Comments are attached to stored leaf/value properties. Organizational domain aggregates—such as `Character.person`, `Life.health`, or arrays of `Attack`—are intentionally not tagged because their child properties carry the meaningful volatility. Computed Swift properties are also not tagged; their implementations already show their dependencies.
+
+The token describes data provenance and volatility, not whether the Swift declaration uses `let` or `var`. A `let` property can still represent volatile domain state when a new immutable value is created to replace the old model.
+
+## Integer range notation
+
+Stored integer properties also document their domain-valid range after `range:`. This describes valid model content; it does not by itself add runtime validation.
+
+- `range: 0...6` — inclusive closed range.
+- `range: 0...` — zero or any larger integer.
+- `range: any Int` — negative, zero, and positive values are all meaningful.
+- `range: 1... when set` — `nil` is allowed, but any concrete value must be at least one.
+- `range: 0...maximum` — the valid range depends on another property.
+- `each value: 1...20` — the range applies to every integer in a collection.
+- `stat-dependent (...)` — a shared integer field represents several domain concepts with different ranges.
+
+A documented range may be narrower than Swift `Int`. Existing initializers are not changed merely to enforce the documentation.
+
+## Domain presence notation
+
+Presence is documented independently from Swift optionality. Swift `String` versus `String?` does not, by itself, determine whether a value is required by the character-sheet domain.
+
+- `!` — Required domain value. It must be present and meaningful. For textual values, neither an empty string nor whitespace-only text satisfies the requirement. For collections, the required members must be present.
+- `~` — Optional content. The model does not distinguish absent, empty, or otherwise unfilled content. For a `String?`, `nil` and `""` are functionally equivalent; callers are not required to normalize one into the other.
+- `?` — Meaningful unset state. The model needs to distinguish “not set/not established” from a concrete value. Swift `Optional` is commonly appropriate here, including counters, integer values where zero is concrete, and collections where an empty collection is concrete.
+
+Examples:
+
+- `// P !` — player-authored and required.
+- `// P/G ~` — optional content supplied by the player or GM; empty content is acceptable.
+- `// S ?` — session value for which “not set” is meaningful.
+
+These markers describe domain validity. They do not require every `~` property to use Swift `Optional`, and they do not imply that `.some("")` must be rejected when a string is optional.
+
+
+Optional collection example:
+
+- `nil` — the collection has not been established or is not being tracked.
+- `[]` — the collection is established and currently contains no members.

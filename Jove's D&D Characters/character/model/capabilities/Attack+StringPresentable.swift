@@ -161,11 +161,15 @@ extension Attack.Effect: StringPresentable {
 }
 
 extension Attack.SavingThrow: StringPresentable {
-	public var description: String { "\(ability.description) DC \(dc)" }
+	public var description: String {
+		[ability.description, dc.map { "DC \($0)" }]
+			.compactMap { $0 }
+			.joined(separator: " ")
+	}
 
 	public func description(jargon: any Jargon) -> String {
 		[
-			"\(ability.description) \(jargon.saveDCTitle) \(dc)",
+			dc.map { "\(ability.description) \(jargon.saveDCTitle) \($0)" } ?? ability.description,
 			timing == .whenApplied ? "" : timing.description,
 			"\(jargon.successTitle): \(success.description.lowercased())",
 		]

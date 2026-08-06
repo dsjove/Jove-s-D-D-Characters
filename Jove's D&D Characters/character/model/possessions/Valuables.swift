@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Valuables: Codable, Sendable, EmptyCheckable {
+public struct Valuables: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public let items: [Valuable]
 
 	public init(_ items: [Valuable] = []) {
@@ -13,6 +13,10 @@ public struct Valuables: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		items.isEffectivelyEmpty
+	}
+
+	public func invariant() throws {
+		try validate(items, at: \Self.items)
 	}
 }
 

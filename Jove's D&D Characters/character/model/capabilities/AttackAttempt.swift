@@ -1,16 +1,16 @@
 import Foundation
 
-public struct AttackAttempt: Codable, Sendable, EmptyCheckable {
+public struct AttackAttempt: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public static let attackDie = Attack.attackDie
 	public let attack: Attack
-	public let rollMode: RollMode
-	public let cover: Cover
-	public let targetArmorClass: Int?
-	public let situationalAttackModifier: Int
-	public let rolls: [Int]
-	public let selectedDie: Int?
-	public let attackTotal: Int?
-	public let outcome: Outcome
+	public let rollMode: RollMode // S/G — set for the current attempt/situation
+	public let cover: Cover // S/G — set for the current attempt/situation
+	public let targetArmorClass: Int? // S/G — set for the current attempt/situation; range: 0... when set
+	public let situationalAttackModifier: Int // S/G — set for the current attempt/situation; range: any Int
+	public let rolls: [Int] // R — direct die-roll input/result; each value: 1...20
+	public let selectedDie: Int? // R — direct die-roll input/result; range: 1...20 when set
+	public let attackTotal: Int? // C(R+H+S) — computed from roll, attack data, and situation; range: any Int when set
+	public let outcome: Outcome // C(R+H+S) — computed from roll, attack data, and situation
 
 	public init(
 		_ attack: Attack = .init(),
@@ -40,6 +40,28 @@ public struct AttackAttempt: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		attack.isEmpty && targetArmorClass == nil && situationalAttackModifier == 0 && rolls.isEmpty && selectedDie == nil && attackTotal == nil && outcome == .unresolved
+	}
+
+	public func invariant() throws {
+		try validate(attack, at: \Self.attack)
+		if let targetArmorClass { try require(targetArmorClass >= 0, \Self.targetArmorClass, "must be at least 0 when set") }
+		for (index, roll) in rolls.enumerated() {
+			try require((1...Self.attackDie.sides).contains(roll), InvariantPath(\Self.rolls).appending(index: index), "must be in 1...\(Self.attackDie.sides)")
+		}
+		if let selectedDie {
+			try require((1...Self.attackDie.sides).contains(selectedDie), \Self.selectedDie, "must be in 1...\(Self.attackDie.sides)")
+			try require(rolls.contains(selectedDie), \Self.selectedDie, "must be one of rolls")
+		}
+		switch rollMode {
+		case .normal:
+			try require(rolls.count <= 1, \Self.rolls, "may contain at most one roll in normal mode")
+		case .advantage, .disadvantage:
+			try require(rolls.count <= 2, \Self.rolls, "may contain at most two rolls in advantage/disadvantage mode")
+		}
+		if let attackTotal, let selectedDie {
+			let expected = selectedDie + (attack.attackBonus ?? 0) + situationalAttackModifier
+			try require(attackTotal == expected, \Self.attackTotal, "must equal selectedDie + attackBonus + situationalAttackModifier")
+		}
 	}
 }
 

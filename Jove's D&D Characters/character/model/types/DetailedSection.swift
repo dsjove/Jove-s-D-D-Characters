@@ -1,7 +1,7 @@
 import Foundation
 
-public struct DetailedSection: Codable, Sendable, EmptyCheckable {
-	let name: String
+public struct DetailedSection: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	let name: String // P/G/S — author-entered; may be campaign or session notes
 	let sections: [TitledBody]
 
 	public init(_ name: String = "", _ sections: [TitledBody] = []) {
@@ -27,11 +27,16 @@ public struct DetailedSection: Codable, Sendable, EmptyCheckable {
 	public var isEmpty: Bool {
 		name.isEmpty && sections.isEffectivelyEmpty
 	}
+
+
+	public func invariant() throws {
+		try validate(sections, at: \Self.sections)
+	}
 }
 
-public struct TitledBody: Codable, Sendable, EmptyCheckable {
-	public let title: String
-	public let body: String
+public struct TitledBody: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let title: String // P/G/S — author-entered; may be campaign or session notes
+	public let body: String // P/G/S — author-entered; may be campaign or session notes
 
 	public init(_ key: String = "", _ body: String = "") {
 		self.title = key
@@ -41,4 +46,7 @@ public struct TitledBody: Codable, Sendable, EmptyCheckable {
 	public var isEmpty: Bool {
 		title.isEmpty && body.isEmpty
 	}
+
+
+	public func invariant() throws {}
 }

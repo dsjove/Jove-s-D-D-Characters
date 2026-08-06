@@ -82,10 +82,10 @@ public enum Skill: String, JCSEnum {
 	}
 }
 
-public struct SkillScore: Codable, Sendable, EmptyCheckable {
-	public let skill: Skill
-	public let modifier: Int
-	public let mark: SkillMark
+public struct SkillScore: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let skill: Skill // H — fixed rules key
+	public let modifier: Int // C(H+P+A+S) — derived from ability, proficiency, and effects; range: any Int
+	public let mark: SkillMark // H+P+A — proficiency choice/feature; changes at advancement
 
 	public init(
 		_ skill: Skill,
@@ -100,4 +100,6 @@ public struct SkillScore: Codable, Sendable, EmptyCheckable {
 	public var isEmpty: Bool {
 		modifier == 0 && mark == .none
 	}
+
+	public func invariant() throws {}
 }

@@ -1,11 +1,11 @@
 import Foundation
 
-public struct Moneys: Codable, Sendable, EmptyCheckable {
-	public let copper: Int
-	public let silver: Int
-	public let electrum: Int
-	public let gold: Int
-	public let platinum: Int
+public struct Moneys: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+	public let copper: Int // I — changes through purchases, rewards, and loss; range: 0...
+	public let silver: Int // I — changes through purchases, rewards, and loss; range: 0...
+	public let electrum: Int // I — changes through purchases, rewards, and loss; range: 0...
+	public let gold: Int // I — changes through purchases, rewards, and loss; range: 0...
+	public let platinum: Int // I — changes through purchases, rewards, and loss; range: 0...
 
 	public init(
 		copper: Int = 0,
@@ -32,6 +32,14 @@ public struct Moneys: Codable, Sendable, EmptyCheckable {
 	public var isEmpty: Bool {
 		copperValue == 0
 	}
+
+	public func invariant() throws {
+		try require(copper >= 0, \Self.copper, "must be at least 0")
+		try require(silver >= 0, \Self.silver, "must be at least 0")
+		try require(electrum >= 0, \Self.electrum, "must be at least 0")
+		try require(gold >= 0, \Self.gold, "must be at least 0")
+		try require(platinum >= 0, \Self.platinum, "must be at least 0")
+	}
 }
 
 extension Moneys: StringPresentable {
@@ -46,7 +54,6 @@ extension Moneys: StringPresentable {
 		].compactMap({$0})
 		return parts.joined(separator: " ")
 	}
-
 
 	public var abbreviation: String {
 		"\(copperValue)\(Currency.copper.abbreviation)"

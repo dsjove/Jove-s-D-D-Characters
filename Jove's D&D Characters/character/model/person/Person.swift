@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Person: Codable, Sendable, EmptyCheckable {
+public struct Person: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public let identity: Identity
 	public let appearance: Appearance
 	public let background: Background
@@ -29,5 +29,15 @@ public struct Person: Codable, Sendable, EmptyCheckable {
 
 	public var isEmpty: Bool {
 		identity.isEmpty && appearance.isEmpty && background.isEmpty && personality.isEmpty && relationships.isEffectivelyEmpty && backstory.isEmpty && associatedCreatures.isEffectivelyEmpty 
+	}
+
+	public func invariant() throws {
+		try validate(identity, at: \Self.identity)
+		try validate(appearance, at: \Self.appearance)
+		try validate(background, at: \Self.background)
+		try validate(personality, at: \Self.personality)
+		try validate(relationships, at: \Self.relationships)
+		try validate(associatedCreatures, at: \Self.associatedCreatures)
+		try validate(backstory, at: \Self.backstory)
 	}
 }

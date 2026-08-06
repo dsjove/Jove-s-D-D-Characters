@@ -51,6 +51,7 @@ public extension Character {
 // Required for begin sheet creation
 		name: String,
 		ancestry: String,
+		orientation: Orientation,
 		classes: [ClassLevel],
 		alignment: CharacterAlignment,
 		abilityScores: [AbilityScore],
@@ -97,7 +98,7 @@ public extension Character {
 				identity: .init(
 					name,
 					player: player,
-					ancestry: ancestry,
+					orientation: orientation, ancestry: ancestry,
 					classes: classes,
 					alignment: alignment
 				),

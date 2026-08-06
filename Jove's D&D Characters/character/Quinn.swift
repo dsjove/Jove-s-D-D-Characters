@@ -4,6 +4,7 @@ public let Quinn = Character(
 	person: .init(
 		identity: .init(
 			"Quinn Amethyst Starsong",
+			orientation: .init(bioSex: .woman),
 			ancestry: "Half-Elf",
 			classes: [
 				.init("Sorcerer", specialty: "Wild Magic", level: 10)

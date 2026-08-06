@@ -5,6 +5,7 @@ public let BigGuy = Character(
 	person: .init(
 		identity: .init(
 			"Big Guy",
+			orientation: .init(bioSex: .man),
 			ancestry: "Goliath",
 			classes: [
 				.init("Fighter", specialty: "Rune Knight", level: 12),

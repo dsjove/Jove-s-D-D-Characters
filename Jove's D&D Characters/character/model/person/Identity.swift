@@ -3,6 +3,7 @@ import Foundation
 public struct Identity: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public let name: String // P — player-authored identity
 	public let player: String // P — player-authored identity
+	public let orientation: Orientation
 	public let ancestry: String // H+P/G — rules option, player or GM selected
 	public let classes: [ClassLevel]
 	public let alignment: CharacterAlignment
@@ -10,12 +11,14 @@ public struct Identity: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public init(
 		_ name: String = .init(),
 		player: String = .init(),
+		orientation: Orientation = .init(),
 		ancestry: String = .init(),
 		classes: [ClassLevel] = .init(),
 		alignment: CharacterAlignment = .init()
 	) {
 		self.name = name
 		self.player = player
+		self.orientation = orientation
 		self.ancestry = ancestry
 		self.classes = classes
 		self.alignment = alignment

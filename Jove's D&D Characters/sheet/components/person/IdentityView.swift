@@ -7,6 +7,7 @@ func identity(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimens
 	if !value.isEmpty {
 		modelSection(theme, jargon.identityTitle, fields: [
 			.init("Name", value.name),
+			.init("Orientation", value.orientation.description),
 			.init("Ancestry", value.ancestry),
 			.init("Classes", value.sheetClassesSummary),
 			.init("Specialties", value.sheetSubclassSummary),

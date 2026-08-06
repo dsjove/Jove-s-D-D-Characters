@@ -13,7 +13,7 @@ func valuables(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 						JCSText(item.detail, font: theme.featureBodyFont, color: theme.ink, maxLines: 3),
 					] }.flatMap { $0 }
 				}
-				render: { theme.lineSeperator($0) }
+				rowRender: { theme.lineSeperator($0) }
 			}
 		}
 	}

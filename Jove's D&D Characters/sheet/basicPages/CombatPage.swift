@@ -10,7 +10,7 @@ struct CombatPage: Page {
 	}
 
 	@JCSLayoutElementBuilder
-	func doDraw(_ c: Character, _ theme: Theme, _ jargon: any Jargon) -> JCSLayoutElements {
+	func draw(_ c: Character, _ theme: Theme, _ jargon: any Jargon) -> JCSLayoutElements {
 		if !isEmpty(c) {
 			PageTitle(theme, c.person.identity.name, c.person.identity.sheetSummary)
 			combat(c, theme, jargon)

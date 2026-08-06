@@ -5,15 +5,8 @@ import SBJLayout
 public protocol Page {
 	func isEmpty(_ c: Character) -> Bool
 
-	func draw(
-		_ c: Character,
-		_ theme: Theme,
-		_ jargon: any Jargon,
-		_ pagination: Pagination
-	)
-
 	@JCSLayoutElementBuilder
-	func doDraw(
+	func draw(
 		_ c: Character,
 		_ theme: Theme,
 		_ jargon: any Jargon
@@ -33,7 +26,7 @@ public extension Page {
 			vertFlow: .init(.fill()),
 			rows: .init(gap: theme.sectionGap)
 		) {
-			doDraw(c, theme, jargon)
+			draw(c, theme, jargon)
 		}.draw(at: rect.origin, bounds: CGSize(fixedWidth: rect.width))
 	}
 }

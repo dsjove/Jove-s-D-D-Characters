@@ -5,12 +5,12 @@ import SBJLayout
 @JCSLayoutElementBuilder
 func combat(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimension: TrackSize = .fill()) -> JCSLayoutElements {
 	if c.life.combat.hasContent {
-		Grid(cols: [.init(.fill(), align: .center), .init(align: .center)], rows: .init(aggregate: min)) {
+		Grid(table: [.init(.fill(), align: .center), .init(align: .center)], rows: .init(aggregate: min)) {
 			JCSImage(ImageSource.bundled(c.person.appearance.portrait, Bundle.main), cornerRadius: 8)
 			let columns: [Track] = (0..<5).map { _ in
 				.init(.uniform(), align: .centerTop)
 			}
-			Grid(cols: columns, rows: .init(.uniform())) {
+			Grid(table: columns, rows: .init(.uniform())) {
 				c.life.combat[0...2].map { item in
 					Panel(theme, aspectRatio: true) {
 						Grid(vertFlow: .init(), rows: .init(align: .center)) {

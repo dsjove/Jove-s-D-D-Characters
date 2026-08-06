@@ -54,7 +54,7 @@ func attacks(
 					}
 					.flatMap { $0 }
 				}
-				render: { theme.lineSeperator($0) }
+				rowRender: { theme.lineSeperator($0) }
 			}
 		}
 	}

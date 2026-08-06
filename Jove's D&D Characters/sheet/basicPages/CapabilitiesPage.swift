@@ -9,12 +9,12 @@ struct CapabilitiesPage: Page {
 	}
 
 	@JCSLayoutElementBuilder
-	func doDraw(_ c: Character, _ theme: Theme, _ jargon: any Jargon) -> JCSLayoutElements {
+	func draw(_ c: Character, _ theme: Theme, _ jargon: any Jargon) -> JCSLayoutElements {
 		if !isEmpty(c) {
 			PageTitle(theme, "Capabilities & Companions")
 			relationships(c, theme, jargon)
 			associatedCreatures(c, theme, jargon)
-			Grid(cols: [.init(gap: theme.sectionGap), .init(.fill())]) {
+			Grid(table: [.init(gap: theme.sectionGap), .init(.fill())]) {
 				skills(c, theme, jargon)
 				features(c, theme, jargon)
 			}

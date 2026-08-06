@@ -29,7 +29,7 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 						]
 					}.flatMap { $0 }
 				}
-				render: { theme.lineSeperator($0) }
+				rowRender: { theme.lineSeperator($0) }
 			}
 		}
 	}

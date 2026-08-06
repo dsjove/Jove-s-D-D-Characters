@@ -9,7 +9,7 @@ struct ExplorationPage: Page {
 	}
 
 	@JCSLayoutElementBuilder
-	func doDraw(_ c: Character, _ theme: Theme, _ jargon: any Jargon) -> JCSLayoutElements {
+	func draw(_ c: Character, _ theme: Theme, _ jargon: any Jargon) -> JCSLayoutElements {
 		if !isEmpty(c) {
 			PageTitle(theme, "Status & Exploration")
 			movementAndSenses(c, theme, jargon)

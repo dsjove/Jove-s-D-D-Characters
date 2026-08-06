@@ -31,7 +31,7 @@ func modelSection(
 						JCSText(field.value, font: theme.featureBodyFont, color: theme.ink, maxLines: 0),
 					] }.flatMap { $0 }
 				}
-				render: { theme.lineSeperator($0) }
+				rowRender: { theme.lineSeperator($0) }
 			}
 		}
 	}

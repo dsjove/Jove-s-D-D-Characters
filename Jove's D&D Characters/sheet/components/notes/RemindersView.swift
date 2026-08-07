@@ -12,7 +12,7 @@ func reminders(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 						JCSText("\(jargon.reminderMarker) \(item)", theme, font: .lineItemBold, lines: 0...2)
 					}
 				}
-				render: { theme.rowLineSeperator($0) }
+				rowRender: { theme.rowLineSeperator($0) }
 			}
 		}
 	}

@@ -40,8 +40,8 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 						]
 					}
 				}
-				rowRender: { theme.rowLineSeperator($0) }
 				colRender: { theme.colLineSeperator($0) }
+				rowRender: { theme.rowLineSeperator($0) }
 			}
 		}
 	}

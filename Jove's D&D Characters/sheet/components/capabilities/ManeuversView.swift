@@ -6,13 +6,14 @@ func maneuvers(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 	if c.capabilities.maneuvers.hasContent {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, jargon.maneuverTitle)
-			Grid(horzFlow: .init(.uniform())) {
+			Grid(horzFlow: .init(.fill()), wrapped: 3) {
 				c.capabilities.maneuvers.map { item in
 					Panel(theme) {
-						Grid(vertFlow: .init(.intrinsic())) {
+						Grid(vertFlow: .init(.fill())) {
 							JCSText(item.name, theme, font: .lineItemBold, align: .centerBottom, lines: 0...1)
 							JCSText(item.detail, theme, lines: 0...3)
 						}
+						rowRender: { theme.rowLineSeperator($0) }
 					}
 				}
 			}

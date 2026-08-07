@@ -14,7 +14,7 @@ func coreStats(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 					Panel(theme, aspectRatio: true) {
 						Grid(vertFlow: .init(.uniform()), rows: .init(align: .center)) {
 							JCSText(item.ability.abbreviation, theme, font: .lineItemBold)
-							JCSText(item.score?.description ?? "", theme, font: .body, lines: 0...1)
+							JCSText(item.score?.description ?? "", theme, font: .sectionTitle, lines: 1...1)
 							JCSText(item.sheetModMultiLineDescription, theme, font: .smallBody, lines: 2...2)
 						}
 					}
@@ -22,8 +22,8 @@ func coreStats(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 				c.life.combat.map { item in
 					Panel(theme, aspectRatio: true) {
 						Grid(vertFlow: .init(), rows: .init(align: .center)) {
-							JCSText(item.stat.multiLineDescription, theme, font: .lineItemBold)
-							JCSText(item.score?.signedDescription(apply: item.isBonus), theme, font: .body, lines: 1...1)
+							JCSText(item.stat.multiLineDescription, theme, font: .lineItemBold, lines: 2...2)
+							JCSText(item.score?.signedDescription(apply: item.isBonus), theme, font: .sectionTitle, lines: 1...1)
 						}
 					}
 				}

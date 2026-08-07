@@ -44,14 +44,15 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
 					JCSText("Hit Dice", theme, font: .lineItemBold)
 					JCSText(value.hitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? "", theme, font: .body, lines: 1...1)
+					JCSText("Remaining", theme, font: .lineItemBold)
 					JCSText(value.remainingHitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? "", theme, font: .body, lines: 1...1)
 				}
 			}
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
 					JCSText("Death\nSaves", theme, font: .lineItemBold)
-					JCSText("S\(value.deathSaveSuccesses)", theme, font: .body)
-					JCSText("F\(value.deathSaveFailures)", theme, font: .body)
+					JCSText("S\(value.success.description)", theme, font: .body)
+					JCSText("F\(value.failures.description)", theme, font: .body)
 				}
 			}
 		}

@@ -38,8 +38,8 @@ func modelSection(
 						JCSText(field.value, theme),
 					] }
 				}
-				rowRender: { theme.rowLineSeperator($0) }
 				colRender: { theme.colLineSeperator($0) }
+				rowRender: { theme.rowLineSeperator($0) }
 			}
 		}
 	}

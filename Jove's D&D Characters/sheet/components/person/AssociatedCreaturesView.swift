@@ -18,7 +18,7 @@ func associatedCreatures(_ c: Character, _ theme: any Theme, _ jargon: any Jargo
 						].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " • "), theme)
 						JCSText((creature.notes + (stats?.notes ?? [])).joined(separator: "; "), theme)
 					}
-					render: { theme.rowLineSeperator($0) }
+					rowRender: { theme.rowLineSeperator($0) }
 				}
 			}
 		}

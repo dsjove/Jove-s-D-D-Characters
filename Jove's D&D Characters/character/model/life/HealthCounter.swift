@@ -18,6 +18,11 @@ public protocol HealthCounterInfo {
 	var isStable: Bool { get }
 }
 
+extension HealthCounterInfo {
+	public var success: ResourceCounter { ResourceCounter(maximum: 3, used: deathSaveSuccesses) }
+	public var failures: ResourceCounter { ResourceCounter(maximum: 3, used: deathSaveFailures) }
+}
+
 public struct HealthCounter: Codable, Sendable, HealthCounterInfo, EmptyCheckable, InvariantCheckable {
 	public let maxHitPoints: Int? // H+A+R/C — rules plus advancement; may use a roll or formula; range: 1... when set
 	public let hitPoints: Int? // S — changes with damage, healing, and rests; range: 0...maxHitPoints when set

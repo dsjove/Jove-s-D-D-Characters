@@ -14,7 +14,7 @@ func campaignNotes(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 						JCSText($0, theme, font: .lineItem, lines: 1...1)
 					}
 				}
-				render: { theme.rowLineSeperator($0) }
+				rowRender: { theme.rowLineSeperator($0) }
 			}
 		}
 	}

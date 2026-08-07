@@ -24,7 +24,7 @@ extension MoralityAxis {
 	}
 }
 
-public struct CharacterAlignment: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+public struct CharacterAlignment: Codable, Sendable, InvariantCheckable {
 	public let order: AlignmentAxis // P/G — player choice or campaign adjudication
 	public let morality: MoralityAxis // P/G — player choice or campaign adjudication
 
@@ -38,10 +38,6 @@ public struct CharacterAlignment: Codable, Sendable, EmptyCheckable, InvariantCh
 
 	public var isTrueNeutral: Bool {
 		order == .neutral && morality == .neutral
-	}
-
-	public var isEmpty: Bool {
-		isTrueNeutral
 	}
 
 	public func invariant() throws {}

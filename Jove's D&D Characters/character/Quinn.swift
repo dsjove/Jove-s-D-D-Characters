@@ -19,7 +19,7 @@ public let Quinn = Character(
 			skin: "Pale, almost ghostly",
 			eyes: "Violet and intense, a little crazy",
 			hair: "Bright white, with strands and chunks dyed in rainbow hues",
-			portrait: ""
+			portrait: "quinn_portait"
 		),
 		background: .init(
 			"Entertainer",
@@ -46,6 +46,7 @@ public let Quinn = Character(
 			.init(.inspirationCounter, score: nil),
 			.init(.proficiencyBonus, score: 4),
 			.init(.passivePerception, score: 11),
+			.init(.unknwown),
 		],
 		movementAndSenses: .init(
 			speeds: [.init(.walking, distance: .init(30, .foot))]

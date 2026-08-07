@@ -27,7 +27,7 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 							JCSText(item.location.description, font: theme.featureBodyFont, color: theme.ink),
 							JCSText(state, font: theme.featureBodyFont, color: theme.ink, maxLines: 2),
 						]
-					}.flatMap { $0 }
+					}
 				}
 				rowRender: { theme.lineSeperator($0) }
 			}

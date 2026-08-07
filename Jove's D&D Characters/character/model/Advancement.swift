@@ -37,7 +37,6 @@ public struct Advancement: Codable, Sendable, EmptyCheckable, InvariantCheckable
 		method == nil && currentxperience == nil && nextLevelExperience == nil && milestoneProgress.isEmpty && feats.isEmpty && abilityScoreImprovements.isEmpty && notes.isEmpty
 	}
 
-
 	public func invariant() throws {
 		if let currentxperience { try require(currentxperience >= 0, \Self.currentxperience, "must be at least 0") }
 		if let nextLevelExperience { try require(nextLevelExperience >= 0, \Self.nextLevelExperience, "must be at least 0") }

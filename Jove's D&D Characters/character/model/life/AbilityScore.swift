@@ -52,6 +52,18 @@ public struct AbilityScore: Codable, Sendable, EmptyCheckable, InvariantCheckabl
 			try require(modifier == Int(floor(Double(score - 10) / 2.0)), \Self.modifier, "must equal the modifier derived from score")
 		}
 	}
+
+	public static func rollAbilities() -> [Int] {
+		(0..<6)
+			.map { _ in
+				(0..<4)
+					.map { _ in Die.d6.roll() }
+					.sorted()
+					.dropFirst()
+					.reduce(0, +)
+			}
+			.sorted(by: >)
+	}
 }
 
 extension AbilityScore {

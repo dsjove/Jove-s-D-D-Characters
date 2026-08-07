@@ -19,6 +19,7 @@ func combat(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimensio
 						}
 					}
 				}
+
 				Panel(theme, aspectRatio: true) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {
 						JCSText(jargon.maxHitPointsTitle, font: theme.smallNoteBoldFont, color: theme.ink, lines: 2)
@@ -31,7 +32,7 @@ func combat(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimensio
 						JCSText(c.life.health.hitPoints?.description, font: theme.largeAttributeFont, color: theme.ink, lines: 1)
 					}
 				}
-				c.life.combat[3...4].map { item in
+				c.life.combat[3...5].map { item in
 					Panel(theme, aspectRatio: true) {
 						Grid(vertFlow: .init(), rows: .init(align: .center)) {
 							JCSText(item.stat.multiLineDescription, font: theme.smallNoteBoldFont, color: theme.ink, lines: 2)

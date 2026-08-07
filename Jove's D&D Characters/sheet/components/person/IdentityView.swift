@@ -11,7 +11,7 @@ func identity(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimens
 			.init("Ancestry", value.ancestry),
 			.init("Classes", value.sheetClassesSummary),
 			.init("Specialties", value.sheetSubclassSummary),
-			.init("Alignment", value.alignment.isEmpty ? nil : value.alignment.description),
+			.init("Alignment", value.alignment.description),
 		], dimension)
 	}
 }

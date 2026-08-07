@@ -29,7 +29,7 @@ public struct Identity: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	}
 
 	public var isEmpty: Bool {
-		name.isEmpty && ancestry.isEmpty && classes.isEmpty && alignment.isEmpty
+		name.isEmpty && ancestry.isEmpty && classes.isEmpty
 	}
 
 	public func invariant() throws {

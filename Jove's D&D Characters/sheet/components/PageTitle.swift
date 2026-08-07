@@ -1,18 +1,21 @@
 import UIKit
 import SBJLayout
 
-struct SectionTitle: JCSLayoutElement, EmptyCheckable {
+struct PageTitle: JCSLayoutElement {
 	let isEmpty: Bool
-	let panel: SBJLayout.Panel<JCSText>
+	let panel: SBJLayout.Panel<Grid>
 
-	init(_ theme: Theme, _ title: String) {
-		isEmpty = title.isEmpty
+	init(_ theme: Theme, _ title: String, _ subtitle: String? = nil) {
+		isEmpty = title.isEmpty && subtitle?.isEmpty ?? true
 		self.panel = SBJLayout.Panel(
-			insets: theme.sectionTitleInsets,
+			insets: theme.pageHeaderInsets,
 			align: .center,
 			background: theme.pageHeaderPanel!
 		) {
-			JCSText(title, font: theme.sectionTitleFont, color: theme.sectionTitleColor, lines: 1)
+			Grid(vertFlow: .init(.fill())) {
+				JCSText(title, font: theme.largeAttributeFont, color: theme.pageHeaderTextColor)
+				JCSText(subtitle, font: theme.pageHeaderSubtitleFont, color: theme.pageHeaderTextColor)
+			}
 		}
 	}
 

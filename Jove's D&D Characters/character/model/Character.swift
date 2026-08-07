@@ -28,7 +28,6 @@ public struct Character: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 		person.isEmpty && life.isEmpty && capabilities.isEmpty && possessions.isEmpty && advancement.isEmpty && notes.isEmpty
 	}
 
-
 	public func invariant() throws {
 		try validate(person, at: \Self.person)
 		try validate(life, at: \Self.life)

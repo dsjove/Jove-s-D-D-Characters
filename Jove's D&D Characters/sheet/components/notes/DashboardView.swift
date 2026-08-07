@@ -15,7 +15,7 @@ func dashboard(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 								item.sections.map { [
 									JCSText($0.title + jargon.labelSeparator, font: theme.smallNoteBoldFont, color: theme.ink, lines: 1),
 									JCSText($0.body, font: theme.maneuverBodyFont, color: theme.ink, maxLines: 2)
-								] }.flatMap { $0 }
+								] }
 							}
 						}
 					}

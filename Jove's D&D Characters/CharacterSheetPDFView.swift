@@ -20,49 +20,6 @@ public struct CharacterSheetPDFView: View {
 		"\(character.person.identity.name)_Character_Sheet.pdf"
 	}
 
-	private var characterSelection: Binding<String> {
-		Binding(
-			get: { character.person.identity.name },
-			set: { name in
-				if let selected = Characters.first(where: { $0.person.identity.name == name }) {
-					character = selected
-				}
-			}
-		)
-	}
-
-	private var themeSelection: Binding<String> {
-		Binding(
-			get: { theme.name },
-			set: { name in
-				if let selected = Themes.first(where: { $0.name == name }) {
-					theme = selected
-				}
-			}
-		)
-	}
-
-	private var sheetSelection: Binding<String> {
-		Binding(
-			get: { sheet.name },
-			set: { name in
-				if let selected = Sheets.first(where: { $0.name == name }) {
-					sheet = selected
-				}
-			}
-		)
-	}
-
-	private var dictionarySelection: Binding<String> {
-		Binding(
-			get: { jargon.name },
-			set: { name in
-				if let selected = Jargons.first(where: { $0.name == name }) {
-					jargon = selected
-				}
-			}
-		)
-	}
 
 	public var body: some View {
 		NavigationStack {
@@ -83,11 +40,20 @@ public struct CharacterSheetPDFView: View {
 			.toolbar {
 				ToolbarItem(placement: .primaryAction) {
 					Menu {
-						Picker("Character", selection: characterSelection) {
-							ForEach(Characters, id: \.person.identity.name) { character in
-								Text(character.person.identity.name)
-									.tag(character.person.identity.name)
-							}
+						ForEach(Characters, id: \.person.identity.name) { item in
+							Toggle(
+								item.person.identity.name,
+								isOn: Binding(
+									get: {
+										character.person.identity.name == item.person.identity.name
+									},
+									set: { selected in
+										if selected {
+											character = item
+										}
+									}
+								)
+							)
 						}
 					} label: {
 						Label("Characters", systemImage: "person")
@@ -96,10 +62,20 @@ public struct CharacterSheetPDFView: View {
 
 				ToolbarItem(placement: .primaryAction) {
 					Menu {
-						Picker("Theme", selection: themeSelection) {
-							ForEach(Themes, id: \.name) { theme in
-								Text(theme.name).tag(theme.name)
-							}
+						ForEach(Themes, id: \.name) { item in
+							Toggle(
+								item.name,
+								isOn: Binding(
+									get: {
+										theme.name == item.name
+									},
+									set: { selected in
+										if selected {
+											theme = item
+										}
+									}
+								)
+							)
 						}
 					} label: {
 						Label("Themes", systemImage: "paintpalette")
@@ -108,10 +84,20 @@ public struct CharacterSheetPDFView: View {
 
 				ToolbarItem(placement: .primaryAction) {
 					Menu {
-						Picker("Sheet", selection: sheetSelection) {
-							ForEach(Sheets, id: \.name) { sheet in
-								Text(sheet.name).tag(sheet.name)
-							}
+						ForEach(Sheets, id: \.name) { item in
+							Toggle(
+								item.name,
+								isOn: Binding(
+									get: {
+										sheet.name == item.name
+									},
+									set: { selected in
+										if selected {
+											sheet = item
+										}
+									}
+								)
+							)
 						}
 					} label: {
 						Label("Sheets", systemImage: "document.on.document")
@@ -120,10 +106,20 @@ public struct CharacterSheetPDFView: View {
 
 				ToolbarItem(placement: .primaryAction) {
 					Menu {
-						Picker("Jargon", selection: dictionarySelection) {
-							ForEach(Jargons, id: \.name) { jargon in
-								Text(jargon.name).tag(jargon.name)
-							}
+						ForEach(Jargons, id: \.name) { item in
+							Toggle(
+								item.name,
+								isOn: Binding(
+									get: {
+										jargon.name == item.name
+									},
+									set: { selected in
+										if selected {
+											jargon = item
+										}
+									}
+								)
+							)
 						}
 					} label: {
 						Label("Jargon", systemImage: "character.book.closed")

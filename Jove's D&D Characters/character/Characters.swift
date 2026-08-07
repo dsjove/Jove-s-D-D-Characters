@@ -5,4 +5,5 @@ public let Characters: [Character] = [
 	Quinn,
 	Ash,
 	Doug,
+	Firestar,
 ]

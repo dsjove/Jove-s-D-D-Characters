@@ -11,13 +11,12 @@ public protocol Theme: Sendable {
 	var pageHeaderFont: UIFont { get }
 	var pageHeaderTextColor: UIColor { get }
 	var pageHeaderSubtitleFont: UIFont { get }
-	var pageHeaderInset: CGSize { get }
+	var pageHeaderInsets: Insets { get }
 
 	var sectionTitlePanel: JCSRect? { get }
 	var sectionTitleFont: UIFont { get }
 	var sectionTitleColor: UIColor { get }
-	var sectionTitleHorizontalPadding: CGFloat { get }
-	var sectionTitleVerticalPadding: CGFloat { get }
+	var sectionTitleInsets: Insets { get }
 	var sectionTitleGap: CGFloat { get }
 	var sectionGap: CGFloat { get }
 
@@ -70,7 +69,7 @@ public extension Theme {
 	var pageHeaderFont: UIFont { font(ofSize: 22, bold: true) }
 	var pageHeaderTextColor: UIColor { .white }
 	var pageHeaderSubtitleFont: UIFont { font(ofSize: 11, bold: false) }
-	var pageHeaderInset: CGSize { .init(width: 15, height: 7) }
+	var pageHeaderInsets: Insets { .init(dx: 15, dy: 7) }
 
 	var sectionTitlePanel: JCSRect? {
 		JCSRect(
@@ -81,8 +80,7 @@ public extension Theme {
 	}
 	var sectionTitleFont: UIFont { font(ofSize: 14, bold: true) }
 	var sectionTitleColor: UIColor { .white }
-	var sectionTitleHorizontalPadding: CGFloat { 8 }
-	var sectionTitleVerticalPadding: CGFloat { 3 }
+	var sectionTitleInsets: Insets { .init(dx: 8, dy: 3) }
 	var sectionTitleGap: CGFloat { 5 }
 	var sectionGap: CGFloat { 9 }
 

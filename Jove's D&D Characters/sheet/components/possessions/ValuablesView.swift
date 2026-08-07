@@ -11,7 +11,7 @@ func valuables(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 					c.possessions.valuables.items.map { item in [
 						JCSText(item.description, font: theme.smallNoteBoldFont, color: theme.ink),
 						JCSText(item.detail, font: theme.featureBodyFont, color: theme.ink, maxLines: 3),
-					] }.flatMap { $0 }
+					] }
 				}
 				rowRender: { theme.lineSeperator($0) }
 			}

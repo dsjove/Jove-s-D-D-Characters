@@ -29,7 +29,7 @@ func modelSection(
 					visible.map { field in [
 						JCSText(field.label, font: theme.smallNoteBoldFont, color: theme.accentColor, maxLines: 2),
 						JCSText(field.value, font: theme.featureBodyFont, color: theme.ink, maxLines: 0),
-					] }.flatMap { $0 }
+					] }
 				}
 				rowRender: { theme.lineSeperator($0) }
 			}

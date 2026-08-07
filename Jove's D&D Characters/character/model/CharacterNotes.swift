@@ -19,7 +19,6 @@ public struct CharacterNotes: Codable, Sendable, EmptyCheckable, InvariantChecka
 		dashboard.isEffectivelyEmpty && reminders.isEmpty && campaign.isEmpty
 	}
 
-
 	public func invariant() throws {
 		try validate(dashboard, at: \Self.dashboard)
 	}

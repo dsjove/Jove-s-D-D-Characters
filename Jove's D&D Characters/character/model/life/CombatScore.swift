@@ -6,6 +6,7 @@ public enum CombatStat: String, JCSEnum {
 	case proficiencyBonus
 	case passivePerception
 	case inspirationCounter
+	case unknwown
 
 	var isBonus: Bool {
 		switch self {
@@ -25,6 +26,7 @@ extension CombatStat {
 		case .proficiencyBonus:   "PB"
 		case .passivePerception:  "PP"
 		case .inspirationCounter: "Inspiration"
+		case .unknwown: "?"
 		}
 	}
 }
@@ -53,7 +55,7 @@ public struct CombatScore: Codable, Sendable, EmptyCheckable, InvariantCheckable
 			try require(score >= 0, \Self.score, "must be at least 0 for \(stat)")
 		case .proficiencyBonus:
 			try require((2...6).contains(score), \Self.score, "must be in 2...6 for proficiency bonus")
-		case .initiative:
+		case .initiative, .unknwown:
 			break
 		}
 	}

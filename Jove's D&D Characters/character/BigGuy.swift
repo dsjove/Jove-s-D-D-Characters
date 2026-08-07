@@ -95,6 +95,7 @@ public let BigGuy = Character(
 			.init(.proficiencyBonus, score: 5),
 			.init(.passivePerception, score: 17),
 			.init(.inspirationCounter, score: 1),
+			.init(.unknwown),
 		],
 		defenses: .init(
 			damageResistances: [.bludgeoning, .cold, .fire],

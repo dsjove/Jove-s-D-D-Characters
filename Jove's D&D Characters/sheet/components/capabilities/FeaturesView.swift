@@ -13,7 +13,7 @@ func features(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimens
 						JCSText(item.name + item.source, font: theme.featureHeadingFont, color: theme.ink),
 						JCSText(item.detail, font: theme.featureBodyFont, color: theme.ink),
 						JCSText(item.counter?.description, font: theme.featureBodyFont, color: theme.ink),
-					]}.flatMap({$0})
+					]}
 				}
 				render: { theme.lineSeperator($0) }
 			}

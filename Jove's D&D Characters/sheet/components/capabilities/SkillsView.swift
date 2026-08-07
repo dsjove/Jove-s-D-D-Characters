@@ -17,7 +17,7 @@ func skills(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimensio
 						JCSText(item.skill.description, font: (item.mark != .none ? theme.skillNameBoldFont : theme.skillNameFont), color: theme.ink),
 						JCSText(item.modifier.signedDescription() + item.mark.description, font: (item.mark != .none ? theme.skillNameBoldFont : theme.skillNameFont), color: theme.ink),
 						JCSText("(\(item.skill.ability.abbreviation))", font: theme.smallNoteFont, color: theme.ink)
-					]}.flatMap({$0})
+					]}
 				}
 				rowRender: { theme.lineSeperator($0) }
 			}

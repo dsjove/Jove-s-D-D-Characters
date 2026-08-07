@@ -12,6 +12,7 @@ func identity(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimens
 			.init("Classes", value.sheetClassesSummary),
 			.init("Specialties", value.sheetSubclassSummary),
 			.init("Alignment", value.alignment.description),
+			.init("Player", value.player.isEmpty ? " " : value.player),
 		], dimension)
 	}
 }

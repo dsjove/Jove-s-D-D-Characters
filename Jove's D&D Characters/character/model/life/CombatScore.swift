@@ -5,12 +5,11 @@ public enum CombatStat: String, JCSEnum {
 	case initiative
 	case proficiencyBonus
 	case passivePerception
-	case inspirationCounter
-	case unknwown
+	case inspiration
 
 	var isBonus: Bool {
 		switch self {
-		case .proficiencyBonus, .inspirationCounter, .initiative:
+		case .proficiencyBonus, .inspiration, .initiative:
 			true
 		default:
 			false
@@ -25,8 +24,7 @@ extension CombatStat {
 		case .initiative:         "Init"
 		case .proficiencyBonus:   "PB"
 		case .passivePerception:  "PP"
-		case .inspirationCounter: "Inspiration"
-		case .unknwown: "?"
+		case .inspiration:        "Insp"
 		}
 	}
 }
@@ -51,11 +49,11 @@ public struct CombatScore: Codable, Sendable, EmptyCheckable, InvariantCheckable
 	public func invariant() throws {
 		guard let score else { return }
 		switch stat {
-		case .armorClass, .passivePerception, .inspirationCounter:
+		case .armorClass, .passivePerception, .inspiration:
 			try require(score >= 0, \Self.score, "must be at least 0 for \(stat)")
 		case .proficiencyBonus:
 			try require((2...6).contains(score), \Self.score, "must be in 2...6 for proficiency bonus")
-		case .initiative, .unknwown:
+		case .initiative:
 			break
 		}
 	}

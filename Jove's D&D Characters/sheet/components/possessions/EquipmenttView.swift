@@ -5,25 +5,28 @@ import SBJLayout
 func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimension: TrackSize = .fill()) -> JCSLayoutElements {
 	if c.possessions.equipment.hasContent {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
-			SectionTitle(theme, jargon.equipmentTitle)
+			SectionTitle(theme, jargon.equipmentTitle + " (\(c.possessions.encumbrance.description))")
 			Panel(theme) {
-				Grid(table: [
-					.init(.fill()),
-					.init(.intrinsic(), align: .center),
-					.init(.intrinsic(), align: .center),
-					.init(.intrinsic()),
-					.init(.intrinsic(), align: .center),
-					.init(.intrinsic()),
-					.init(.intrinsic())],
-				rows: .init(align: .leftCenter)) {
+				Grid(
+					table: [
+						.init(.fill()),
+						.init(.intrinsic(), align: .center),
+						.init(.intrinsic(), align: .center),
+						.init(.intrinsic()),
+						.init(.intrinsic(), align: .center),
+						.init(.intrinsic(), align: .center),
+						.init(.intrinsic(), align: .center)],
+					header: .init(),
+					rows: .init(align: .leftCenter))
+				{
 					[
 						JCSText("Item", theme, font: .lineItemBold),
 						JCSText("Qty", theme, font: .lineItemBold),
 						JCSText("Location", theme, font: .lineItemBold),
-						JCSText(" ", theme, font: .lineItemBold),
+						JCSText("Weight", theme, font: .lineItemBold),
 						JCSText("Attuned", theme, font: .lineItemBold),
-						JCSText(" "),
-						JCSText(" "),
+						JCSText("Charges", theme, font: .lineItemBold),
+						JCSText("Gone", theme, font: .lineItemBold),
 					]
 					c.possessions.equipment.map { item in
 						[
@@ -33,7 +36,7 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 							JCSText(item.totalWeight?.description, theme),
 							JCSText(item.attunement.abbreviation, theme),
 							JCSText(item.charges, theme),
-							JCSText(item.isConsumable ? "Consumable" : nil, theme),
+							JCSText(item.isConsumable.map({$0 ? "●" : "○"}) ?? "", theme),
 						]
 					}
 				}

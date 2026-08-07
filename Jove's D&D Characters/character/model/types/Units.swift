@@ -208,7 +208,7 @@ public enum VolumeUnit: String, UnitType {
 	}
 }
 
-public struct Unit<Kind: UnitType>: Codable, Sendable, InvariantCheckable {
+public struct Unit<Kind: UnitType>: Codable, Sendable, InvariantCheckable, CustomStringConvertible {
 	public let value: Double // O — inherits volatility from the containing property
 	public let kind: Kind // O — inherits volatility from the containing property
 

@@ -24,4 +24,33 @@ public struct Encumbrance: Codable, Sendable, EmptyCheckable, InvariantCheckable
 		if let carryingCapacity { try require(carryingCapacity.value.isFinite && carryingCapacity.value >= 0, \Self.carryingCapacity, "must be finite and at least 0") }
 		if let carriedWeight { try require(carriedWeight.value.isFinite && carriedWeight.value >= 0, \Self.carriedWeight, "must be finite and at least 0") }
 	}
+
+	var description: String {
+		if let state {
+			if let carriedWeight {
+				if let carryingCapacity {
+					"Carrying \(carriedWeight) of \(carryingCapacity) • \(state.description)"
+				} else {
+					"Carrying \(carriedWeight) • \(state.description)"
+				}
+			} else {
+				if let carryingCapacity {
+					"Capacity \(carryingCapacity) • \(state.description)"
+				} else {
+					"\(state.description)"
+				}
+			}
+		}
+		else if let carriedWeight {
+			if let carryingCapacity {
+				"Carrying \(carriedWeight) of \(carryingCapacity)"
+			} else {
+				"Carrying \(carriedWeight)"
+			}
+		} else if let carryingCapacity {
+			"Capacity \(carryingCapacity)"
+		} else {
+			""
+		}
+	}
 }

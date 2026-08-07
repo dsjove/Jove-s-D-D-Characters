@@ -14,8 +14,8 @@ public enum AttunementState: String, JCSEnum {
 	public var abbreviation: String {
 		switch self {
 		case .notRequired: return ""
-		case .unattuned: return "No"
-		case .attuned: return "Yes"
+		case .unattuned: return "○"
+		case .attuned: return "●"
 		}
 	}
 }
@@ -28,7 +28,7 @@ public struct Equipment: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public let armorContribution: Int? // H/G — item rule or GM definition; range: any Int when set
 	public let attunement: AttunementState // I+S — changes with inventory/loadout or use
 	public let charges: ResourceCounter?
-	public let isConsumable: Bool // H/G — item rule or GM definition
+	public let isConsumable: Bool? // H/G — item rule or GM definition
 	public let notes: [String] // I+P/G — inventory entry from player or GM
 
 	public init(
@@ -39,7 +39,7 @@ public struct Equipment: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 		armorContribution: Int? = nil,
 		attunement: AttunementState = .notRequired,
 		charges: ResourceCounter? = nil,
-		isConsumable: Bool = false,
+		isConsumable: Bool? = nil,
 		notes: [String] = []
 	) {
 		self.name = name

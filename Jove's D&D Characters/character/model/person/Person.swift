@@ -28,7 +28,13 @@ public struct Person: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	}
 
 	public var isEmpty: Bool {
-		identity.isEmpty && appearance.isEmpty && background.isEmpty && personality.isEmpty && relationships.isEffectivelyEmpty && backstory.isEmpty && associatedCreatures.isEffectivelyEmpty 
+		identity.isEmpty &&
+		appearance.isEmpty &&
+		background.isEmpty &&
+		personality.isEmpty &&
+		relationships.isEffectivelyEmpty &&
+		backstory.isEmpty &&
+		associatedCreatures.isEffectivelyEmpty
 	}
 
 	public func invariant() throws {

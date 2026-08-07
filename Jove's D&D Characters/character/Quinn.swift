@@ -43,10 +43,9 @@ public let Quinn = Character(
 		combat: [
 			.init(.armorClass, score: 14),
 			.init(.initiative, score: 2),
-			.init(.inspirationCounter, score: nil),
+			.init(.inspiration, score: nil),
 			.init(.proficiencyBonus, score: 4),
-			.init(.passivePerception, score: 11),
-			.init(.unknwown),
+			.init(.passivePerception, score: 11)
 		],
 		movementAndSenses: .init(
 			speeds: [.init(.walking, distance: .init(30, .foot))]

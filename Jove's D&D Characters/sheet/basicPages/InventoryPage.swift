@@ -1,18 +1,21 @@
 import SBJLayout
 
 struct InventoryPage: Page {
-	func isEmpty(_ c: Character) -> Bool { c.possessions.isEmpty }
+	func isEmpty(_ c: Character) -> Bool {
+		false
+	}
 
 	@JCSLayoutElementBuilder
 	func draw(_ c: Character, _ theme: Theme, _ jargon: any Jargon) -> JCSLayoutElements {
 		if !isEmpty(c) {
 			PageTitle(theme, jargon.inventoryTitle)
-			encumbrance(c, theme, jargon, .intrinsic())
-			//Grid(horzFlow: .init(align: .centerTop)) {
-				equipment(c, theme, jargon)
+			Grid(table: [.init(gap: theme.sectionGap), .init(.fill())]) {
 				money2(c, theme, jargon, .intrinsic())
-			//}.id("fe")
+				equipment(c, theme, jargon)
+			}
 			valuables(c, theme, jargon)
+			associatedCreatures(c, theme, jargon)
+			relationships(c, theme, jargon)
 		}
 	}
 }

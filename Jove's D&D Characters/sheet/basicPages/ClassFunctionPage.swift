@@ -2,7 +2,7 @@ import SBJLayout
 
 struct ClassFunctionPage: Page {
 	func isEmpty(_ c: Character) -> Bool {
-		c.capabilities.spellcasting.isEffectivelyEmpty
+		false
 	}
 
 	@JCSLayoutElementBuilder

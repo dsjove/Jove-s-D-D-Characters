@@ -18,20 +18,24 @@ func modelSection(
 	_ theme: any Theme,
 	_ title: String,
 	fields: [SheetField],
+	align: Alignment = .leftCenter,
 	_ dimension: TrackSize = .fill()
 ) -> JCSLayoutElements {
+
 	let visible = fields.filter { !$0.isEmpty }
 	if !visible.isEmpty {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, title)
 			Panel(theme) {
 				Grid(
-					table: [.init(.intrinsic(), gap: 16), .init(dimension)],
-					rows: .init(align: .leftCenter)
+					table: [
+						.init(.intrinsic(), align: .leftCenter, gap: 12),
+						.init(dimension, align: align)
+					]
 				) {
 					visible.map { field in [
 						JCSText(field.label, theme, font: .lineItemBold, color: .titleBackground, lines: 0...2),
-						JCSText(field.value, theme, font: .body, color: .ink),
+						JCSText(field.value, theme),
 					] }
 				}
 				rowRender: { theme.rowLineSeperator($0) }

@@ -11,7 +11,7 @@ func campaignNotes(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				let h = JCSText(size: theme.font(.lineItem), lines: 1).measure().height
 				Grid(vertFlow: .init(dimension), rows: .init(.intrinsic(min: h), minCount: 8)) {
 					values.map {
-						JCSText($0, theme, font: .lineItem, color: .ink, lines: 1...1)
+						JCSText($0, theme, font: .lineItem, lines: 1...1)
 					}
 				}
 				render: { theme.rowLineSeperator($0) }

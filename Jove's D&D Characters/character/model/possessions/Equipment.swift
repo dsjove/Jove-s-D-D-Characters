@@ -10,6 +10,14 @@ public enum AttunementState: String, JCSEnum {
 	case notRequired
 	case unattuned
 	case attuned
+
+	public var abbreviation: String {
+		switch self {
+		case .notRequired: return ""
+		case .unattuned: return "No"
+		case .attuned: return "Yes"
+		}
+	}
 }
 
 public struct Equipment: Codable, Sendable, EmptyCheckable, InvariantCheckable {

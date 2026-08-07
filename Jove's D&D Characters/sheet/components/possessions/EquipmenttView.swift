@@ -8,32 +8,32 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 			SectionTitle(theme, jargon.equipmentTitle)
 			Panel(theme) {
 				Grid(table: [
-					.init(.intrinsic()),
+					.init(.fill()),
+					.init(.intrinsic(), align: .center),
 					.init(.intrinsic(), align: .center),
 					.init(.intrinsic()),
-					.init(.intrinsic()),
-					.init(.intrinsic()),
+					.init(.intrinsic(), align: .center),
 					.init(.intrinsic()),
 					.init(.intrinsic())],
 				rows: .init(align: .leftCenter)) {
 					[
-						JCSText("Item", theme, font: .sectionTitle, color: .ink),
-						JCSText("Qty", theme, font: .sectionTitle, color: .ink),
-						JCSText("Location", theme, font: .sectionTitle, color: .ink),
-						JCSText(" ", theme, font: .sectionTitle, color: .ink),
-						JCSText(" "),
+						JCSText("Item", theme, font: .lineItemBold),
+						JCSText("Qty", theme, font: .lineItemBold),
+						JCSText("Location", theme, font: .lineItemBold),
+						JCSText(" ", theme, font: .lineItemBold),
+						JCSText("Attuned", theme, font: .lineItemBold),
 						JCSText(" "),
 						JCSText(" "),
 					]
 					c.possessions.equipment.map { item in
 						[
-							JCSText(item.name + (item.notes.isEmpty ? "" : "\n" + item.notes.joined(separator: "; ")), theme, font: .lineItemBold, color: .ink, lines: 0...3),
-							JCSText(item.quantity.description, theme, font: .body, color: .ink),
-							JCSText(item.location, theme, font: .body, color: .ink),
-							JCSText(item.totalWeight?.description, theme, font: .body, color: .ink),
-							JCSText(item.attunement == .notRequired ? nil : item.attunement, theme, font: .body, color: .ink),
-							JCSText(item.charges, theme, font: .body, color: .ink),
-							JCSText(item.isConsumable ? "Consumable" : nil, theme, font: .body, color: .ink),
+							JCSText(item.name + (item.notes.isEmpty ? "" : "\n" + item.notes.joined(separator: "; ")), theme, lines: 0...3),
+							JCSText(item.quantity.description, theme),
+							JCSText(item.location, theme),
+							JCSText(item.totalWeight?.description, theme),
+							JCSText(item.attunement.abbreviation, theme),
+							JCSText(item.charges, theme),
+							JCSText(item.isConsumable ? "Consumable" : nil, theme),
 						]
 					}
 				}

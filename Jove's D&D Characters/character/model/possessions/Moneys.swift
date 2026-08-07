@@ -6,6 +6,7 @@ public struct Moneys: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public let electrum: Int // I — changes through purchases, rewards, and loss; range: 0...
 	public let gold: Int // I — changes through purchases, rewards, and loss; range: 0...
 	public let platinum: Int // I — changes through purchases, rewards, and loss; range: 0...
+	//TODO: debt
 
 	public init(
 		copper: Int = 0,
@@ -31,6 +32,16 @@ public struct Moneys: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 
 	public var isEmpty: Bool {
 		copperValue == 0
+	}
+
+	public var values: [Currency: Int] {
+		[
+			.copper: copper,
+			.silver: silver,
+			.electrum: electrum,
+			.gold: gold,
+			.platinum: platinum,
+		]
 	}
 
 	public func invariant() throws {

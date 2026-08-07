@@ -21,7 +21,7 @@ func attacks(
 				]
 				Grid(table: columns) {
 					jargon.attackSections.map {
-						JCSText($0, theme, font: .sectionTitle, color: .ink)
+						JCSText($0, theme, font: .lineItemBold)
 					}
 					c.capabilities.attacks.map { attack in
 						[

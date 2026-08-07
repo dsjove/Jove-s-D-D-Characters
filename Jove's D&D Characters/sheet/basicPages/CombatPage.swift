@@ -16,8 +16,6 @@ struct CombatPage: Page {
 			combat(c, theme, jargon)
 			abilityScores(c, theme, jargon)
 			attacks(c, theme, jargon)
-			maneuvers(c, theme, jargon)
-			reusableResources(c, theme, jargon)
 		}
 	}
 }

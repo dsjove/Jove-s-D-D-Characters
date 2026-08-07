@@ -8,7 +8,7 @@ public struct Sheet {
 public let Sheets: [Sheet] = [
 	.init(name: "Basic", pages: [
 		CombatPage(),
-		SpellCasting(),
+		ClassFunctionPage(),
 		QuickReferencePage(),
 		InventoryPage(),
 		ExplorationPage(),

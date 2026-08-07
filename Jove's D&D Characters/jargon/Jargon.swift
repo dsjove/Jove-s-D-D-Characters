@@ -84,7 +84,7 @@ public extension Jargon {
 	var attackSections: [String] {
 		[
 			"Attack",
-			"Bonus\nSave",
+			"Bonus Save",
 			"Damage",
 			"Range/Target",
 			"Properties/Effects",

@@ -10,9 +10,9 @@ func abilityScores(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				c.life.abilities.map { item in
 					Panel(theme, aspectRatio: true) {
 						Grid(vertFlow: .init(.uniform()), rows: .init(align: .center)) {
-							JCSText(item.ability.abbreviation, theme, font: .sectionTitle, color: .ink, lines: 1...1)
-							JCSText(item.score?.description ?? "", theme, font: .pageTitle, color: .ink, lines: 0...1)
-							JCSText(item.sheetModMultiLineDescription, theme, font: .body, color: .ink, lines: 2...2)
+							JCSText(item.ability.abbreviation, theme, font: .sectionTitle, lines: 1...1)
+							JCSText(item.score?.description ?? "", theme, font: .pageTitle, lines: 0...1)
+							JCSText(item.sheetModMultiLineDescription, theme, lines: 2...2)
 						}
 					}
 				}

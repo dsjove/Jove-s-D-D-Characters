@@ -67,6 +67,16 @@ public struct CharacterSheetPDFView: View {
 			.toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
+                        pdfView?.goToFirstPage(nil)
+                        updateCanGoStates()
+                    } label: {
+                        Label("First Page", systemImage: "backward.end")
+                    }
+                    .disabled(!canGoToPreviousPage)
+                }
+
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
                         pdfView?.goToPreviousPage(nil)
                         updateCanGoStates()
                     } label: {
@@ -81,6 +91,16 @@ public struct CharacterSheetPDFView: View {
                         updateCanGoStates()
                     } label: {
                         Label("Next Page", systemImage: "chevron.right")
+                    }
+                    .disabled(!canGoToNextPage)
+                }
+
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        pdfView?.goToLastPage(nil)
+                        updateCanGoStates()
+                    } label: {
+                        Label("Last Page", systemImage: "forward.end")
                     }
                     .disabled(!canGoToNextPage)
                 }
@@ -313,3 +333,4 @@ private enum CharacterSheetViewError: LocalizedError {
 #Preview("Ash PDF") {
 	CharacterSheetPDFView()
 }
+

@@ -11,8 +11,8 @@ func abilityScores(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 					Panel(theme, aspectRatio: true) {
 						Grid(vertFlow: .init(.uniform()), rows: .init(align: .center)) {
 							JCSText(item.ability.abbreviation, theme, font: .sectionTitle, color: .ink, lines: 1...1)
-							JCSText(item.score?.description ?? "", font: theme.largeAttributeFont, color: theme.color(.ink), lines: 0...1)
-							JCSText(item.sheetModMultiLineDescription, font: theme.smallNoteFont, color: theme.color(.ink), lines: 2...2)
+							JCSText(item.score?.description ?? "", theme, font: .pageTitle, color: .ink, lines: 0...1)
+							JCSText(item.sheetModMultiLineDescription, theme, font: .body, color: .ink, lines: 2...2)
 						}
 					}
 				}

@@ -6,6 +6,8 @@ public enum ThemeFont {
 	case pageSubtitle
 	case sectionTitle
 	case body
+	case lineItem
+	case lineItemBold
 }
 
 public enum ThemeColor {
@@ -24,7 +26,7 @@ public extension JCSText {
 		font: ThemeFont = .body,
 		color: ThemeColor = .ink,
 		align: Alignment? = nil,
-		lines: ClosedRange<Int> = 0...Int.max
+		lines: ClosedRange<Int>? = nil
 	) {
 		self.init(
 			text?.description,
@@ -43,7 +45,7 @@ public extension JCSText {
 		font: ThemeFont = .body,
 		color: ThemeColor = .ink,
 		align: Alignment? = nil,
-		lines: ClosedRange<Int> = 0...Int.max
+		lines: ClosedRange<Int>? = nil
 	) {
 		self.init(
 			text?.description,
@@ -77,24 +79,4 @@ public protocol Theme: Sendable {
 
 	func colLineSeperator(_ col: Grid.ColumnIteration)
 	func rowLineSeperator(_ row: Grid.RowIteration)
-}
-
-//TODO: Normalize
-public extension Theme {
-	static func font(ofSize size: CGFloat = 12, bold: Bool = false) -> UIFont {
-		bold ? UIFont.boldSystemFont(ofSize: size) : UIFont.systemFont(ofSize: size)
-	}
-
-	var largeAttributeFont: UIFont { Self.font(ofSize: 22, bold: true) }
-	var smallNoteFont: UIFont { Self.font(ofSize: 9, bold: false) }
-	var smallNoteBoldFont: UIFont { Self.font(ofSize: 9, bold: true) }
-
-	var skillNameFont: UIFont { Self.font(ofSize: 11.5, bold: false) }
-	var skillNameBoldFont: UIFont { Self.font(ofSize: 11.5, bold: true) }
-	var skillMarkFont: UIFont { Self.font(ofSize: 10, bold: true) }
-	var featureHeadingFont: UIFont { Self.font(ofSize: 11.5, bold: true) }
-	var featureBodyFont: UIFont { Self.font(ofSize: 9.7, bold: false) }
-	var proficiencyLineFont: UIFont { Self.font(ofSize: 11, bold: true) }
-	var maneuverNameFont: UIFont { Self.font(ofSize: 10.5, bold: true) }
-	var maneuverBodyFont: UIFont { Self.font(ofSize: 8.2, bold: false) }
 }

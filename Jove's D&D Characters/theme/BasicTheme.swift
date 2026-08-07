@@ -7,13 +7,17 @@ public class BasicTheme: Theme {
 	public let pageSubtitleFont: UIFont
 	public let sectionTitleFont: UIFont
 	public let bodyFont: UIFont
+	public let lineItem: UIFont
+	public let lineItemBold: UIFont
 
 	public init(name: String = "Basic") {
 		self.name = name
-		self.pageTitleFont = Self.font(ofSize: 22, bold: true)
-		self.pageSubtitleFont = Self.font(ofSize: 11, bold: false)
-		self.sectionTitleFont = Self.font(ofSize: 14, bold: true)
-		self.bodyFont = Self.font(ofSize: 9.7, bold: false)
+		self.pageTitleFont = UIFont.boldSystemFont(ofSize: 22)
+		self.pageSubtitleFont = UIFont.systemFont(ofSize: 11)
+		self.sectionTitleFont = UIFont.boldSystemFont(ofSize: 14)
+		self.bodyFont = UIFont.systemFont(ofSize: 9)
+		self.lineItemBold = UIFont.boldSystemFont(ofSize: 9)
+		self.lineItem = UIFont.systemFont(ofSize: 9)
 	}
 
 	public func font(_ font: ThemeFont) -> UIFont {
@@ -22,6 +26,8 @@ public class BasicTheme: Theme {
 		case .pageSubtitle: pageSubtitleFont
 		case .sectionTitle: sectionTitleFont
 		case .body: bodyFont
+		case .lineItem: lineItem
+		case .lineItemBold: lineItemBold
 		}
 	}
 
@@ -80,7 +86,7 @@ public class BasicTheme: Theme {
 	public func rowLineSeperator(_ row: Grid.RowIteration) {
 		if row.index == row.definition.rows.tracks.count-1 { return }
 		let r = row.rect
-		let gap = row.track.gap / 2.0
+		let gap = (row.track.gap / 2.0) + 0.5
 		let s = CGPoint(x: r.minX, y: r.maxY + gap)
 		let e = CGPoint(x: r.maxX, y: r.maxY + gap)
 		JCSLine(stroke: color(.gridLine), lineWidth: 0.5).draw(from: s, to: e)

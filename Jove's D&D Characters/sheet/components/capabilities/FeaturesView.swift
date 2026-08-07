@@ -10,9 +10,9 @@ func features(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimens
 			Panel(theme) {
 				Grid(vertFlow: .init(dimension)) {
 					c.capabilities.features.map { item in [
-						JCSText(item.name + item.source, font: theme.featureHeadingFont, color: theme.color(.ink)),
-						JCSText(item.detail, font: theme.featureBodyFont, color: theme.color(.ink)),
-						JCSText(item.counter, font: theme.featureBodyFont, color: theme.color(.ink)),
+						JCSText(item.name + item.source, theme, font: .lineItemBold, color: .ink),
+						JCSText(item.detail, theme, font: .body, color: .ink),
+						JCSText(item.counter, theme, font: .body, color: .ink),
 					]}
 				}
 				render: { theme.rowLineSeperator($0) }

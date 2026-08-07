@@ -30,8 +30,8 @@ func modelSection(
 					rows: .init(align: .leftCenter)
 				) {
 					visible.map { field in [
-						JCSText(field.label, font: theme.smallNoteBoldFont, color: theme.color(.titleBackground), lines: 0...2),
-						JCSText(field.value, font: theme.featureBodyFont, color: theme.color(.ink)),
+						JCSText(field.label, theme, font: .lineItemBold, color: .titleBackground, lines: 0...2),
+						JCSText(field.value, theme, font: .body, color: .ink),
 					] }
 				}
 				rowRender: { theme.rowLineSeperator($0) }
@@ -44,3 +44,4 @@ func modelSection(
 func sheetList(_ values: [String]) -> String {
 	values.filter { !$0.isEmpty }.joined(separator: ", ")
 }
+

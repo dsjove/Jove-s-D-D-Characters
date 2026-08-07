@@ -17,23 +17,23 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 					.init(.intrinsic())],
 				rows: .init(align: .leftCenter)) {
 					[
-						JCSText("Item", font: theme.proficiencyLineFont, color: theme.color(.ink)),
-						JCSText("Qty", font: theme.proficiencyLineFont, color: theme.color(.ink)),
-						JCSText("Location", font: theme.proficiencyLineFont, color: theme.color(.ink)),
-						JCSText(" ", font: theme.proficiencyLineFont, color: theme.color(.ink)),
+						JCSText("Item", theme, font: .sectionTitle, color: .ink),
+						JCSText("Qty", theme, font: .sectionTitle, color: .ink),
+						JCSText("Location", theme, font: .sectionTitle, color: .ink),
+						JCSText(" ", theme, font: .sectionTitle, color: .ink),
 						JCSText(" "),
 						JCSText(" "),
 						JCSText(" "),
 					]
 					c.possessions.equipment.map { item in
 						[
-							JCSText(item.name + (item.notes.isEmpty ? "" : "\n" + item.notes.joined(separator: "; ")), font: theme.smallNoteBoldFont, color: theme.color(.ink), lines: 0...3),
-							JCSText(item.quantity, font: theme.featureBodyFont, color: theme.color(.ink)),
-							JCSText(item.location, font: theme.featureBodyFont, color: theme.color(.ink)),
-							JCSText(item.totalWeight?.description, font: theme.featureBodyFont, color: theme.color(.ink)),
-							JCSText(item.attunement == .notRequired ? nil : item.attunement, font: theme.featureBodyFont, color: theme.color(.ink)),
-							JCSText(item.charges, font: theme.featureBodyFont, color: theme.color(.ink)),
-							JCSText(item.isConsumable ? "Consumable" : nil, font: theme.featureBodyFont, color: theme.color(.ink)),
+							JCSText(item.name + (item.notes.isEmpty ? "" : "\n" + item.notes.joined(separator: "; ")), theme, font: .lineItemBold, color: .ink, lines: 0...3),
+							JCSText(item.quantity.description, theme, font: .body, color: .ink),
+							JCSText(item.location, theme, font: .body, color: .ink),
+							JCSText(item.totalWeight?.description, theme, font: .body, color: .ink),
+							JCSText(item.attunement == .notRequired ? nil : item.attunement, theme, font: .body, color: .ink),
+							JCSText(item.charges, theme, font: .body, color: .ink),
+							JCSText(item.isConsumable ? "Consumable" : nil, theme, font: .body, color: .ink),
 						]
 					}
 				}
@@ -43,3 +43,4 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 		}
 	}
 }
+

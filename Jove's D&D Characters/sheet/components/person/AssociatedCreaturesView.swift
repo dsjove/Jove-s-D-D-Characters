@@ -10,13 +10,13 @@ func associatedCreatures(_ c: Character, _ theme: any Theme, _ jargon: any Jargo
 				Panel(theme) {
 					let stats = creature.statBlock
 					Grid(vertFlow: .init(dimension)) {
-						JCSText("\(creature.name) — \(creature.kind.description)", font: theme.featureHeadingFont, color: theme.color(.ink))
+						JCSText("\(creature.name) — \(creature.kind.description)", theme, font: .lineItemBold, color: .ink)
 						JCSText([
 							stats?.armorClass.map { "AC \($0)" },
 							stats?.health.maxHitPoints.map { "HP \($0)" },
 							stats.map { $0.speeds.map { "\($0.mode.description) \($0.distance.description)" }.joined(separator: ", ") },
-						].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " • "), font: theme.featureBodyFont, color: theme.color(.ink))
-						JCSText((creature.notes + (stats?.notes ?? [])).joined(separator: "; "), font: theme.smallNoteFont, color: theme.color(.ink))
+						].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " • "), theme, font: .body, color: .ink)
+						JCSText((creature.notes + (stats?.notes ?? [])).joined(separator: "; "), theme, font: .body, color: .ink)
 					}
 				}
 			}

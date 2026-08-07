@@ -21,17 +21,21 @@ func modelSection(
 	_ dimension: TrackSize = .fill()
 ) -> JCSLayoutElements {
 	let visible = fields.filter { !$0.isEmpty }
-	if !title.isEmpty && !visible.isEmpty {
+	if !visible.isEmpty {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, title)
 			Panel(theme) {
-				Grid(table: [.init(.intrinsic(), gap: 16), .init(dimension)], rows: .init(align: .leftCenter)) {
+				Grid(
+					table: [.init(.intrinsic(), gap: 16), .init(dimension)],
+					rows: .init(align: .leftCenter)
+				) {
 					visible.map { field in [
 						JCSText(field.label, font: theme.smallNoteBoldFont, color: theme.accentColor, maxLines: 2),
 						JCSText(field.value, font: theme.featureBodyFont, color: theme.ink, maxLines: 0),
 					] }
 				}
-				rowRender: { theme.lineSeperator($0) }
+				rowRender: { theme.rowLineSeperator($0) }
+				colRender: { theme.colLineSeperator($0) }
 			}
 		}
 	}

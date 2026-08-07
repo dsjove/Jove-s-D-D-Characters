@@ -51,12 +51,12 @@ extension ResourceCounter: StringPresentable {
 		if maximum <= 5 {
 			let filled = String(repeating: "●", count: used)
 			let empty = String(repeating: "○", count: maximum - used)
-			return "\(filled)\(empty) \(suffix)"
+			return "\(filled)\(empty)\(suffix.isEmpty ? "" : " \(suffix)")"
 		}
-		return "\(used) of \(maximum) \(suffix)"
+		return "\(used) of \(maximum)\(suffix.isEmpty ? "" : " \(suffix)")"
 	}
 
 	public var description: String {
-		"\(sheetUsageDescription)\(recharge.map { " @\($0.description)" } ?? "")"
+		"\(sheetUsageDescription)\(recharge.map { "@\($0.description)" } ?? "")"
 	}
 }

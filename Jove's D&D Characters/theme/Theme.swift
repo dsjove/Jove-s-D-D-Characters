@@ -25,7 +25,7 @@ public protocol Theme: Sendable {
 
 	var columnGap: CGFloat { get }
 	var rowGap: CGFloat { get }
-	func lineSeperator(_ row: Grid.RowIteration)
+	func rowLineSeperator(_ row: Grid.RowIteration)
 
 	var largeAttributeFont: UIFont { get }
 	var smallNoteFont: UIFont { get }
@@ -95,12 +95,21 @@ public extension Theme {
 
 	var  columnGap: CGFloat { 4 }
 	var  rowGap: CGFloat { 4 }
-	func lineSeperator(_ row: Grid.RowIteration) {
+	func rowLineSeperator(_ row: Grid.RowIteration) {
 		if row.index == row.definition.rows.tracks.count-1 { return }
 		let r = row.rect
 		let gap = row.track.gap / 2.0
 		let s = CGPoint(x: r.minX, y: r.maxY + gap)
 		let e = CGPoint(x: r.maxX, y: r.maxY + gap)
+		JCSLine(stroke: UIColor(red: 0xED/255, green: 0xE1/255, blue: 0xCF/255, alpha: 1), lineWidth: 0.5).draw(from: s, to: e)
+	}
+
+	func colLineSeperator(_ col: Grid.ColumnIteration) {
+		if col.index == col.definition.columns.tracks.count-1 { return }
+		let r = col.rect
+		let gap = col.track.gap / 2.0
+		let s = CGPoint(x: r.maxX + gap, y: r.minY)
+		let e = CGPoint(x: r.maxX + gap, y: r.maxY)
 		JCSLine(stroke: UIColor(red: 0xED/255, green: 0xE1/255, blue: 0xCF/255, alpha: 1), lineWidth: 0.5).draw(from: s, to: e)
 	}
 

@@ -15,7 +15,7 @@ func features(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimens
 						JCSText(item.counter?.description, font: theme.featureBodyFont, color: theme.ink),
 					]}
 				}
-				render: { theme.lineSeperator($0) }
+				render: { theme.rowLineSeperator($0) }
 			}
 		}
 	}

@@ -6,7 +6,7 @@ func dashboard(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 	if c.notes.dashboard.hasContent {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, jargon.dashboardTitle)
-				Grid(horzFlow: .init(dimension)) {
+			Grid(horzFlow: .init(dimension)) {
 				c.notes.dashboard.map { item in
 					Panel(theme) {
 						Grid(vertFlow: .init(dimension)) {

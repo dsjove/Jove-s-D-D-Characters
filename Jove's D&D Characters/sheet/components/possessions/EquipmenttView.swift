@@ -7,12 +7,17 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, jargon.equipmentTitle)
 			Panel(theme) {
-				Grid(table: [.init(dimension), .init(.intrinsic()), .init(.intrinsic()), .init(.intrinsic())], rows: .init(align: .leftCenter)) {
+				Grid(table: [
+					.init(.intrinsic(), gap: 6),
+					.init(.intrinsic(), align: .center, gap: 6),
+					.init(.intrinsic(), gap: 6),
+					.init(.intrinsic(), gap: 6)],
+				rows: .init(align: .leftCenter)) {
 					[
 						JCSText("Item", font: theme.proficiencyLineFont, color: theme.ink),
 						JCSText("Qty", font: theme.proficiencyLineFont, color: theme.ink),
 						JCSText("Location", font: theme.proficiencyLineFont, color: theme.ink),
-						JCSText("Weight / State", font: theme.proficiencyLineFont, color: theme.ink),
+						JCSText("Description", font: theme.proficiencyLineFont, color: theme.ink),
 					]
 					c.possessions.equipment.map { item in
 						let state = [
@@ -29,7 +34,8 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 						]
 					}
 				}
-				rowRender: { theme.lineSeperator($0) }
+				rowRender: { theme.rowLineSeperator($0) }
+				colRender: { theme.colLineSeperator($0) }
 			}
 		}
 	}

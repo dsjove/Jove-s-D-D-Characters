@@ -8,8 +8,10 @@ struct InventoryPage: Page {
 		if !isEmpty(c) {
 			PageTitle(theme, jargon.inventoryTitle)
 			encumbrance(c, theme, jargon)
-			equipment(c, theme, jargon)
-			money(c, theme, jargon)
+			//Grid(horzFlow: .init(align: .centerTop)) {
+				equipment(c, theme, jargon)
+				money(c, theme, jargon)
+			//}.id("fe")
 			valuables(c, theme, jargon)
 		}
 	}

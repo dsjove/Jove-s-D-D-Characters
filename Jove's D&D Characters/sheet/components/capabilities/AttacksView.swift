@@ -53,7 +53,7 @@ func attacks(
 						]
 					}
 				}
-				rowRender: { theme.lineSeperator($0) }
+				rowRender: { theme.rowLineSeperator($0) }
 			}
 		}
 	}

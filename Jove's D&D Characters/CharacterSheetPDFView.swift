@@ -4,6 +4,12 @@ import SBJLayout
 
 //TODO: make generic
 public struct CharacterSheetPDFView: View {
+    // Persist last selections between launches
+    @AppStorage("CharacterSheetPDFView.selectedCharacterName") private var storedCharacterName: String = Characters.first!.person.identity.name
+    @AppStorage("CharacterSheetPDFView.selectedThemeName") private var storedThemeName: String = Themes.first!.name
+    @AppStorage("CharacterSheetPDFView.selectedSheetName") private var storedSheetName: String = Sheets.first!.name
+    @AppStorage("CharacterSheetPDFView.selectedJargonName") private var storedJargonName: String = Jargons.first!.name
+
 	@State private var character: Character = Characters.first!
 	@State private var theme: Theme = Themes.first!
 	@State private var sheet: Sheet = Sheets.first!
@@ -12,6 +18,12 @@ public struct CharacterSheetPDFView: View {
 	@State private var pdfDocument: PDFDocument?
 	@State private var exportURL: URL?
 	@State private var errorMessage: String?
+
+    @State private var pdfView: PDFView?
+    @State private var canGoToPreviousPage: Bool = false
+    @State private var canGoToNextPage: Bool = false
+    @State private var pageChangedObserver: Any?
+    @State private var documentChangedObserver: Any?
 
 	public init() {
 	}
@@ -25,7 +37,22 @@ public struct CharacterSheetPDFView: View {
 		NavigationStack {
 			Group {
 				if let pdfDocument {
-					PDFKitView(document: pdfDocument)
+#if canImport(UIKit)
+                    PDFViewRepresentable(document: pdfDocument) { view in
+                        self.pdfView = view
+                        self.updateCanGoStates()
+                        // Register for page/document change notifications (no Combine)
+                        self.pageChangedObserver = NotificationCenter.default.addObserver(forName: Notification.Name.PDFViewPageChanged, object: view, queue: .main) { _ in
+                            self.updateCanGoStates()
+                        }
+                        self.documentChangedObserver = NotificationCenter.default.addObserver(forName: Notification.Name.PDFViewDocumentChanged, object: view, queue: .main) { _ in
+                            self.updateCanGoStates()
+                        }
+                    }
+#else
+                    // Fallback to original if UIKit is not available
+                    PDFKitView(document: pdfDocument)
+#endif
 				} else if let errorMessage {
 					ContentUnavailableView(
 						"Unable to Generate PDF",
@@ -38,6 +65,26 @@ public struct CharacterSheetPDFView: View {
 			}
 			.navigationBarTitle(character.person.identity.name, displayMode: .inline)
 			.toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        pdfView?.goToPreviousPage(nil)
+                        updateCanGoStates()
+                    } label: {
+                        Label("Previous Page", systemImage: "chevron.left")
+                    }
+                    .disabled(!canGoToPreviousPage)
+                }
+
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        pdfView?.goToNextPage(nil)
+                        updateCanGoStates()
+                    } label: {
+                        Label("Next Page", systemImage: "chevron.right")
+                    }
+                    .disabled(!canGoToNextPage)
+                }
+
 				ToolbarItem(placement: .primaryAction) {
 					Menu {
 						ForEach(Characters, id: \.person.identity.name) { item in
@@ -141,19 +188,44 @@ public struct CharacterSheetPDFView: View {
 				}
 			}
 		}
+        .onAppear {
+            // Initialize selections from stored values on first appear
+            if let foundCharacter = Characters.first(where: { $0.person.identity.name == storedCharacterName }) {
+                character = foundCharacter
+            }
+            if let foundTheme = Themes.first(where: { $0.name == storedThemeName }) {
+                theme = foundTheme
+            }
+            if let foundSheet = Sheets.first(where: { $0.name == storedSheetName }) {
+                sheet = foundSheet
+            }
+            if let foundJargon = Jargons.first(where: { $0.name == storedJargonName }) {
+                jargon = foundJargon
+            }
+        }
+        .onDisappear {
+            if let token = pageChangedObserver { NotificationCenter.default.removeObserver(token) }
+            if let token = documentChangedObserver { NotificationCenter.default.removeObserver(token) }
+            pageChangedObserver = nil
+            documentChangedObserver = nil
+        }
 		.task(id: character.person.identity.name) {
 			generatePDF()
 		}
-		.onChange(of: character.person.identity.name) { _, _ in
+		.onChange(of: character.person.identity.name) { _, newValue in
+			storedCharacterName = newValue
 			generatePDF()
 		}
-		.onChange(of: theme.name) { _, _ in
+		.onChange(of: theme.name) { _, newValue in
+			storedThemeName = newValue
 			generatePDF()
 		}
-		.onChange(of: sheet.name) { _, _ in
+		.onChange(of: sheet.name) { _, newValue in
+			storedSheetName = newValue
 			generatePDF()
 		}
-		.onChange(of: jargon.name) { _, _ in
+		.onChange(of: jargon.name) { _, newValue in
+			storedJargonName = newValue
 			generatePDF()
 		}
 	}
@@ -183,13 +255,49 @@ public struct CharacterSheetPDFView: View {
 			pdfDocument = document
 			exportURL = url
 			errorMessage = nil
+            DispatchQueue.main.async { self.updateCanGoStates() }
 		} catch {
 			pdfDocument = nil
 			exportURL = nil
 			errorMessage = error.localizedDescription
 		}
 	}
+
+    private func updateCanGoStates() {
+        guard let pdfView, let document = pdfView.document, let current = pdfView.currentPage else {
+            canGoToPreviousPage = false
+            canGoToNextPage = false
+            return
+        }
+        let index = document.index(for: current)
+        canGoToPreviousPage = index > 0
+        canGoToNextPage = index + 1 < document.pageCount
+    }
 }
+
+#if canImport(UIKit)
+private struct PDFViewRepresentable: UIViewRepresentable {
+    let document: PDFDocument
+    let onCreated: (PDFView) -> Void
+
+    func makeUIView(context: Context) -> PDFView {
+        let view = PDFView()
+        view.autoScales = true
+        view.displayMode = .singlePageContinuous
+        view.displayDirection = .vertical
+        view.displaysPageBreaks = true
+        view.document = document
+        onCreated(view)
+        return view
+    }
+
+    func updateUIView(_ uiView: PDFView, context: Context) {
+        if uiView.document !== document {
+            uiView.document = document
+        }
+    }
+}
+#endif
 
 private enum CharacterSheetViewError: LocalizedError {
 	case invalidPDFData

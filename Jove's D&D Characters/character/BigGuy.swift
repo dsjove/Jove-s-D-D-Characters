@@ -269,7 +269,7 @@ public let BigGuy = Character(
 	),
 	possessions: .init(
 		equipment: [
-			.init("Runic plate armor", location: .equipped, quantity: 1, unitWeight: .init(65, .pound), armorContribution: 18, attunement: .attuned, charges: .init(recharge: .dawn, maximum: 5, used: 2, suffix: "charges"), isConsumable: false, notes: ["Automatically resizes with Giant's Might."]),
+			.init("Runic plate armor", location: .equipped, quantity: 1, unitWeight: .init(65, .pound), armorContribution: 18, attunement: .attuned, charges: .init(recharge: .dawn, maximum: 5, used: 2), isConsumable: false, notes: ["Automatically resizes with Giant's Might."]),
 			.init("Tower shield", location: .equipped, quantity: 1, unitWeight: .init(18, .pound), armorContribution: 2, attunement: .notRequired, isConsumable: false, notes: ["Painted with the Granite Watch crest."]),
 			.init("Potion of supreme healing", location: .carried, quantity: 3, unitWeight: .init(8, .ounce), attunement: .notRequired, isConsumable: true, notes: ["Restores 10d4 + 20 hit points."]),
 			.init("Portable ram", location: .stored, quantity: 1, unitWeight: .init(35, .pound), attunement: .unattuned, isConsumable: false, notes: ["Stored on the wagon."]),

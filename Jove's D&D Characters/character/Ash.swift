@@ -56,6 +56,7 @@ public let Ash = Character(
 			.init(.inspirationCounter, score: nil),
 			.init(.proficiencyBonus, score: 4),
 			.init(.passivePerception, score: 15),
+			.init(.unknwown),
 		],
 		movementAndSenses: .init(
 			speeds: [.init(.walking, distance: .init(30, .foot))]

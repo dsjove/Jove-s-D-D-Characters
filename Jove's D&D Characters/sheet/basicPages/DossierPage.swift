@@ -15,9 +15,11 @@ struct DossierPage: Page {
 	func draw(_ c: Character, _ theme: Theme, _ jargon: any Jargon) -> JCSLayoutElements {
 		if !isEmpty(c) {
 			PageTitle(theme, jargon.dossierTitle)
-			identity(c, theme, jargon)
-			background(c, theme, jargon)
-			appearance(c, theme, jargon)
+			Grid(table: [.init(gap: theme.sectionGap), .init(.fill())]) {
+				identity(c, theme, jargon, .intrinsic())
+				background(c, theme, jargon, .intrinsic())
+			}
+			appearance(c, theme, jargon, .intrinsic())
 			personality(c, theme, jargon)
 			backstory(c, theme, jargon)
 			advancement(c, theme, jargon)

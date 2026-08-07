@@ -111,10 +111,10 @@ public extension Jargon {
 	var missingValueText: String { "—" }
 	var labelSeparator: String { ":" }
 
-	var dossierTitle: String { "FIELD DOSSIER" }
-	var identityTitle: String { "IDENTITY" }
+	var dossierTitle: String { "Dossier" }
+	var identityTitle: String { "Identity" }
 	var backgroundTitle: String { "Background" }
-	var collegeTitle: String { "College" }
+	var collegeTitle: String { "Organization" }
 	var statusTitle: String { "Status" }
 	var clearanceTitle: String { "Clearance" }
 	var personalityTitle: String { "Personality" }

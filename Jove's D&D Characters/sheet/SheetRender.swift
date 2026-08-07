@@ -22,6 +22,6 @@ public struct SheetRender: JCSLayoutElement {
 	static func background(_ theme: Theme, _ page: Pagination) -> CGRect {
 		theme.pageBackground?.draw(in: page.printableRect)
 		let inset = theme.pageContentInset
-		return page.printableRect.insetBy(dx: inset.width, dy: inset.height)
+		return inset.apply(rect: page.printableRect)
 	}
 }

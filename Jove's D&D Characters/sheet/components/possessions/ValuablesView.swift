@@ -9,8 +9,8 @@ func valuables(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 			Panel(theme) {
 				Grid(table: [.init(.intrinsic(), gap: 16), .init(dimension)], rows: .init(align: .leftCenter)) {
 					c.possessions.valuables.items.map { item in [
-						JCSText(item.description, font: theme.smallNoteBoldFont, color: theme.ink),
-						JCSText(item.detail, font: theme.featureBodyFont, color: theme.ink, maxLines: 3),
+						JCSText(item, font: theme.smallNoteBoldFont, color: theme.color(.ink)),
+						JCSText(item.detail, font: theme.featureBodyFont, color: theme.color(.ink), lines: 0...3),
 					] }
 				}
 				rowRender: { theme.rowLineSeperator($0) }

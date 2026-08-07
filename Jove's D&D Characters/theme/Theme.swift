@@ -1,131 +1,100 @@
 import UIKit
 import SBJLayout
 
+public enum ThemeFont {
+	case pageTitle
+	case pageSubtitle
+	case sectionTitle
+	case body
+}
+
+public enum ThemeColor {
+	case pageTitle
+	case pageSubtitle
+	case sectionTitle
+	case ink
+	case titleBackground
+	case gridLine
+}
+
+public extension JCSText {
+	init(
+		_ text: StringPresentable?,
+		_ theme: Theme,
+		font: ThemeFont = .body,
+		color: ThemeColor = .ink,
+		align: Alignment? = nil,
+		lines: ClosedRange<Int> = 0...Int.max
+	) {
+		self.init(
+			text?.description,
+			theme,
+			font: font,
+			color: color,
+			align: align,
+			lines: lines)
+	}
+}
+
+public extension JCSText {
+	init(
+		_ text: String?,
+		_ theme: Theme,
+		font: ThemeFont = .body,
+		color: ThemeColor = .ink,
+		align: Alignment? = nil,
+		lines: ClosedRange<Int> = 0...Int.max
+	) {
+		self.init(
+			text?.description,
+			font: theme.font(font),
+			color: theme.color(color),
+			align: align,
+			lines: lines)
+	}
+}
+
 public protocol Theme: Sendable {
 	var name: String { get }
 
+	func font(_ font: ThemeFont) -> UIFont
+	func color(_ color: ThemeColor) -> UIColor
+
 	var pageBackground: JCSRect? { get }
-	var pageContentInset: CGSize { get }
+	var pageContentInset: Insets { get }
 
 	var pageHeaderPanel: JCSRect? { get }
-	var pageHeaderFont: UIFont { get }
-	var pageHeaderTextColor: UIColor { get }
-	var pageHeaderSubtitleFont: UIFont { get }
 	var pageHeaderInsets: Insets { get }
 
 	var sectionTitlePanel: JCSRect? { get }
-	var sectionTitleFont: UIFont { get }
-	var sectionTitleColor: UIColor { get }
 	var sectionTitleInsets: Insets { get }
+
 	var sectionTitleGap: CGFloat { get }
 	var sectionGap: CGFloat { get }
 
-	var panel: JCSRect { get }
-	var panelInset: CGFloat { get }
+	var contentPanel: JCSRect? { get }
+	var contentPanelInset: CGFloat { get }
 
-	var columnGap: CGFloat { get }
-	var rowGap: CGFloat { get }
+	func colLineSeperator(_ col: Grid.ColumnIteration)
 	func rowLineSeperator(_ row: Grid.RowIteration)
-
-	var largeAttributeFont: UIFont { get }
-	var smallNoteFont: UIFont { get }
-	var smallNoteBoldFont: UIFont { get }
-
-	var accentColor: UIColor { get }
-	var ink: UIColor { get }
-
-//TODO: normalize
-	var skillNameFont: UIFont { get }
-	var skillNameBoldFont: UIFont { get }
-	var skillMarkFont: UIFont { get }
-	var featureHeadingFont: UIFont { get }
-	var featureBodyFont: UIFont { get }
-	var proficiencyLineFont: UIFont { get }
-	var maneuverNameFont: UIFont { get }
-	var maneuverBodyFont: UIFont { get }
 }
 
+//TODO: Normalize
 public extension Theme {
-	func font(ofSize size: CGFloat = 12, bold: Bool = false) -> UIFont {
+	static func font(ofSize size: CGFloat = 12, bold: Bool = false) -> UIFont {
 		bold ? UIFont.boldSystemFont(ofSize: size) : UIFont.systemFont(ofSize: size)
 	}
 
-	var pageBackground: JCSRect? {
-		JCSRect(
-			fill: .init(red: 0xFC/255, green: 0xF8/255, blue: 0xF1/255, alpha: 1),
-			stroke: .init(red: 0x9A/255, green: 0x64/255, blue: 0, alpha: 1),
-			lineWidth: 2,
-			radius: 0)
-	}
-	var pageContentInset: CGSize { .init(width: 18.0, height: 18.0) }
+	var largeAttributeFont: UIFont { Self.font(ofSize: 22, bold: true) }
+	var smallNoteFont: UIFont { Self.font(ofSize: 9, bold: false) }
+	var smallNoteBoldFont: UIFont { Self.font(ofSize: 9, bold: true) }
 
-	var pageHeaderPanel: JCSRect? {
-		JCSRect(
-			fill: accentColor,
-			stroke: .clear,
-			lineWidth: 0,
-			radius: 6)
-	}
-	var pageHeaderFont: UIFont { font(ofSize: 22, bold: true) }
-	var pageHeaderTextColor: UIColor { .white }
-	var pageHeaderSubtitleFont: UIFont { font(ofSize: 11, bold: false) }
-	var pageHeaderInsets: Insets { .init(dx: 15, dy: 7) }
-
-	var sectionTitlePanel: JCSRect? {
-		JCSRect(
-			fill: accentColor,
-			stroke: .clear,
-			lineWidth: 0,
-			radius: 6)
-	}
-	var sectionTitleFont: UIFont { font(ofSize: 14, bold: true) }
-	var sectionTitleColor: UIColor { .white }
-	var sectionTitleInsets: Insets { .init(dx: 8, dy: 3) }
-	var sectionTitleGap: CGFloat { 5 }
-	var sectionGap: CGFloat { 9 }
-
-	var panel: JCSRect {
-		JCSRect(
-			fill: .white,
-			stroke: accentColor,
-			lineWidth: 1.5,
-			radius: 8)
-	}
-	var  panelInset: CGFloat { 6 }
-
-	var  columnGap: CGFloat { 4 }
-	var  rowGap: CGFloat { 4 }
-	func rowLineSeperator(_ row: Grid.RowIteration) {
-		if row.index == row.definition.rows.tracks.count-1 { return }
-		let r = row.rect
-		let gap = row.track.gap / 2.0
-		let s = CGPoint(x: r.minX, y: r.maxY + gap)
-		let e = CGPoint(x: r.maxX, y: r.maxY + gap)
-		JCSLine(stroke: UIColor(red: 0xED/255, green: 0xE1/255, blue: 0xCF/255, alpha: 1), lineWidth: 0.5).draw(from: s, to: e)
-	}
-
-	func colLineSeperator(_ col: Grid.ColumnIteration) {
-		if col.index == col.definition.columns.tracks.count-1 { return }
-		let r = col.rect
-		let gap = col.track.gap / 2.0
-		let s = CGPoint(x: r.maxX + gap, y: r.minY)
-		let e = CGPoint(x: r.maxX + gap, y: r.maxY)
-		JCSLine(stroke: UIColor(red: 0xED/255, green: 0xE1/255, blue: 0xCF/255, alpha: 1), lineWidth: 0.5).draw(from: s, to: e)
-	}
-
-	var largeAttributeFont: UIFont { font(ofSize: 22, bold: true) }
-	var smallNoteFont: UIFont { font(ofSize: 9, bold: false) }
-	var smallNoteBoldFont: UIFont { font(ofSize: 9, bold: true) }
-
-	var accentColor: UIColor { UIColor(red: 0x6B/255, green: 0x2D/255, blue: 0x2D/255, alpha: 1) }
-	var ink: UIColor { UIColor(red: 0x21/255, green: 0x1A/255, blue: 0x17/255, alpha: 1) }
-
-	var skillNameFont: UIFont { font(ofSize: 11.5, bold: false) }
-	var skillNameBoldFont: UIFont { font(ofSize: 11.5, bold: true) }
-	var skillMarkFont: UIFont { font(ofSize: 10, bold: true) }
-	var featureHeadingFont: UIFont { font(ofSize: 11.5, bold: true) }
-	var featureBodyFont: UIFont { font(ofSize: 9.7, bold: false) }
-	var proficiencyLineFont: UIFont { font(ofSize: 11, bold: true) }
-	var maneuverNameFont: UIFont { font(ofSize: 10.5, bold: true) }
-	var maneuverBodyFont: UIFont { font(ofSize: 8.2, bold: false) }
+	var skillNameFont: UIFont { Self.font(ofSize: 11.5, bold: false) }
+	var skillNameBoldFont: UIFont { Self.font(ofSize: 11.5, bold: true) }
+	var skillMarkFont: UIFont { Self.font(ofSize: 10, bold: true) }
+	var featureHeadingFont: UIFont { Self.font(ofSize: 11.5, bold: true) }
+	var featureBodyFont: UIFont { Self.font(ofSize: 9.7, bold: false) }
+	var proficiencyLineFont: UIFont { Self.font(ofSize: 11, bold: true) }
+	var maneuverNameFont: UIFont { Self.font(ofSize: 10.5, bold: true) }
+	var maneuverBodyFont: UIFont { Self.font(ofSize: 8.2, bold: false) }
 }

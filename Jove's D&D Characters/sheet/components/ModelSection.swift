@@ -30,8 +30,8 @@ func modelSection(
 					rows: .init(align: .leftCenter)
 				) {
 					visible.map { field in [
-						JCSText(field.label, font: theme.smallNoteBoldFont, color: theme.accentColor, maxLines: 2),
-						JCSText(field.value, font: theme.featureBodyFont, color: theme.ink, maxLines: 0),
+						JCSText(field.label, font: theme.smallNoteBoldFont, color: theme.color(.titleBackground), lines: 0...2),
+						JCSText(field.value, font: theme.featureBodyFont, color: theme.color(.ink)),
 					] }
 				}
 				rowRender: { theme.rowLineSeperator($0) }

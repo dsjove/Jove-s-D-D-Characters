@@ -13,8 +13,8 @@ struct PageTitle: JCSLayoutElement {
 			background: theme.pageHeaderPanel!
 		) {
 			Grid(vertFlow: .init(.fill())) {
-				JCSText(title, font: theme.largeAttributeFont, color: theme.pageHeaderTextColor)
-				JCSText(subtitle, font: theme.pageHeaderSubtitleFont, color: theme.pageHeaderTextColor)
+				JCSText(title, theme, font: .pageTitle, color: .pageTitle)
+				JCSText(subtitle, theme, font: .pageSubtitle, color: .pageSubtitle)
 			}
 		}
 	}

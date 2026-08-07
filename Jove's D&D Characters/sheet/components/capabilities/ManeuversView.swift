@@ -10,8 +10,8 @@ func maneuvers(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 				c.capabilities.maneuvers.map { item in
 					Panel(theme) {
 						Grid(vertFlow: .init(.intrinsic())) {
-							JCSText(item.name, font: theme.maneuverNameFont, color: theme.ink, align: .centerBottom, maxLines: 1)
-							JCSText(item.detail, font: theme.maneuverBodyFont, color: theme.ink, maxLines: 3)
+							JCSText(item.name, font: theme.maneuverNameFont, color: theme.color(.ink), align: .centerBottom, lines: 0...1)
+							JCSText(item.detail, font: theme.maneuverBodyFont, color: theme.color(.ink), lines: 0...3)
 						}
 					}
 				}

@@ -12,7 +12,7 @@ struct SectionTitle: JCSLayoutElement, EmptyCheckable {
 			align: .center,
 			background: theme.pageHeaderPanel!
 		) {
-			JCSText(title, font: theme.sectionTitleFont, color: theme.sectionTitleColor, lines: 1)
+			JCSText(title, theme, font: .sectionTitle, color: .sectionTitle, lines: 1...1)
 		}
 	}
 

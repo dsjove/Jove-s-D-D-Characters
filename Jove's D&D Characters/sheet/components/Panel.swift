@@ -3,7 +3,7 @@ import SBJLayout
 
 //TODO: use Panel from SBJLayout
 struct Panel: JCSLayoutElement {
-	let panel: JCSRect
+	let panel: JCSRect?
 	let panelInset: CGFloat
 	let aspectRatio: Bool
 	let content: JCSLayoutElements
@@ -13,8 +13,8 @@ struct Panel: JCSLayoutElement {
 		aspectRatio: Bool = false,
 		_ content: JCSLayoutElements
 		) {
-		self.panel = theme.panel
-		self.panelInset = theme.panelInset
+		self.panel = theme.contentPanel
+		self.panelInset = theme.contentPanelInset
 		self.aspectRatio = aspectRatio
 		self.content = content
 	}
@@ -39,7 +39,7 @@ struct Panel: JCSLayoutElement {
 	}
 	
 	func draw(in allocated: CGRect, measured: CGSize, align: Alignment) {
-		panel.draw(in: allocated)
+		panel?.draw(in: allocated)
 		let contentRect = allocated.insetBy(dx: panelInset, dy: panelInset)
 		for subview in content {
 			subview.draw(in: contentRect, measured: contentRect.size, align: align)

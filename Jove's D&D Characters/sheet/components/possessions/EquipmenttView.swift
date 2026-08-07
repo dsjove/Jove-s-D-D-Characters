@@ -8,29 +8,32 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 			SectionTitle(theme, jargon.equipmentTitle)
 			Panel(theme) {
 				Grid(table: [
-					.init(.intrinsic(), gap: 6),
-					.init(.intrinsic(), align: .center, gap: 6),
-					.init(.intrinsic(), gap: 6),
-					.init(.intrinsic(), gap: 6)],
+					.init(.intrinsic()),
+					.init(.intrinsic(), align: .center),
+					.init(.intrinsic()),
+					.init(.intrinsic()),
+					.init(.intrinsic()),
+					.init(.intrinsic()),
+					.init(.intrinsic())],
 				rows: .init(align: .leftCenter)) {
 					[
-						JCSText("Item", font: theme.proficiencyLineFont, color: theme.ink),
-						JCSText("Qty", font: theme.proficiencyLineFont, color: theme.ink),
-						JCSText("Location", font: theme.proficiencyLineFont, color: theme.ink),
-						JCSText("Description", font: theme.proficiencyLineFont, color: theme.ink),
+						JCSText("Item", font: theme.proficiencyLineFont, color: theme.color(.ink)),
+						JCSText("Qty", font: theme.proficiencyLineFont, color: theme.color(.ink)),
+						JCSText("Location", font: theme.proficiencyLineFont, color: theme.color(.ink)),
+						JCSText(" ", font: theme.proficiencyLineFont, color: theme.color(.ink)),
+						JCSText(" "),
+						JCSText(" "),
+						JCSText(" "),
 					]
 					c.possessions.equipment.map { item in
-						let state = [
-							item.totalWeight?.description,
-							item.attunement == .notRequired ? nil : item.attunement.description,
-							item.charges?.description,
-							item.isConsumable ? "Consumable" : nil,
-						].compactMap { $0 }.joined(separator: " • ")
-						return [
-							JCSText(item.name + (item.notes.isEmpty ? "" : "\n" + item.notes.joined(separator: "; ")), font: theme.smallNoteBoldFont, color: theme.ink, maxLines: 3),
-							JCSText(item.quantity.description, font: theme.featureBodyFont, color: theme.ink),
-							JCSText(item.location.description, font: theme.featureBodyFont, color: theme.ink),
-							JCSText(state, font: theme.featureBodyFont, color: theme.ink, maxLines: 2),
+						[
+							JCSText(item.name + (item.notes.isEmpty ? "" : "\n" + item.notes.joined(separator: "; ")), font: theme.smallNoteBoldFont, color: theme.color(.ink), lines: 0...3),
+							JCSText(item.quantity, font: theme.featureBodyFont, color: theme.color(.ink)),
+							JCSText(item.location, font: theme.featureBodyFont, color: theme.color(.ink)),
+							JCSText(item.totalWeight?.description, font: theme.featureBodyFont, color: theme.color(.ink)),
+							JCSText(item.attunement == .notRequired ? nil : item.attunement, font: theme.featureBodyFont, color: theme.color(.ink)),
+							JCSText(item.charges, font: theme.featureBodyFont, color: theme.color(.ink)),
+							JCSText(item.isConsumable ? "Consumable" : nil, font: theme.featureBodyFont, color: theme.color(.ink)),
 						]
 					}
 				}

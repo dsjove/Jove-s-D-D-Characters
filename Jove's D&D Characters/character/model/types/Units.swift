@@ -69,10 +69,10 @@ public enum LengthUnit: String, UnitType {
 		case .centimeter: return "cm"
 		case .meter: return "m"
 		case .kilometer: return "km"
-		case .inch: return "in."
-		case .foot: return "ft."
-		case .yard: return "yd."
-		case .mile: return "mi."
+		case .inch: return "in"
+		case .foot: return "ft"
+		case .yard: return "yd"
+		case .mile: return "mi"
 		}
 	}
 }
@@ -112,8 +112,8 @@ public enum WeightUnit: String, UnitType {
 		switch self {
 		case .gram: "g"
 		case .kilogram: "kg"
-		case .ounce: "oz."
-		case .pound: "lb."
+		case .ounce: "oz"
+		case .pound: "lb"
 		}
 	}
 }
@@ -143,10 +143,10 @@ public enum TimeUnit: String, UnitType {
 	public var abbreviation: String {
 		switch self {
 		case .round: return "rounds"
-		case .minute: return "min."
-		case .hour: return "hr."
+		case .minute: return "min"
+		case .hour: return "hr"
 		case .day: return "days"
-		case .year: return "yr."
+		case .year: return "yr"
 		}
 	}
 }
@@ -198,12 +198,12 @@ public enum VolumeUnit: String, UnitType {
 		switch self {
 		case .milliliter: "mL"
 		case .liter: "L"
-		case .teaspoon: "tsp."
-		case .tablespoon: "tbsp."
-		case .fluidOunce: "fl. oz."
+		case .teaspoon: "tsp"
+		case .tablespoon: "tbsp"
+		case .fluidOunce: "fl oz"
 		case .cup: "c."
-		case .pint: "pt."
-		case .gallon: "gal."
+		case .pint: "pt"
+		case .gallon: "gal"
 		}
 	}
 }
@@ -222,7 +222,7 @@ public struct Unit<Kind: UnitType>: Codable, Sendable, InvariantCheckable {
 	}
 
 	public var description: String {
-		"\(kind.format(value: value)) \(kind.abbreviation)"
+		"\(kind.format(value: value))\(kind.abbreviation)"
 	}
 
 

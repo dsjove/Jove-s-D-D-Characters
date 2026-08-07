@@ -1,5 +1,7 @@
 import UIKit
 
-public struct RainbowTheme: Theme {
-	public let name: String = "Rainbow"
+public class RainbowTheme: BasicTheme {
+	public init() {
+		super.init(name: "Rainbow")
+	}
 }

@@ -9,7 +9,7 @@ func reminders(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 			Panel(theme) {
 				Grid(vertFlow: .init(dimension, align: .left), rows: .init(align: .centerY)) {
 					c.notes.reminders.map { item in
-						JCSText("\(jargon.reminderMarker) \(item)", font: theme.smallNoteBoldFont, color: theme.ink, maxLines: 2)
+						JCSText("\(jargon.reminderMarker) \(item)", font: theme.smallNoteBoldFont, color: theme.color(.ink), lines: 0...2)
 					}
 				}
 				render: { theme.rowLineSeperator($0) }

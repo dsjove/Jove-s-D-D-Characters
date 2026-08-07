@@ -1,5 +1,25 @@
 import Foundation
 
+import SBJLayout
+import UIKit
+
+public extension JCSText {
+	init(_
+		text: StringPresentable?,
+		font: UIFont? = nil,
+		color: UIColor? = nil,
+		align: Alignment? = nil,
+		lines: ClosedRange<Int>? = nil
+	) {
+		self.init(
+			text?.description,
+			font: font,
+			color: color,
+			align: align,
+			lines: lines)
+	}
+}
+
 public protocol StringPresentable {
 	var description: String { get }
 	var abbreviation: String { get }

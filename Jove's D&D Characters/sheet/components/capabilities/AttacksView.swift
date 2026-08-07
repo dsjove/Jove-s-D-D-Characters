@@ -21,34 +21,34 @@ func attacks(
 				]
 				Grid(table: columns) {
 					jargon.attackSections.map {
-						JCSText($0, font: theme.proficiencyLineFont, color: theme.ink)
+						JCSText($0, font: theme.proficiencyLineFont, color: theme.color(.ink))
 					}
 					c.capabilities.attacks.map { attack in
 						[
 							JCSText(
 								attack.name.multiLineDescription,
 								font: theme.maneuverBodyFont,
-								color: theme.ink
+								color: theme.color(.ink)
 							),
 							JCSText(
 								attack.sheetResolutionDescription(jargon: jargon),
 								font: theme.maneuverBodyFont,
-								color: theme.ink
+								color: theme.color(.ink)
 							),
 							JCSText(
 								attack.sheetDamageDescription(jargon: jargon),
 								font: theme.maneuverBodyFont,
-								color: theme.ink
+								color: theme.color(.ink)
 							),
 							JCSText(
 								attack.sheetDeliveryDescription(jargon: jargon),
 								font: theme.maneuverBodyFont,
-								color: theme.ink
+								color: theme.color(.ink)
 							),
 							JCSText(
 								attack.sheetDetailDescription(jargon: jargon),
 								font: theme.maneuverBodyFont,
-								color: theme.ink
+								color: theme.color(.ink)
 							),
 						]
 					}

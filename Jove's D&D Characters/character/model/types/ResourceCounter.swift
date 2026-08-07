@@ -57,6 +57,6 @@ extension ResourceCounter: StringPresentable {
 	}
 
 	public var description: String {
-		"\(sheetUsageDescription)\(recharge.map { "@\($0.description)" } ?? "")"
+		"\(sheetUsageDescription)\(recharge.map { " @\($0.description)" } ?? "")"
 	}
 }

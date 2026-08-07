@@ -30,11 +30,11 @@ struct Panel: JCSLayoutElement {
 		let inset = bounds.inset(dx: panelInset, dy: panelInset)
 		let size = content.first?.measure(bounds: inset) ?? .zero
 		var outset = size.inset(dx: -panelInset, dy: -panelInset)
-		if aspectRatio {
-			let dim = max(outset.width, outset.height)
-			outset.width = dim
-			outset.height = dim
-		}
+//		if aspectRatio {
+//			let dim = max(outset.width, outset.height)
+//			outset.width = dim
+//			outset.height = dim
+//		}
 		return outset
 	}
 	

@@ -9,7 +9,6 @@ struct SectionTitle: JCSLayoutElement, EmptyCheckable {
 		isEmpty = title.isEmpty
 		self.panel = SBJLayout.Panel(
 			insets: theme.sectionTitleInsets,
-			align: .center,
 			background: theme.pageHeaderPanel!
 		) {
 			JCSText(title, theme, font: .sectionTitle, color: .sectionTitle, lines: 1...1)

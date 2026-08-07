@@ -9,7 +9,6 @@ struct PageTitle: JCSLayoutElement {
 		isEmpty = title.isEmpty && subtitle?.isEmpty ?? true
 		self.panel = SBJLayout.Panel(
 			insets: theme.pageHeaderInsets,
-			align: .center,
 			background: theme.pageHeaderPanel!
 		) {
 			Grid(vertFlow: .init(.fill())) {

@@ -212,7 +212,7 @@ public let BigGuy = Character(
 		features: [
 			.init("Giant's Might", source: "Rune Knight", counter: .init(recharge: .longRest, maximum: 5, used: 1), detail: "Become Large, gain advantage on Strength checks and saves, and deal extra damage."),
 			.init("Action Surge", source: "Fighter", counter: .init(recharge: .shortRest, maximum: 2, used: 1), detail: "Take one additional action."),
-			.init("Arcane Deflection", source: "War Magic", counter: .init(recharge: .turnOrRound, maximum: 1, used: 0, suffix: "reaction"), detail: "Use a reaction for +2 AC or +4 to a saving throw."),
+			.init("Arcane Deflection", source: "War Magic", counter: .init(recharge: .turnOrRound, maximum: 1, used: 0, suffix: "Reaction"), detail: "Use a reaction for +2 AC or +4 to a saving throw."),
 		],
 		spellcasting: [
 			.init(

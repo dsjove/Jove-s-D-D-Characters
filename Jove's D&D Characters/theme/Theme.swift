@@ -6,6 +6,7 @@ public enum ThemeFont {
 	case pageSubtitle
 	case sectionTitle
 	case body
+	case smallBody
 	case lineItem
 	case lineItemBold
 }
@@ -77,6 +78,15 @@ public protocol Theme: Sendable {
 	var contentPanel: JCSRect? { get }
 	var contentPanelInset: CGFloat { get }
 
-	func colLineSeperator(_ col: Grid.ColumnIteration)
-	func rowLineSeperator(_ row: Grid.RowIteration)
+	func colLineSeperator(_ col: Grid.ColumnIteration, _ every: Int?)
+	func rowLineSeperator(_ row: Grid.RowIteration, _ every: Int?)
+}
+
+extension Theme {
+	func colLineSeperator(_ col: Grid.ColumnIteration) {
+		colLineSeperator(col, nil)
+	}
+	func rowLineSeperator(_ row: Grid.RowIteration) {
+		rowLineSeperator(row, nil)
+	}
 }

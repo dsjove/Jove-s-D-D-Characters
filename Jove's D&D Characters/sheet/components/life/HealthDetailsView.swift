@@ -18,38 +18,38 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 		Grid(table: columns, rows: .init(.uniform())) {
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
-					JCSText("Max HP", theme, font: .body)
-					JCSText(value.maxHitPoints?.description, theme, font: .body, lines: 1...1)
+					JCSText("Max HP", theme, font: .lineItemBold)
+					JCSText(value.maxHitPoints?.description, theme, font: .pageTitle, lines: 1...1)
 				}
 			}
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
-					JCSText("HP", theme, font: .body)
-					JCSText(value.hitPoints?.description, theme, font: .body, lines: 1...1)
+					JCSText("HP", theme, font: .lineItemBold)
+					JCSText(value.hitPoints?.description, theme, font: .pageTitle, lines: 1...1)
 				}
 			}
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
-					JCSText("Temp HP", theme, font: .body)
-					JCSText(value.temporaryHitPoints?.description, theme, font: .body, lines: 1...1)
+					JCSText("Temp HP", theme, font: .lineItemBold)
+					JCSText(value.temporaryHitPoints?.description, theme, font: .pageTitle, lines: 1...1)
 				}
 			}
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
-					JCSText(value.lifeState.description, theme, font: .body)
+					JCSText(value.lifeState.description, theme, font: .lineItemBold)
 					JCSText("Stable" + (value.isStable ? "Yes" : "No"), theme, font: .body, lines: 1...1)
 				}
 			}
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
-					JCSText("Hit Dice", theme, font: .body)
+					JCSText("Hit Dice", theme, font: .lineItemBold)
 					JCSText(value.hitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? "", theme, font: .body, lines: 1...1)
 					JCSText(value.remainingHitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? "", theme, font: .body, lines: 1...1)
 				}
 			}
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
-					JCSText("Death Saves", theme, font: .body)
+					JCSText("Death\nSaves", theme, font: .lineItemBold)
 					JCSText("S\(value.deathSaveSuccesses)", theme, font: .body)
 					JCSText("F\(value.deathSaveFailures)", theme, font: .body)
 				}

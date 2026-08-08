@@ -1,6 +1,6 @@
 import SBJLayout
 
-struct InventoryPage: PagedContent {
+struct InventoryGroup: SheetGroupContent {
 	func isEmpty(_ c: Character) -> Bool {
 		c.possessions.isEmpty &&
 		c.person.associatedCreatures.isEffectivelyEmpty &&

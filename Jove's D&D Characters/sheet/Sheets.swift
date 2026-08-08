@@ -1,13 +1,13 @@
 import Foundation
 
 let BasicSheet = Sheet(
-	name: "Basic", pages: [
-		CombatPage(),
-		CapabilitiesPage(),
-		ClassFunctionPage(),
-		QuickReferencePage(),
-		InventoryPage(),
-		DossierPage(),
+	name: "Basic", content: [
+		CombatGroup(),
+		CapabilitiesGroup(),
+		ClassFunctionGroup(),
+		QuickReferenceGroup(),
+		InventoryGroup(),
+		DossierGroup(),
 	]
 )
 

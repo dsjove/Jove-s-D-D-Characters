@@ -1,6 +1,6 @@
 import SBJLayout
 
-struct CombatPage: PagedContent {
+struct CombatGroup: SheetGroupContent {
 	func isEmpty(_ c: Character) -> Bool {
 		c.person.identity.isEmpty &&
 		c.life.health.isEmpty &&

@@ -1,7 +1,7 @@
 import Foundation
 import SBJLayout
 
-struct DossierPage: PagedContent {
+struct DossierGroup: SheetGroupContent {
 	func isEmpty(_ c: Character) -> Bool {
 		c.person.identity.isEmpty &&
 		c.person.appearance.isEmpty &&

@@ -1,6 +1,6 @@
 import SBJLayout
 
-struct QuickReferencePage: PagedContent {
+struct QuickReferenceGroup: SheetGroupContent {
 	func isEmpty(_ c: Character) -> Bool {
 		c.notes.isEmpty
 	}

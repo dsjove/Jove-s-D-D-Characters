@@ -7,7 +7,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 	let conditions = c.life.currentConditions
 	if !health.isEmpty || !conditions.isEmpty {
 		SectionTitle(theme, "Health")
-		Grid(horzFlow: .init(.uniform(), align: .centerTop), wrapped: 7, rows: .init(.uniform())) {
+		Grid(horzFlow: .init(.uniform(), align: .centerTop), wrapped: 8, rows: .init(.uniform())) {
 			//if health.maxHitPoints != nil {
 				OldPanel(theme) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {

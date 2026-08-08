@@ -1,6 +1,6 @@
 import SBJLayout
 
-struct CapabilitiesPage: PagedContent {
+struct CapabilitiesGroup: SheetGroupContent {
 	func isEmpty(_ c: Character) -> Bool {
 		c.life.movementAndSenses.isEmpty &&
 		c.life.defenses.isEmpty &&

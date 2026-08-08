@@ -1,6 +1,6 @@
 import SBJLayout
 
-struct ClassFunctionPage: PagedContent {
+struct ClassFunctionGroup: SheetGroupContent {
 	func isEmpty(_ c: Character) -> Bool {
 		c.capabilities.resources.isEffectivelyEmpty &&
 		c.capabilities.maneuvers.isEffectivelyEmpty &&

@@ -53,7 +53,7 @@ public class BasicTheme: Theme {
 			radius: 0)
 	}
 	public var pageContentInset: Insets {
-		.init(dx: 18.0, dy: 18.0)
+		.init(dx: 14.0, dy: 14.0)
 	}
 
 	public var pageHeaderPanel: JCSRect? {

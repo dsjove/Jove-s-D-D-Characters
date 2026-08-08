@@ -252,7 +252,7 @@ public struct CharacterSheetPDFView: View {
 			jsonExportURL = nil
 		}
 
-		guard sheet.pages.contains(where: { !$0.isEmpty(character) }) else {
+		guard sheet.content.contains(where: { !$0.isEmpty(character) }) else {
 			pdfDocument = nil
 			exportURL = nil
 			errorMessage = CharacterSheetViewError.noRenderablePages.localizedDescription

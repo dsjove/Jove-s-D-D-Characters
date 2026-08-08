@@ -2,8 +2,8 @@ import Foundation
 
 public struct CharacterNotes: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public let dashboard: [DetailedSection]
-	public let reminders: [String] // P/G/S — player/GM notes; may be updated during play
-	public let campaign: [String] // P/G/S — player/GM notes; may be updated during play
+	public let reminders: [String] // P/G/S ~ — player/GM notes; may be updated during play
+	public let campaign: [String] // P/G/S ~ — player/GM notes; may be updated during play
 
 	public init(
 		dashboard: [DetailedSection] = .init(),

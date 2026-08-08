@@ -1,9 +1,9 @@
 import Foundation
 
 public struct CurrentConditions: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let conditions: [Attack.Condition] // S/G — session state, usually imposed or cleared in play
-	public let exhaustion: Int // S/G — session state, usually imposed or cleared in play; range: 0...6
-	public let persistentEffects: [String] // S/G — session state, usually imposed or cleared in play
+	public let conditions: [Attack.Condition] // S/G ~ — session state, usually imposed or cleared in play
+	public let exhaustion: Int // S/G ! — session state, usually imposed or cleared in play; range: 0...6
+	public let persistentEffects: [String] // S/G ~ — session state, usually imposed or cleared in play
 	public let concentration: String? // S/G ? — nil means the character is not concentrating
 
 	public init(

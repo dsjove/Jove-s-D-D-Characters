@@ -2,7 +2,7 @@ import SBJLayout
 
 struct QuickReferencePage: Page {
 	func isEmpty(_ c: Character) -> Bool {
-		false
+		c.notes.isEmpty
 	}
 
 	@JCSLayoutElementBuilder

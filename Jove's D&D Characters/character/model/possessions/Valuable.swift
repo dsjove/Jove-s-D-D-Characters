@@ -1,11 +1,11 @@
 import Foundation
 
 public struct Valuable: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let name: String // I+P/G — inventory/treasure description
-	public let detail: String // I+P/G — inventory/treasure description
-	public let itemCount: Int // I — changes through acquisition, sale, use, or loss; range: 0...
-	public let currency: Currency? // H/G — valuation denomination
-	public let currencyCount: Int // I — changes through acquisition, sale, use, or loss; range: 0...
+	public let name: String // I+P/G ! — inventory/treasure description
+	public let detail: String // I+P/G ~ — inventory/treasure description
+	public let itemCount: Int // I ! — changes through acquisition, sale, use, or loss; range: 0...
+	public let currency: Currency? // H/G ? — valuation denomination
+	public let currencyCount: Int // I ! — changes through acquisition, sale, use, or loss; range: 0...
 
 	public init(
 		_ name: String = .init(),
@@ -21,7 +21,7 @@ public struct Valuable: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 		self.currencyCount = currencyCount
 	}
 
-	public var hasQuantity: Bool { !(itemCount != 0) || !(currencyCount != 0) }
+	public var hasQuantity: Bool { itemCount != 1 || currencyCount != 0 }
 
 	public var copperValue: Int? {
 		guard let currency else { return nil }

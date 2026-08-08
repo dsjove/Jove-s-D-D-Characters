@@ -1,25 +1,39 @@
 import Foundation
 
+public enum CharacterSize: String, JCSEnum {
+	case tiny, small, medium, large, huge, gargantuan
+}
+
+public enum CreatureType: String, JCSEnum {
+	case aberration, beast, celestial, construct, dragon, elemental, fey, fiend, giant, humanoid, monstrosity, ooze, plant, undead, other
+}
+
 public struct Identity: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let name: String // P — player-authored identity
-	public let player: String // P — player-authored identity
-	public let orientation: Orientation
-	public let ancestry: String // H+P/G — rules option, player or GM selected
-	public let classes: [ClassLevel]
-	public let alignment: CharacterAlignment
+	public let name: String // P ! — player-authored identity
+	public let player: String // P ~ — optional player name
+	public let orientation: Orientation? // P ? — nil means not established
+	public let ancestry: String // H+P/G ! — rules option, player or GM selected
+	public let creatureType: CreatureType? // H+P/G ? — nil means not established
+	public let size: CharacterSize? // H+P/G ? — nil means not established
+	public let classes: [ClassLevel] // H+P+A ! — at least one class for a ready-to-play character
+	public let alignment: CharacterAlignment? // P/G ? — nil means not established
 
 	public init(
 		_ name: String = .init(),
 		player: String = .init(),
-		orientation: Orientation = .init(),
+		orientation: Orientation? = nil,
 		ancestry: String = .init(),
+		creatureType: CreatureType? = nil,
+		size: CharacterSize? = nil,
 		classes: [ClassLevel] = .init(),
-		alignment: CharacterAlignment = .init()
+		alignment: CharacterAlignment? = nil
 	) {
 		self.name = name
 		self.player = player
 		self.orientation = orientation
 		self.ancestry = ancestry
+		self.creatureType = creatureType
+		self.size = size
 		self.classes = classes
 		self.alignment = alignment
 	}
@@ -30,15 +44,19 @@ public struct Identity: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 
 	public var isEmpty: Bool {
 		name.isEmpty &&
+		player.isEmpty &&
+		orientation == nil &&
 		ancestry.isEmpty &&
+		creatureType == nil &&
+		size == nil &&
 		classes.isEmpty &&
-		player.isEmpty
+		alignment == nil
 	}
 
 	public func invariant() throws {
-		try requireMeaningful(name, \Self.name)
-		try requireMeaningful(ancestry, \Self.ancestry)
-		try require(!classes.isEmpty, \Self.classes, "must contain at least one class")
+		guard !isEmpty else { return }
+		if !name.isEmpty { try requireMeaningful(name, \Self.name) }
+		if !ancestry.isEmpty { try requireMeaningful(ancestry, \Self.ancestry) }
 		try validate(classes, at: \Self.classes)
 	}
 }
@@ -49,8 +67,10 @@ extension Identity {
 			ancestry,
 			sheetClassesSummary,
 			sheetSubclassSummary,
-			alignment.description
-		].filter({!$0.isEmpty}).joined(separator: "  •  ")
+			creatureType?.description,
+			size?.description,
+			alignment?.description
+		].compactMap { $0 }.filter({!$0.isEmpty}).joined(separator: "  •  ")
 	}
 
 	public var sheetClassesSummary: String  {

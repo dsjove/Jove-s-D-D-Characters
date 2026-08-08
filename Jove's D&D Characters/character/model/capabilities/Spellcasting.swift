@@ -40,16 +40,17 @@ extension SpellLevel {
 }
 
 public struct SpellSlotCounter: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let level: SpellLevel // H+A — slot tier unlocked through advancement
+	public let level: SpellLevel // H+A ! — slot tier unlocked through advancement
 	public let counter: ResourceCounter
 
 	public init(
 		_ level: SpellLevel = .first,
 		maximum: Int = 0,
-		used: Int = 0
+		used: Int = 0,
+		recharge: Recharge = .longRest
 	) {
 		self.level = level
-		self.counter = .init(recharge: .longRest, maximum: maximum, used: used)
+		self.counter = .init(recharge: recharge, maximum: maximum, used: used)
 	}
 
 	public var maximum: Int { counter.maximum ?? 0 }
@@ -67,18 +68,18 @@ public struct SpellSlotCounter: Codable, Sendable, EmptyCheckable, InvariantChec
 }
 
 public struct Spell: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let name: String // H+P/G — rules spell data or custom content
-	public let level: SpellLevel // H+P/G — rules spell data or custom content
-	public let school: String // H+P/G — rules spell data or custom content
-	public let preparation: SpellPreparation // H+P/G — rules spell data or custom content
-	public let castingTime: String // H+P/G — rules spell data or custom content
-	public let range: String // H+P/G — rules spell data or custom content
-	public let components: [String] // H+P/G — rules spell data or custom content
-	public let duration: String // H+P/G — rules spell data or custom content
-	public let ritual: Bool // H+P/G — rules spell data or custom content
-	public let concentration: Bool // H+P/G — rules spell data or custom content
-	public let isPrepared: Bool? // P+S — player preparation state, often changed after rest
-	public let detail: String // H+P/G — rules spell data or custom content
+	public let name: String // H+P/G ! — rules spell data or custom content
+	public let level: SpellLevel // H+P/G ! — rules spell data or custom content
+	public let school: String // H+P/G ~ — rules spell data or custom content
+	public let preparation: SpellPreparation // H+P/G ! — rules spell data or custom content
+	public let castingTime: String // H+P/G ~ — rules spell data or custom content
+	public let range: String // H+P/G ~ — rules spell data or custom content
+	public let components: [String] // H+P/G ~ — rules spell data or custom content
+	public let duration: String // H+P/G ~ — rules spell data or custom content
+	public let ritual: Bool // H+P/G ! — rules spell data or custom content
+	public let concentration: Bool // H+P/G ! — rules spell data or custom content
+	public let isPrepared: Bool? // P+S ? — player preparation state, often changed after rest
+	public let detail: String // H+P/G ~ — rules spell data or custom content
 
 	public init(
 		_ name: String = .init(),
@@ -109,7 +110,7 @@ public struct Spell: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	}
 
 	public var isEmpty: Bool {
-		name.isEmpty && school.isEmpty && castingTime.isEmpty && range.isEmpty && components.isEmpty && duration.isEmpty && detail.isEmpty
+		name.isEmpty && level == .cantrip && school.isEmpty && preparation == .known && castingTime.isEmpty && range.isEmpty && components.isEmpty && duration.isEmpty && !ritual && !concentration && isPrepared == nil && detail.isEmpty
 	}
 
 	public func invariant() throws {
@@ -118,15 +119,15 @@ public struct Spell: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 }
 
 public struct Spellcasting: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let source: String // H+P/A — rules source selected through build/advancement
-	public let tradition: MagicTradition? // H+P/A — rules source selected through build/advancement
-	public let ability: Ability? // H+P/A — rules source selected through build/advancement
-	public let spellSaveDC: Int? // C(H+P+A+S) — derived from ability, proficiency, and effects; range: 1... when set
-	public let spellAttackBonus: Int? // C(H+P+A+S) — derived from ability, proficiency, and effects; range: any Int when set
+	public let source: String // H+P/A ~ — rules source selected through build/advancement
+	public let tradition: MagicTradition? // H+P/A ? — rules source selected through build/advancement
+	public let ability: Ability? // H+P/A ? — rules source selected through build/advancement
+	public let spellSaveDC: Int? // C(H+P+A+S) ? — derived from ability, proficiency, and effects; range: 1... when set
+	public let spellAttackBonus: Int? // C(H+P+A+S) ? — derived from ability, proficiency, and effects; range: any Int when set
 	public let slots: [SpellSlotCounter]
 	public let spells: [Spell]
 	public let focus: String? // P/H/G ? — nil means no focus has been established
-	public let notes: [String] // P/H/G — player, rules, or campaign detail
+	public let notes: [String] // P/H/G ~ — player, rules, or campaign detail
 
 	public init(
 		_ source: String = .init(),

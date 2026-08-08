@@ -60,17 +60,17 @@ public final class HealthTracker: HealthCounterInfo {
 	public var hitPoints: Int? { _hitPoints }
 	public var temporaryHitPoints: Int? { _temporaryHitPoints }
 
-	private var _maxHitPoints: Int // range: 1...
-	private var _hitPoints: Int // range: 0..._maxHitPoints
-	private var _temporaryHitPoints: Int // range: 0...
+	private var _maxHitPoints: Int // H+A+R/C ! — maximum hit points; range: 1...
+	private var _hitPoints: Int // S ! — current hit points; range: 0..._maxHitPoints
+	private var _temporaryHitPoints: Int // S ! — current temporary hit points; range: 0...
 
-	public private(set) var hitDice: [Dice]?
-	public private(set) var remainingHitDice: [Dice]?
+	public private(set) var hitDice: [Dice]? // H+A ? — nil means hit-die capacity is not tracked
+	public private(set) var remainingHitDice: [Dice]? // S ? — nil means remaining hit dice are not tracked
 
-	public private(set) var deathSaveSuccesses: Int // range: 0...3
-	public private(set) var deathSaveFailures: Int // range: 0...3
+	public private(set) var deathSaveSuccesses: Int // R+S ! — current death-save successes; range: 0...3
+	public private(set) var deathSaveFailures: Int // R+S ! — current death-save failures; range: 0...3
 
-	public private(set) var isStable: Bool
+	public private(set) var isStable: Bool // S ! — whether a creature at 0 HP is stable
 
 	public init(
 		maxHitPoints: Int,

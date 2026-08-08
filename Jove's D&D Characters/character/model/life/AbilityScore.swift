@@ -29,7 +29,7 @@ extension Ability {
 public struct AbilityScore: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public static let die = Die.d20
 
-	public let ability: Ability // H — fixed rules key
+	public let ability: Ability // H ! — fixed rules key
 	public let score: Int? // P/R+A ? — nil means not established; range: 1...30 when set
 	public let modifier: Int? // C(score) ? — nil means not yet derived; range: -5...10 when set
 	public let savingThrow: Int? // C(score+H+A) ? — nil means not yet derived; range: any Int when set

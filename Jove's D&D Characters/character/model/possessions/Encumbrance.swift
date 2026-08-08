@@ -8,9 +8,9 @@ public enum EncumbranceState: String, JCSEnum {
 }
 
 public struct Encumbrance: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let carryingCapacity: Unit<WeightUnit>? // C(H+P+A+S) — derived from rules, ability, size, and effects
-	public let carriedWeight: Unit<WeightUnit>? // C(I+H+S) — derived from inventory, rules, and active effects
-	public let state: EncumbranceState? // C(I+H+S) — derived from inventory, rules, and active effects
+	public let carryingCapacity: Unit<WeightUnit>? // C(H+P+A+S) ? — derived from rules, ability, size, and effects
+	public let carriedWeight: Unit<WeightUnit>? // C(I+H+S) ? — derived from inventory, rules, and active effects
+	public let state: EncumbranceState? // C(I+H+S) ? — derived from inventory, rules, and active effects
 
 	public init(carryingCapacity: Unit<WeightUnit>? = nil, carriedWeight: Unit<WeightUnit>? = nil, state: EncumbranceState? = nil) {
 		self.carryingCapacity = carryingCapacity.map { .init(max($0.value, 0), $0.kind) }

@@ -2,7 +2,7 @@ import SBJLayout
 
 struct CapabilitiesPage: Page {
 	func isEmpty(_ c: Character) -> Bool {
-		false
+		c.life.movementAndSenses.isEmpty && c.life.defenses.isEmpty && c.capabilities.proficiencies.isEmpty && c.capabilities.skills.isEffectivelyEmpty && c.capabilities.features.isEffectivelyEmpty
 	}
 
 	@JCSLayoutElementBuilder
@@ -12,9 +12,11 @@ struct CapabilitiesPage: Page {
 			movementAndSenses(c, theme, jargon)
 			defenses(c, theme, jargon)
 			proficiencies(c, theme, jargon)
-			Grid(table: [.init(gap: theme.sectionGap), .init(.fill())]) {
-				skills(c, theme, jargon)
-				features(c, theme, jargon)
+			if c.capabilities.skills.hasContent || c.capabilities.features.hasContent {
+				Grid(table: [.init(gap: theme.sectionGap), .init(.fill())]) {
+					skills(c, theme, jargon)
+					features(c, theme, jargon)
+				}
 			}
 		}
 	}

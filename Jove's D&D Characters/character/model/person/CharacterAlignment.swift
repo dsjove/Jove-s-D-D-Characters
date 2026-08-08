@@ -25,8 +25,8 @@ extension MoralityAxis {
 }
 
 public struct CharacterAlignment: Codable, Sendable, InvariantCheckable {
-	public let order: AlignmentAxis // P/G — player choice or campaign adjudication
-	public let morality: MoralityAxis // P/G — player choice or campaign adjudication
+	public let order: AlignmentAxis // P/G ! — player choice or campaign adjudication
+	public let morality: MoralityAxis // P/G ! — player choice or campaign adjudication
 
 	public init(
 		_ order: AlignmentAxis = .neutral,

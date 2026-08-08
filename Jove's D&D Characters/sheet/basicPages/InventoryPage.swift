@@ -2,7 +2,7 @@ import SBJLayout
 
 struct InventoryPage: Page {
 	func isEmpty(_ c: Character) -> Bool {
-		false
+		c.possessions.isEmpty && c.person.associatedCreatures.isEffectivelyEmpty && c.person.relationships.isEffectivelyEmpty
 	}
 
 	@JCSLayoutElementBuilder
@@ -10,9 +10,11 @@ struct InventoryPage: Page {
 		if !isEmpty(c) {
 			PageTitle(theme, jargon.inventoryTitle)
 			equipment(c, theme, jargon)
-			Grid(table: [.init(gap: theme.sectionGap), .init(.fill())]) {
-				money2(c, theme, jargon, .intrinsic())
-				valuables(c, theme, jargon)
+			if !c.possessions.moneys.isEmpty || !c.possessions.valuables.isEmpty {
+				Grid(table: [.init(gap: theme.sectionGap), .init(.fill())]) {
+					money(c, theme, jargon, .intrinsic())
+					valuables(c, theme, jargon)
+				}
 			}
 			associatedCreatures(c, theme, jargon)
 			relationships(c, theme, jargon)

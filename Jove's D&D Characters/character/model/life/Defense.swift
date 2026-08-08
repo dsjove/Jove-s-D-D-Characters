@@ -1,11 +1,11 @@
 import Foundation
 
 public struct Defenses: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let damageResistances: [Attack.DamageType] // H+P/G+S — rules/choices; active effects may change in play
-	public let vulnerabilities: [Attack.DamageType] // H+P/G+S — rules/choices; active effects may change in play
-	public let damageImmunities: [Attack.DamageType] // H+P/G+S — rules/choices; active effects may change in play
-	public let conditionImmunities: [Attack.Condition] // H+P/G+S — rules/choices; active effects may change in play
-	public let notes: [String] // H+P/G+S — rules/choices; active effects may change in play
+	public let damageResistances: [Attack.DamageType] // H+P/G+S ~ — rules/choices; active effects may change in play
+	public let vulnerabilities: [Attack.DamageType] // H+P/G+S ~ — rules/choices; active effects may change in play
+	public let damageImmunities: [Attack.DamageType] // H+P/G+S ~ — rules/choices; active effects may change in play
+	public let conditionImmunities: [Attack.Condition] // H+P/G+S ~ — rules/choices; active effects may change in play
+	public let notes: [String] // H+P/G+S ~ — rules/choices; active effects may change in play
 
 	public init(
 		damageResistances: [Attack.DamageType] = [],

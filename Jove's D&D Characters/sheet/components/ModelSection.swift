@@ -10,7 +10,9 @@ struct SheetField: EmptyCheckable {
 		self.value = value ?? ""
 	}
 
-	var isEmpty: Bool { value.isEmpty }
+	var isEmpty: Bool {
+		value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+	}
 }
 
 @JCSLayoutElementBuilder

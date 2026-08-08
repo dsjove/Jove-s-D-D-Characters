@@ -6,6 +6,8 @@ public let Quinn = Character(
 			"Quinn Amethyst Starsong",
 			orientation: .init(bioSex: .woman),
 			ancestry: "Half-Elf",
+			creatureType: .humanoid,
+			size: .medium,
 			classes: [
 				.init("Sorcerer", specialty: "Wild Magic", level: 10)
 			],

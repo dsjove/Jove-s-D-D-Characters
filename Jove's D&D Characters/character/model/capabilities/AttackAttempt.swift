@@ -3,14 +3,14 @@ import Foundation
 public struct AttackAttempt: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public static let attackDie = Attack.attackDie
 	public let attack: Attack
-	public let rollMode: RollMode // S/G — set for the current attempt/situation
-	public let cover: Cover // S/G — set for the current attempt/situation
-	public let targetArmorClass: Int? // S/G — set for the current attempt/situation; range: 0... when set
-	public let situationalAttackModifier: Int // S/G — set for the current attempt/situation; range: any Int
-	public let rolls: [Int] // R — direct die-roll input/result; each value: 1...20
-	public let selectedDie: Int? // R — direct die-roll input/result; range: 1...20 when set
-	public let attackTotal: Int? // C(R+H+S) — computed from roll, attack data, and situation; range: any Int when set
-	public let outcome: Outcome // C(R+H+S) — computed from roll, attack data, and situation
+	public let rollMode: RollMode // S/G ! — set for the current attempt/situation
+	public let cover: Cover // S/G ! — set for the current attempt/situation
+	public let targetArmorClass: Int? // S/G ? — set for the current attempt/situation; range: 0... when set
+	public let situationalAttackModifier: Int // S/G ! — set for the current attempt/situation; range: any Int
+	public let rolls: [Int] // R ~ — direct die-roll input/result; each value: 1...20
+	public let selectedDie: Int? // R ? — direct die-roll input/result; range: 1...20 when set
+	public let attackTotal: Int? // C(R+H+S) ? — computed from roll, attack data, and situation; range: any Int when set
+	public let outcome: Outcome // C(R+H+S) ! — computed from roll, attack data, and situation
 
 	public init(
 		_ attack: Attack = .init(),

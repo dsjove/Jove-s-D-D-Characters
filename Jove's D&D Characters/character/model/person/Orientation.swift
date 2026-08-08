@@ -88,9 +88,9 @@ public enum Pronouns: String, JCSEnum {
 }
 
 public struct Orientation: Codable, Sendable, StringPresentable {
-	public let bioSex: BioSex
-	public let gender: Gender
-	public let pronouns: Pronouns
+	public let bioSex: BioSex // P ! — selected biological sex
+	public let gender: Gender // P ! — selected gender
+	public let pronouns: Pronouns // P ! — selected pronouns
 
 	public init(
 		bioSex: BioSex? = nil,

@@ -23,7 +23,7 @@ func attacks(
 					jargon.attackSections.map {
 						JCSText($0, theme, font: .lineItemBold)
 					}
-					c.capabilities.attacks.map { attack in
+					c.capabilities.attacks.filter { !$0.isEmpty }.map { attack in
 						[
 							JCSText(
 								attack.name.multiLineDescription,

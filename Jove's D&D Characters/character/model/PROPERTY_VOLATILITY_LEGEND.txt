@@ -65,3 +65,11 @@ Optional collection example:
 
 - `nil` — the collection has not been established or is not being tracked.
 - `[]` — the collection is established and currently contains no members.
+
+## Validation and emptiness contract
+
+`isEmpty` answers whether a value contains meaningful character-sheet content. Technical application metadata such as `Character.id` does not count as character-sheet content. For types with a zero-argument/default initializer, `T().isEmpty` must be `true`. A non-default leaf value that carries domain information must make its containing value non-empty.
+
+`invariant()` validates structural consistency. Empty and deliberately partial/in-progress values are allowed to satisfy structural invariants; supplied values must still obey their ranges and cross-field rules.
+
+`Character.validateForPlay()` is the separate completeness check for fields required to begin play (character name, ancestry, at least one class, and ability scores). This separation permits `Character()` and work-in-progress characters to remain valid model values without claiming they are ready for play.

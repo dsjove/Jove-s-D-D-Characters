@@ -9,14 +9,14 @@ public enum Recharge: String, JCSEnum {
 }
 
 public struct ResourceCounter: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let recharge: Recharge? // H+A/G — rules/level or GM-defined limit
-	public let maximum: Int? // H+A/G — rules/level or GM-defined limit; range: 0... when set
-	public let used: Int // S — changes during play; resets per recharge; range: 0...maximum, or 0... when maximum is unset
-	public let suffix: String // P/H — display text from rules or author
+	public let recharge: Recharge? // H+A/G ? — rules/level or GM-defined limit
+	public let maximum: Int? // H+A/G ? — rules/level or GM-defined limit; range: 0... when set
+	public let used: Int // S ! — changes during play; resets per recharge; range: 0...maximum, or 0... when maximum is unset
+	public let suffix: String // P/H ~ — display text from rules or author
 
 	public init(
 		recharge: Recharge? = nil,
-		maximum: Int? = 1,
+		maximum: Int? = nil,
 		used: Int = 0,
 		suffix: String = ""
 	) {

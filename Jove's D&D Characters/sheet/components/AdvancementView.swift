@@ -7,7 +7,7 @@ func advancement(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dim
 	if !value.isEmpty {
 		modelSection(theme, "Advancement", fields: [
 			.init("Method", value.method?.description),
-			.init("Experience", value.currentxperience?.description),
+			.init("Experience", value.currentExperience?.description),
 			.init("Next Level XP", value.nextLevelExperience?.description),
 			.init("Milestone", value.milestoneProgress),
 			.init("Feats", sheetList(value.feats)),

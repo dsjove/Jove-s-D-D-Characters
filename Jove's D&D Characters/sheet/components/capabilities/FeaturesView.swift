@@ -9,8 +9,8 @@ func features(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimens
 			SectionTitle(theme, jargon.featuresTitle)
 			Panel(theme) {
 				Grid(vertFlow: .init(dimension)) {
-					c.capabilities.features.map { item in [
-						JCSText(item.name + item.source, theme, font: .lineItemBold),
+					c.capabilities.features.filter { !$0.isEmpty }.map { item in [
+						JCSText([item.name, item.source].filter { !$0.isEmpty }.joined(separator: " — "), theme, font: .lineItemBold),
 						JCSText(item.detail, theme),
 						JCSText(item.counter, theme),
 					]}

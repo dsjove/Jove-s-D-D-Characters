@@ -1,14 +1,14 @@
 import Foundation
 
 public struct Appearance: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let age: Unit<TimeUnit>? // P+T/G — initial value plus time/campaign effects
-	public let height: Unit<LengthUnit>? // P/G — player-authored or campaign-altered description
-	public let weight: Unit<WeightUnit>? // P/G — player-authored or campaign-altered description
-	public let build: String // P/G — player-authored or campaign-altered description
-	public let skin: String // P/G — player-authored or campaign-altered description
-	public let eyes: String // P/G — player-authored or campaign-altered description
-	public let hair: String // P/G — player-authored or campaign-altered description
-	public let portrait: String // P/G — player-authored or campaign-altered description
+	public let age: Unit<TimeUnit>? // P+T/G ? — initial value plus time/campaign effects
+	public let height: Unit<LengthUnit>? // P/G ? — player-authored or campaign-altered description
+	public let weight: Unit<WeightUnit>? // P/G ? — player-authored or campaign-altered description
+	public let build: String // P/G ~ — player-authored or campaign-altered description
+	public let skin: String // P/G ~ — player-authored or campaign-altered description
+	public let eyes: String // P/G ~ — player-authored or campaign-altered description
+	public let hair: String // P/G ~ — player-authored or campaign-altered description
+	public let portrait: String // P/G ~ — player-authored or campaign-altered description
 
 	public init(
 		age: Unit<TimeUnit>? = nil,

@@ -1,7 +1,7 @@
 import Foundation
 
 public struct DetailedSection: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	let name: String // P/G/S — author-entered; may be campaign or session notes
+	let name: String // P/G/S ~ — author-entered; may be campaign or session notes
 	let sections: [TitledBody]
 
 	public init(_ name: String = "", _ sections: [TitledBody] = []) {
@@ -35,8 +35,8 @@ public struct DetailedSection: Codable, Sendable, EmptyCheckable, InvariantCheck
 }
 
 public struct TitledBody: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let title: String // P/G/S — author-entered; may be campaign or session notes
-	public let body: String // P/G/S — author-entered; may be campaign or session notes
+	public let title: String // P/G/S ~ — author-entered; may be campaign or session notes
+	public let body: String // P/G/S ~ — author-entered; may be campaign or session notes
 
 	public init(_ key: String = "", _ body: String = "") {
 		self.title = key

@@ -6,22 +6,27 @@ func spellcasting(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ di
 	if c.capabilities.spellcasting.hasContent {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, "Spellcasting")
-			c.capabilities.spellcasting.map { casting in
+			c.capabilities.spellcasting.filter { !$0.isEmpty }.map { casting in
 				Panel(theme) {
 					Grid(vertFlow: .init(dimension)) {
 						JCSText(casting.source.isEmpty ? "Spellcasting" : casting.source, theme, font: .lineItemBold)
-						JCSText([
+						let castingMetadata = [
 							casting.tradition?.description,
 							casting.ability.map { "\($0.description)" },
 							casting.spellSaveDC.map { "Save DC \($0)" },
 							casting.spellAttackBonus.map { "Attack \($0.signedDescription())" },
 							casting.focus.map { "Focus: \($0)" },
-						].compactMap { $0 }.joined(separator: " • "), theme)
-						JCSText(casting.slots.filter { !$0.isEmpty }.map { "\($0.level.description): \($0.counter.description)" }.joined(separator: " • "), theme, font: .lineItemBold)
+						].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " • ")
+						if !castingMetadata.isEmpty { JCSText(castingMetadata, theme) }
+						let slotText = casting.slots.filter { !$0.isEmpty }.map { "\($0.level.description): \($0.counter.description)" }.joined(separator: " • ")
+						if !slotText.isEmpty { JCSText(slotText, theme, font: .lineItemBold) }
 						casting.spells.filter { !$0.isEmpty }.map { spell in
-							JCSText("\(spell.isPrepared == true ? "● " : "")\(spell.name) — \(spell.level.description)\(spell.detail.isEmpty ? "" : ": \(spell.detail)")", theme, lines: 0...3)
+							let flags = [spell.ritual ? "Ritual" : nil, spell.concentration ? "Concentration" : nil].compactMap { $0 }.joined(separator: ", ")
+							let meta = [spell.level.description, spell.school, spell.preparation.description, spell.castingTime, spell.range, spell.components.isEmpty ? nil : spell.components.joined(separator: "/"), spell.duration, flags.isEmpty ? nil : flags, spell.isPrepared.map { $0 ? "Prepared" : "Not prepared" }].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " • ")
+							return JCSText("\(spell.name)\(meta.isEmpty ? "" : " — \(meta)")\(spell.detail.isEmpty ? "" : "\n\(spell.detail)")", theme, lines: 0...5)
 						}
-						JCSText(casting.notes.joined(separator: "; "), theme)
+						let notes = casting.notes.filter { !$0.isEmpty }.joined(separator: "; ")
+						if !notes.isEmpty { JCSText(notes, theme) }
 					}
 				}
 			}

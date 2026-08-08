@@ -4,7 +4,10 @@ public let Ash = Character(
 	person: .init(
 		identity: .init(
 			"Ash",
+			orientation: .init(bioSex: .man),
 			ancestry: "Hobgoblin",
+			creatureType: .humanoid,
+			size: .medium,
 			classes: [
 				.init("Rogue", specialty: "Thief", level: 5),
 				.init("Fighter", specialty: "Battle Master", level: 5)],
@@ -177,7 +180,7 @@ public let Ash = Character(
 			.init("ON YOUR TURN", [.init("Action", "Attack twice / Dash / Disengage"),
 								   .init("Bonus", "Cunning Action / Fast Hands"),
 								   .init("Move", "30 ft; control nearby enemies")]),
-			.init("REACTIONS", [.init("Dodge", "Halve one visible attacker's hit"),
+			.init("REACTIONS", [.init("Uncanny Dodge", "Halve one visible attacker's hit"),
 								.init("Riposte", "Attack after a melee miss"),
 								.init("Sentinel", "Opportunity hit makes speed 0")]),
 			.init("RESOURCES", [.init("Dice", "4d8 superiority dice"),

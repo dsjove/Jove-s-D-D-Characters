@@ -34,11 +34,11 @@ extension Die {
 }
 
 public struct Dice: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let number: Int // H/P/G — roll formula chosen from rules or custom content; range: 0...
-	public let type: Die // H/P/G — roll formula chosen from rules or custom content
+	public let number: Int // H/P/G ! — roll formula chosen from rules or custom content; range: 0...
+	public let type: Die // H/P/G ! — roll formula chosen from rules or custom content
 
 	public init(
-		_ number: Int = 1,
+		_ number: Int = 0,
 		_ type: Die = .d0
 	) {
 		self.number = max(0, number)
@@ -51,6 +51,7 @@ public struct Dice: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 
 
 	public func invariant() throws {
+		guard !isEmpty else { return }
 		try require(number >= 0, \Self.number, "must be at least 0")
 		try require(type.sides >= 1, \Self.type.sides, "must be at least 1")
 	}
@@ -64,7 +65,7 @@ extension Dice: StringPresentable {
 
 public struct Roll: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public let dice: [Dice]
-	public let modifier: Int // H/P/G — roll formula chosen from rules or custom content; range: any Int
+	public let modifier: Int // H/P/G ! — roll formula chosen from rules or custom content; range: any Int
 
 	public init(
 		_ number: Int = 1,

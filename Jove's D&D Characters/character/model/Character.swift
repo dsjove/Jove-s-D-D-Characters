@@ -1,6 +1,7 @@
 import Foundation
 
-public struct Character: Codable, Sendable, EmptyCheckable, InvariantCheckable {
+public struct Character: Codable, Sendable, EmptyCheckable, InvariantCheckable, Identifiable {
+	public let id: String // C ! — stable application identifier; not part of the D&D rules domain
 	public let person: Person
 	public let life: Life
 	public let capabilities: Capabilities
@@ -9,6 +10,7 @@ public struct Character: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public let notes: CharacterNotes
 
 	public init(
+		id: String = UUID().uuidString,
 		person: Person = .init(),
 		life: Life = .init(),
 		capabilities: Capabilities = .init(),
@@ -16,6 +18,7 @@ public struct Character: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 		advancement: Advancement = .init(),
 		notes: CharacterNotes = .init()
 	) {
+		self.id = id
 		self.person = person
 		self.life = life
 		self.capabilities = capabilities
@@ -25,10 +28,16 @@ public struct Character: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	}
 
 	public var isEmpty: Bool {
-		person.isEmpty && life.isEmpty && capabilities.isEmpty && possessions.isEmpty && advancement.isEmpty && notes.isEmpty
+		person.isEmpty &&
+		life.isEmpty &&
+		capabilities.isEmpty &&
+		possessions.isEmpty &&
+		advancement.isEmpty &&
+		notes.isEmpty
 	}
 
 	public func invariant() throws {
+		guard !isEmpty else { return }
 		try validate(person, at: \Self.person)
 		try validate(life, at: \Self.life)
 		try validate(capabilities, at: \Self.capabilities)
@@ -36,21 +45,33 @@ public struct Character: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 		try validate(advancement, at: \Self.advancement)
 		try validate(notes, at: \Self.notes)
 	}
-}
 
-public enum CharacterInitializationError: Error, Equatable {
-	case emptyPlayerName
-	case emptyAncestry
-	case noClasses
-	case noAbilityScores
+	public enum CharacterInitializationError: Error, Equatable {
+		case emptyCharacterName
+		case emptyAncestry
+		case noClasses
+		case noAbilityScores
+	}
+
+	public func validateForPlay() throws {
+		try invariant()
+		let identity = person.identity
+		guard !identity.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw CharacterInitializationError.emptyCharacterName }
+		guard !identity.ancestry.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw CharacterInitializationError.emptyAncestry }
+		guard !identity.classes.isEmpty else { throw CharacterInitializationError.noClasses }
+		guard !life.abilities.isEffectivelyEmpty else { throw CharacterInitializationError.noAbilityScores }
+	}
 }
 
 public extension Character {
 	init(
+		id: String = UUID().uuidString,
 // Required for begin sheet creation
 		name: String,
 		ancestry: String,
 		orientation: Orientation,
+		creatureType: CreatureType = .humanoid,
+		size: CharacterSize = .medium,
 		classes: [ClassLevel],
 		alignment: CharacterAlignment,
 		abilityScores: [AbilityScore],
@@ -77,7 +98,7 @@ public extension Character {
 		notes: CharacterNotes = .init()
 	) throws {
 		guard !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-			throw CharacterInitializationError.emptyPlayerName
+			throw CharacterInitializationError.emptyCharacterName
 		}
 
 		guard !ancestry.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
@@ -93,11 +114,13 @@ public extension Character {
 		}
 
 		self.init(
+			id: id,
 			person: .init(
 				identity: .init(
 					name,
 					player: player,
 					orientation: orientation, ancestry: ancestry,
+					creatureType: creatureType, size: size,
 					classes: classes,
 					alignment: alignment
 				),

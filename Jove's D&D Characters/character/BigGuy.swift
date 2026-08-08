@@ -5,10 +5,13 @@ public let BigGuy = Character(
 	person: .init(
 		identity: .init(
 			"Big Guy",
+			player: "Test Player",
 			orientation: .init(bioSex: .man),
 			ancestry: "Goliath",
+			creatureType: .humanoid,
+			size: .medium,
 			classes: [
-				.init("Fighter", specialty: "Rune Knight", level: 12),
+				.init("Fighter", specialty: "Battle Master", level: 12),
 				.init("Wizard", specialty: "War Magic", level: 3),
 			],
 			alignment: .init(.lawful, .good)
@@ -77,15 +80,15 @@ public let BigGuy = Character(
 			hitDice: [.init(12, .d10), .init(3, .d6)],
 			remainingHitDice: [.init(8, .d10), .init(2, .d6)],
 			temporaryHitPoints: 11,
-			deathSaveSuccesses: 1,
-			deathSaveFailures: 1,
-			isStable: true
+			deathSaveSuccesses: 0,
+			deathSaveFailures: 0,
+			isStable: false
 		),
 		abilities: [
 			.init(.strength, score: 22, modifier: 6, savingThrow: 11),
 			.init(.dexterity, score: 12, modifier: 1, savingThrow: 1),
 			.init(.constitution, score: 20, modifier: 5, savingThrow: 10),
-			.init(.intelligence, score: 16, modifier: 3, savingThrow: 8),
+			.init(.intelligence, score: 16, modifier: 3, savingThrow: 3),
 			.init(.wisdom, score: 14, modifier: 2, savingThrow: 2),
 			.init(.charisma, score: 10, modifier: 0, savingThrow: 0),
 		],
@@ -101,7 +104,7 @@ public let BigGuy = Character(
 			vulnerabilities: [.psychic],
 			damageImmunities: [.poison],
 			conditionImmunities: [.frightened, .poisoned],
-			notes: ["Resistance to weapon damage applies while Stone's Endurance is active."]
+			notes: ["Cold resistance is ancestral; the runic armor grants fire resistance and poison immunity; a campaign curse causes psychic vulnerability."]
 		),
 		movementAndSenses: .init(
 			speeds: [
@@ -121,10 +124,10 @@ public let BigGuy = Character(
 			notes: ["Flying speed comes from Winged Boots and is unavailable when they are inactive."]
 		),
 		currentConditions: .init(
-			conditions: [.grappled, .poisoned],
+			conditions: [.grappled, .blinded],
 			exhaustion: 2,
-			persistentEffects: ["Enlarged by Giant's Might", "Armor of Agathys has 11 temporary hit points remaining"],
-			concentration: "Fly"
+			persistentEffects: ["Enlarged by a Potion of Growth", "Runic armor ward has 11 temporary hit points remaining"],
+			concentration: "Blur"
 		)
 	),
 	capabilities: .init(
@@ -141,7 +144,7 @@ public let BigGuy = Character(
 				target: .init(.creatureOrObject, count: 1, restrictions: "A target within reach"),
 				damage: [
 					.init(.init(2, .d6, 7), type: .slashing, appliesAbilityModifier: true),
-					.init(.init(1, .d8), type: .force, timing: .onHit, condition: "While Giant's Might is active"),
+					.init(.init(1, .d8), type: .force, timing: .onHit, condition: "While the greatsword's force rune is active"),
 				],
 				criticalThreshold: 19,
 				properties: [.heavy, .reach, .twoHanded, .magical, .silvered, .special],
@@ -210,8 +213,8 @@ public let BigGuy = Character(
 			.init(.survival, modifier: 7, mark: .proficient),
 		],
 		features: [
-			.init("Giant's Might", source: "Rune Knight", counter: .init(recharge: .longRest, maximum: 5, used: 1), detail: "Become Large, gain advantage on Strength checks and saves, and deal extra damage."),
-			.init("Action Surge", source: "Fighter", counter: .init(recharge: .shortRest, maximum: 2, used: 1), detail: "Take one additional action."),
+			.init("Second Wind", source: "Fighter", counter: .init(recharge: .shortRest, maximum: 1, used: 0), detail: "Regain 1d10 + 12 hit points as a bonus action."),
+			.init("Action Surge", source: "Fighter", counter: .init(recharge: .shortRest, maximum: 1, used: 1), detail: "Take one additional action."),
 			.init("Arcane Deflection", source: "War Magic", counter: .init(recharge: .turnOrRound, maximum: 1, used: 0, suffix: "Reaction"), detail: "Use a reaction for +2 AC or +4 to a saving throw."),
 		],
 		spellcasting: [
@@ -245,13 +248,13 @@ public let BigGuy = Character(
 				notes: ["Does not require material components."]
 			),
 		],
-		maneuverSaveDC: 16,
+		maneuverSaveDC: 19,
 		maneuvers: [
 			.init("Brace", detail: "Use a reaction to attack a creature entering reach."),
 			.init("Commander's Strike", detail: "Direct an ally to make a weapon attack."),
 		],
 		proficiencies: .init(
-			savingThrows: [.strength, .constitution, .intelligence],
+			savingThrows: [.strength, .constitution],
 			languages: ["Common", "Giant", "Dwarvish", "Draconic"],
 			tools: ["Mason's tools", "Smith's tools", "Vehicles (land)"],
 			armor: ["Light armor", "Medium armor", "Heavy armor", "Shields"],
@@ -263,13 +266,13 @@ public let BigGuy = Character(
 		),
 		resources: [
 			.init("Superiority Dice", counter: .init(recharge: .shortRest, maximum: 5, used: 2, suffix: "d10"), notes: ["Used by maneuvers."]),
-			.init("Rune Invocations", counter: .init(recharge: .longRest, maximum: 4, used: 1, suffix: "runes"), notes: ["Each known rune can be invoked once."]),
+			.init("Runic Armor Charges", counter: .init(recharge: .dawn, maximum: 5, used: 2, suffix: "charges"), notes: ["Charges belong to the +2 runic plate magic item."]),
 			.init("Legendary Effort", counter: .init(recharge: .oncePerDay, maximum: nil, used: 3, suffix: "points spent"), notes: ["An intentionally unbounded counter for UI testing."]),
 		]
 	),
 	possessions: .init(
 		equipment: [
-			.init("Runic plate armor", location: .equipped, quantity: 1, unitWeight: .init(65, .pound), armorContribution: 18, attunement: .attuned, charges: .init(recharge: .dawn, maximum: 5, used: 2), isConsumable: false, notes: ["Automatically resizes with Giant's Might."]),
+			.init("+2 Runic plate armor", location: .equipped, quantity: 1, unitWeight: .init(65, .pound), armorContribution: 20, attunement: .attuned, charges: .init(recharge: .dawn, maximum: 5, used: 2), isConsumable: false, notes: ["Magic +2 plate; automatically resizes to fit its attuned wearer."]),
 			.init("Tower shield", location: .equipped, quantity: 1, unitWeight: .init(18, .pound), armorContribution: 2, attunement: .notRequired, isConsumable: false, notes: ["Painted with the Granite Watch crest."]),
 			.init("Potion of supreme healing", location: .carried, quantity: 3, unitWeight: .init(8, .ounce), attunement: .notRequired, isConsumable: true, notes: ["Restores 10d4 + 20 hit points."]),
 			.init("Portable ram", location: .stored, quantity: 1, unitWeight: .init(35, .pound), attunement: .unattuned, isConsumable: false, notes: ["Stored on the wagon."]),
@@ -283,7 +286,7 @@ public let BigGuy = Character(
 	),
 	advancement: .init(
 		method: .experience,
-		currentxperience: 165_000,
+		currentExperience: 165_000,
 		nextLevelExperience: 195_000,
 		milestoneProgress: "Two of three giant seals restored",
 		feats: ["Great Weapon Master", "Sentinel", "War Caster"],
@@ -292,10 +295,10 @@ public let BigGuy = Character(
 	),
 	notes: .init(
 		dashboard: [
-			.init("TURN OPTIONS", [.init("Action", "Attack three times, cast a spell, or use a maneuver."), .init("Bonus Action", "Giant's Might, Second Wind, or Misty Step."), .init("Reaction", "Shield, Arcane Deflection, Brace, or an opportunity attack.")]),
-			.init("ACTIVE EFFECTS", [.init("Concentration", "Fly"), .init("Size", "Large from Giant's Might"), .init("Temporary HP", "11 from Armor of Agathys")]),
+			.init("TURN OPTIONS", [.init("Action", "Attack three times, cast a spell, or use a maneuver."), .init("Bonus Action", "Second Wind or Misty Step."), .init("Reaction", "Shield, Arcane Deflection, Brace, or an opportunity attack.")]),
+			.init("ACTIVE EFFECTS", [.init("Concentration", "Blur"), .init("Armor", "+2 runic plate and shield = AC 22"), .init("Temporary HP", "11 from Armor of Agathys")]),
 		],
-		reminders: ["Apply the extra Giant's Might damage only once per turn.", "Arcane Deflection limits spellcasting on the next turn."],
+		reminders: ["Superiority dice recharge on a short or long rest.", "Arcane Deflection limits spellcasting on the next turn."],
 		campaign: ["The northern giant seal is beneath the ruined observatory.", "Captain Vale expects a report before the next full moon."]
 	)
 )

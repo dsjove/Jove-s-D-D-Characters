@@ -1,9 +1,13 @@
 import Foundation
 
+public let EmptyGuy = Character()
+
 public let Characters: [Character] = [
-	BigGuy,
 	Quinn,
 	Ash,
 	Doug,
 	Firestar,
+	BigGuy,
+	JSONGuy,
+	EmptyGuy,
 ]

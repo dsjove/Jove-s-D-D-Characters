@@ -83,9 +83,9 @@ public enum Skill: String, JCSEnum {
 }
 
 public struct SkillScore: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let skill: Skill // H — fixed rules key
-	public let modifier: Int // C(H+P+A+S) — derived from ability, proficiency, and effects; range: any Int
-	public let mark: SkillMark // H+P+A — proficiency choice/feature; changes at advancement
+	public let skill: Skill // H ! — fixed rules key
+	public let modifier: Int // C(H+P+A+S) ! — derived from ability, proficiency, and effects; range: any Int
+	public let mark: SkillMark // H+P+A ! — proficiency choice/feature; changes at advancement
 
 	public init(
 		_ skill: Skill,

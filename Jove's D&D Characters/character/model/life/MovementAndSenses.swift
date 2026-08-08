@@ -9,8 +9,8 @@ public enum MovementMode: String, JCSEnum {
 }
 
 public struct MovementSpeed: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let mode: MovementMode // H — rules-defined movement mode
-	public let distance: Unit<LengthUnit> // H+C/S — rules base plus active effects
+	public let mode: MovementMode // H ! — rules-defined movement mode
+	public let distance: Unit<LengthUnit> // H+C/S ! — rules base plus active effects
 
 	public init(_ mode: MovementMode = .walking, distance: Unit<LengthUnit> = .init(0, .foot)) {
 		self.mode = mode
@@ -37,9 +37,9 @@ public enum SenseKind: String, JCSEnum {
 }
 
 public struct SpecialSense: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let kind: SenseKind // H+P/G — rules feature or campaign-granted sense
-	public let range: Unit<LengthUnit>? // H+P/G — rules feature or campaign-granted sense
-	public let detail: String // H+P/G — rules feature or campaign-granted sense
+	public let kind: SenseKind // H+P/G ! — rules feature or campaign-granted sense
+	public let range: Unit<LengthUnit>? // H+P/G ? — rules feature or campaign-granted sense
+	public let detail: String // H+P/G ~ — rules feature or campaign-granted sense
 
 	public init(_ kind: SenseKind = .other, range: Unit<LengthUnit>? = nil, detail: String = "") {
 		self.kind = kind
@@ -57,7 +57,7 @@ public struct SpecialSense: Codable, Sendable, EmptyCheckable, InvariantCheckabl
 public struct MovementAndSenses: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public let speeds: [MovementSpeed]
 	public let senses: [SpecialSense]
-	public let notes: [String] // H/P/G — rules, player choice, or campaign source
+	public let notes: [String] // H/P/G ~ — rules, player choice, or campaign source
 
 	public init(speeds: [MovementSpeed] = [], senses: [SpecialSense] = [], notes: [String] = []) {
 		self.speeds = speeds

@@ -13,7 +13,7 @@ func skills(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimensio
 					.init(.intrinsic(), gap: 20),
 				]
 				Grid(table: cols, rows: .init(align: .leftCenter)) {
-					c.capabilities.skills.map { item in [
+					c.capabilities.skills.filter { !$0.isEmpty }.map { item in [
 						JCSText(item.skill, theme, font: (item.mark != .none ? .lineItemBold : .lineItem)),
 						JCSText(item.modifier.signedDescription() + item.mark.description, theme, font: (item.mark != .none ? .lineItemBold : .lineItem)),
 						JCSText("(\(item.skill.ability.abbreviation))", theme)

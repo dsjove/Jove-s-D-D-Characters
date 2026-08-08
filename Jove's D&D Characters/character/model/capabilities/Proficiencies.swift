@@ -1,12 +1,12 @@
 import Foundation
 
 public struct Proficiencies: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let savingThrows: [Ability] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
-	public let languages: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
-	public let tools: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
-	public let armor: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
-	public let weapons: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
-	public let expertise: [String] // H+P+A/G — rules/build choices; may change at advancement or by GM grant
+	public let savingThrows: [Ability] // H+P+A/G ~ — rules/build choices; may change at advancement or by GM grant
+	public let languages: [String] // H+P+A/G ~ — rules/build choices; may change at advancement or by GM grant
+	public let tools: [String] // H+P+A/G ~ — rules/build choices; may change at advancement or by GM grant
+	public let armor: [String] // H+P+A/G ~ — rules/build choices; may change at advancement or by GM grant
+	public let weapons: [String] // H+P+A/G ~ — rules/build choices; may change at advancement or by GM grant
+	public let expertise: [String] // H+P+A/G ~ — rules/build choices; may change at advancement or by GM grant
 	public let other: [DetailedSection]
 
 	public init(

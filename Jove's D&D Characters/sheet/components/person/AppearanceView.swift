@@ -13,6 +13,7 @@ func appearance(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dime
 			.init("Skin", value.skin),
 			.init("Eyes", value.eyes),
 			.init("Hair", value.hair),
+			.init("Portrait", value.portrait),
 		], dimension)
 	}
 }

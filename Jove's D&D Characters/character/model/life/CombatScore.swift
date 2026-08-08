@@ -30,8 +30,8 @@ extension CombatStat {
 }
 
 public struct CombatScore: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let stat: CombatStat // H — fixed rules key
-	public let score: Int? // C/S — usually derived; some counters change in session; range: stat-dependent (AC/PP 0..., PB 2...6, inspiration 0..., initiative any Int)
+	public let stat: CombatStat // H ! — fixed rules key
+	public let score: Int? // C/S ? — usually derived; some counters change in session; range: stat-dependent (AC/PP 0..., PB 2...6, inspiration 0..., initiative any Int)
 	public var isBonus: Bool {stat.isBonus}
 
 	public init(

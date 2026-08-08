@@ -27,7 +27,11 @@ extension Attack {
 	}
 
 	func sheetDetailDescription(jargon: any Jargon) -> String {
-		var details: [String] = []
+		var details: [String] = [
+			"Source: \(source.description)",
+			ability.map { "Ability: \($0.description)" },
+			"Proficient: \(isProficient ? "Yes" : "No")"
+		].compactMap { $0 }
 		if !properties.isEmpty {
 			details.append(
 				properties.sorted { $0.rawValue < $1.rawValue }
@@ -130,6 +134,9 @@ extension Attack.Damage: StringPresentable {
 		var result = description
 		if timing != .onHit {
 			result += " (\(timing.description.lowercased()))"
+		}
+		if appliesAbilityModifier {
+			result += " + ability modifier"
 		}
 		if !condition.isEmpty {
 			result += " — \(condition)"

@@ -24,14 +24,14 @@ extension HealthCounterInfo {
 }
 
 public struct HealthCounter: Codable, Sendable, HealthCounterInfo, EmptyCheckable, InvariantCheckable {
-	public let maxHitPoints: Int? // H+A+R/C — rules plus advancement; may use a roll or formula; range: 1... when set
-	public let hitPoints: Int? // S — changes with damage, healing, and rests; range: 0...maxHitPoints when set
+	public let maxHitPoints: Int? // H+A+R/C ? — rules plus advancement; may use a roll or formula; range: 1... when set
+	public let hitPoints: Int? // S ? — changes with damage, healing, and rests; range: 0...maxHitPoints when set
 	public let hitDice: [Dice]? // H+A ? — nil means hit-die capacity has not been established; [] means none
 	public let remainingHitDice: [Dice]? // S ? — nil means remaining dice are not tracked; [] means all are expended
-	public let temporaryHitPoints: Int? // S — granted and consumed during play; range: 0... when set
-	public let deathSaveSuccesses: Int // R+S — roll results tracked until reset; range: 0...3
-	public let deathSaveFailures: Int // R+S — roll results tracked until reset; range: 0...3
-	public let isStable: Bool // S — changes from saves, healing, or stabilization
+	public let temporaryHitPoints: Int? // S ? — granted and consumed during play; range: 0... when set
+	public let deathSaveSuccesses: Int // R+S ! — roll results tracked until reset; range: 0...3
+	public let deathSaveFailures: Int // R+S ! — roll results tracked until reset; range: 0...3
+	public let isStable: Bool // S ! — changes from saves, healing, or stabilization
 
 	public init(
 		maxHitPoints: Int? = nil,

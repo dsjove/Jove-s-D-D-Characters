@@ -5,15 +5,15 @@ public struct Sheet {
 	let pages: [Page]
 }
 
-public let Sheets: [Sheet] = [
-	.init(name: "Basic", pages: [
+public let BasicSheet = Sheet(
+	name: "Basic", pages: [
 		CombatPage(),
 		CapabilitiesPage(),
 		ClassFunctionPage(),
 		QuickReferencePage(),
 		InventoryPage(),
 		DossierPage(),
-	]),
-	.init(name: "Other", pages: [
-	]),
-]
+	]
+)
+
+public let Sheets: [Sheet] = [BasicSheet]

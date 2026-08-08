@@ -3,20 +3,20 @@ import Foundation
 public struct Attack: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	public static let attackDie = Die.d20
 
-	public let name: String // H+P/G — rules content, player build, or GM customization
-	public let source: Source // H+P/G — rules content, player build, or GM customization
-	public let delivery: Delivery // H+P/G — rules content, player build, or GM customization
-	public let resolution: Resolution // H+P/G — rules content, player build, or GM customization
-	public let ability: Ability? // H+P/G — rules content, player build, or GM customization
-	public let isProficient: Bool // H+P/G — rules content, player build, or GM customization
-	public let attackBonus: Int? // C(H+P+A+S) — derived from ability/proficiency/items/effects; range: any Int when set
+	public let name: String // H+P/G ! — rules content, player build, or GM customization
+	public let source: Source // H+P/G ! — rules content, player build, or GM customization
+	public let delivery: Delivery // H+P/G ! — rules content, player build, or GM customization
+	public let resolution: Resolution // H+P/G ! — rules content, player build, or GM customization
+	public let ability: Ability? // H+P/G ? — rules content, player build, or GM customization
+	public let isProficient: Bool // H+P/G ! — rules content, player build, or GM customization
+	public let attackBonus: Int? // C(H+P+A+S) ? — derived from ability/proficiency/items/effects; range: any Int when set
 	public let range: Range
 	public let target: Target
 	public let damage: [Damage]
-	public let criticalThreshold: Int // H+P/G — rules content, player build, or GM customization; range: 1...20
-	public let properties: Set<Property> // H+P/G — rules content, player build, or GM customization
+	public let criticalThreshold: Int // H+P/G ! — rules content, player build, or GM customization; range: 1...20
+	public let properties: Set<Property> // H+P/G ~ — rules content, player build, or GM customization
 	public let effects: [Effect]
-	public let notes: String // H+P/G — rules content, player build, or GM customization
+	public let notes: String // H+P/G ~ — rules content, player build, or GM customization
 
 	public init(
 		_ name: String = .init(),
@@ -51,7 +51,7 @@ public struct Attack: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 	}
 
 	public var isEmpty: Bool {
-		name.isEmpty && damage.isEffectivelyEmpty && effects.isEffectivelyEmpty && notes.isEmpty
+		name.isEmpty && source == .other && delivery == .melee && resolution.isDefaultAttackRoll && ability == nil && !isProficient && attackBonus == nil && range.isDefaultReach5 && target.isDefaultOneCreature && damage.isEffectivelyEmpty && criticalThreshold == Self.attackDie.sides && properties.isEmpty && effects.isEffectivelyEmpty && notes.isEmpty
 	}
 
 	public func invariant() throws {
@@ -103,9 +103,9 @@ public extension Attack {
 	}
 
 	struct Range: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-		public let kind: Kind // H+P/G — rules definition or custom content
-		public let normal: Unit<LengthUnit> // H+P/G — rules definition or custom content
-		public let long: Unit<LengthUnit>? // H+P/G — rules definition or custom content
+		public let kind: Kind // H+P/G ! — rules definition or custom content
+		public let normal: Unit<LengthUnit> // H+P/G ! — rules definition or custom content
+		public let long: Unit<LengthUnit>? // H+P/G ? — rules definition or custom content
 
 		public init(
 			_ kind: Kind = .reach,
@@ -132,8 +132,10 @@ public extension Attack {
 		}
 
 
+		var isDefaultReach5: Bool { kind == .reach && normal.kind == .foot && normal.value == 5 && long == nil }
+
 		public var isEmpty: Bool {
-			normal.value == 0 && long.isEmpty
+			kind == .reach && normal.value == 0 && long.isEmpty
 		}
 	
 
@@ -148,10 +150,10 @@ public extension Attack {
 	}
 
 	struct Target: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-		public let kind: Kind // H+P/G — rules definition or custom content
-		public let count: Int? // H+P/G — rules definition or custom content; range: 1... when set
+		public let kind: Kind // H+P/G ! — rules definition or custom content
+		public let count: Int? // H+P/G ? — rules definition or custom content; range: 1... when set
 		public let area: Area?
-		public let restrictions: String // H+P/G — rules definition or custom content
+		public let restrictions: String // H+P/G ~ — rules definition or custom content
 
 		public init(
 			_ kind: Kind = .creature,
@@ -178,8 +180,10 @@ public extension Attack {
 			case selfOnly
 		}
 
+		var isDefaultOneCreature: Bool { kind == .creature && count == 1 && area == nil && restrictions.isEmpty }
+
 		public var isEmpty: Bool {
-			count == nil && area.isEmpty && restrictions.isEmpty
+			kind == .creature && count == nil && area.isEmpty && restrictions.isEmpty
 		}
 
 		public func invariant() throws {
@@ -190,9 +194,9 @@ public extension Attack {
 	}
 
 	struct Area: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-		public let shape: Shape // H+P/G — rules definition or custom content
-		public let size: Unit<LengthUnit> // H+P/G — rules definition or custom content
-		public let width: Unit<LengthUnit>? // H+P/G — rules definition or custom content
+		public let shape: Shape // H+P/G ! — rules definition or custom content
+		public let size: Unit<LengthUnit> // H+P/G ! — rules definition or custom content
+		public let width: Unit<LengthUnit>? // H+P/G ? — rules definition or custom content
 
 		public init(
 			_ shape: Shape = .sphere,
@@ -213,7 +217,7 @@ public extension Attack {
 		}
 
 		public var isEmpty: Bool {
-			size.value == 0 && width.isEmpty
+			shape == .sphere && size.value == 0 && width.isEmpty
 		}
 
 		public func invariant() throws {
@@ -225,10 +229,10 @@ public extension Attack {
 
 	struct Damage: Codable, Sendable, EmptyCheckable, InvariantCheckable {
 		public let roll: Roll
-		public let type: DamageType // H+P/G — rules definition or custom content
-		public let timing: Timing // H+P/G — rules definition or custom content
-		public let appliesAbilityModifier: Bool // H+P/G — rules definition or custom content
-		public let condition: String // H+P/G — rules definition or custom content
+		public let type: DamageType // H+P/G ! — rules definition or custom content
+		public let timing: Timing // H+P/G ! — rules definition or custom content
+		public let appliesAbilityModifier: Bool // H+P/G ! — rules definition or custom content
+		public let condition: String // H+P/G ~ — rules definition or custom content
 
 		public init(
 			_ roll: Roll = .init(),
@@ -245,7 +249,7 @@ public extension Attack {
 		}
 
 		public var isEmpty: Bool {
-			roll.isEmpty && condition.isEmpty
+			roll.isEmpty && type == .bludgeoning && timing == .onHit && !appliesAbilityModifier && condition.isEmpty
 		}
 	
 
@@ -301,11 +305,11 @@ public extension Attack {
 	}
 
 	struct Effect: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-		public let trigger: Trigger // H+P/G — rules definition or custom content
-		public let condition: Condition? // H+P/G — rules definition or custom content
-		public let duration: Duration? // H+P/G — rules definition or custom content
+		public let trigger: Trigger // H+P/G ! — rules definition or custom content
+		public let condition: Condition? // H+P/G ? — rules definition or custom content
+		public let duration: Duration? // H+P/G ? — rules definition or custom content
 		public let savingThrow: SavingThrow?
-		public let description: String // H+P/G — rules definition or custom content
+		public let description: String // H+P/G ~ — rules definition or custom content
 
 		public init(
 			trigger: Trigger = .onHit,
@@ -322,7 +326,7 @@ public extension Attack {
 		}
 
 		public var isEmpty: Bool {
-			condition == nil && duration == nil && savingThrow.isEmpty && description.isEmpty
+			trigger == .onHit && condition == nil && duration == nil && savingThrow.isEmpty && description.isEmpty
 		}
 
 		public func invariant() throws {
@@ -379,10 +383,10 @@ public extension Attack {
 	}
 
 	struct SavingThrow: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-		public let ability: Ability // H+P/G — rules definition or custom content
+		public let ability: Ability // H+P/G ! — rules definition or custom content
 		public let dc: Int? // H/C/G ? — nil means the DC has not been established; range: 1... when set
-		public let timing: SaveTiming // H+P/G — rules definition or custom content
-		public let success: SaveResult // H+P/G — rules definition or custom content
+		public let timing: SaveTiming // H+P/G ! — rules definition or custom content
+		public let success: SaveResult // H+P/G ! — rules definition or custom content
 
 		public init(
 			ability: Ability = .strength,
@@ -410,5 +414,12 @@ public extension Attack {
 		case whenApplied
 		case startOfTurn
 		case endOfTurn
+	}
+}
+
+private extension Attack.Resolution {
+	var isDefaultAttackRoll: Bool {
+		if case .attackRoll = self { return true }
+		return false
 	}
 }

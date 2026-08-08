@@ -1,11 +1,11 @@
 import Foundation
 
 public struct Personality: Codable, Sendable, EmptyCheckable, InvariantCheckable {
-	public let traits: [String] // P/G — player-authored; may evolve through campaign
-	public let ideals: [String] // P/G — player-authored; may evolve through campaign
-	public let bonds: [String] // P/G — player-authored; may evolve through campaign
-	public let flaws: [String] // P/G — player-authored; may evolve through campaign
-	public let manner: [String] // P/G — player-authored; may evolve through campaign
+	public let traits: [String] // P/G ~ — player-authored; may evolve through campaign
+	public let ideals: [String] // P/G ~ — player-authored; may evolve through campaign
+	public let bonds: [String] // P/G ~ — player-authored; may evolve through campaign
+	public let flaws: [String] // P/G ~ — player-authored; may evolve through campaign
+	public let manner: [String] // P/G ~ — player-authored; may evolve through campaign
 
 	public init(
 		traits: [String] = .init(),

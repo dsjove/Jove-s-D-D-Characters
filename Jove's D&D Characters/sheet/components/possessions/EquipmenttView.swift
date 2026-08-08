@@ -8,7 +8,7 @@ func equipment(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 			let encumbranceSummary = c.possessions.encumbrance.isEmpty ? "" : " (\(c.possessions.encumbrance.description))"
 			SectionTitle(theme, jargon.equipmentTitle + encumbranceSummary)
 			if c.possessions.equipment.hasContent {
-				Panel(theme) {
+				OldPanel(theme) {
 					Grid(
 					table: [
 						.init(.fill()),

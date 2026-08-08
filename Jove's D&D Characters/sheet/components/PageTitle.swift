@@ -3,14 +3,11 @@ import SBJLayout
 
 struct PageTitle: JCSLayoutElement {
 	let isEmpty: Bool
-	let panel: SBJLayout.Panel<Grid>
+	let panel: OldPanel
 
 	init(_ theme: Theme, _ title: String, _ subtitle: String? = nil) {
 		isEmpty = title.isEmpty && subtitle?.isEmpty ?? true
-		self.panel = SBJLayout.Panel(
-			insets: theme.pageHeaderInsets,
-			background: theme.pageHeaderPanel!
-		) {
+		self.panel = OldPanel(theme.pageHeaderPanel, theme.pageHeaderInsets) {
 			Grid(vertFlow: .init(.fill())) {
 				JCSText(title, theme, font: .pageTitle, color: .pageTitle)
 				JCSText(subtitle, theme, font: .pageSubtitle, color: .pageSubtitle)

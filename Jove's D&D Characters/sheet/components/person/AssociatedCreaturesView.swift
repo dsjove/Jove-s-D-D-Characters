@@ -7,7 +7,7 @@ func associatedCreatures(_ c: Character, _ theme: any Theme, _ jargon: any Jargo
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, "Associated Creatures")
 			c.person.associatedCreatures.filter { !$0.isEmpty }.map { creature in
-				Panel(theme) {
+				OldPanel(theme) {
 					let stats = creature.statBlock
 					Grid(vertFlow: .init(dimension)) {
 						JCSText("\(creature.name) — \(creature.kind.description)", theme, font: .lineItemBold)

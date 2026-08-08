@@ -6,7 +6,7 @@ func valuables(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 	if !c.possessions.valuables.isEmpty {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, "Valuables")
-			Panel(theme) {
+			OldPanel(theme) {
 				Grid(table: [.init(.intrinsic(), gap: 16), .init(dimension)], rows: .init(align: .leftCenter)) {
 					c.possessions.valuables.items.filter { !$0.isEmpty }.map { item in [
 						JCSText(item, theme, font: .lineItemBold),

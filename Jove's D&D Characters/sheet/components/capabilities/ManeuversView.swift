@@ -8,7 +8,7 @@ func maneuvers(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 			SectionTitle(theme, [jargon.maneuverTitle, c.capabilities.maneuverSaveDC.map { "Save DC \($0)" }].compactMap { $0 }.joined(separator: " • "))
 			Grid(horzFlow: .init(.fill()), wrapped: 3) {
 				c.capabilities.maneuvers.filter { !$0.isEmpty }.map { item in
-					Panel(theme) {
+					OldPanel(theme) {
 						Grid(vertFlow: .init(.fill())) {
 							JCSText(item.name, theme, font: .lineItemBold, align: .centerBottom, lines: 0...1)
 							JCSText(item.detail, theme, lines: 0...3)

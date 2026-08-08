@@ -84,7 +84,7 @@ public class BasicTheme: Theme {
 			lineWidth: 1.5,
 			radius: 8)
 	}
-	public var contentPanelInset: CGFloat { 6 }
+	public var contentPanelInset: Insets { .init(left: 6, right: 6, top: 6, bottom: 6) }
 
 	public func rowLineSeperator(_ row: Grid.RowIteration, _ every: Int? = nil) {
 		if row.index == row.definition.rows.tracks.count-1 { return }

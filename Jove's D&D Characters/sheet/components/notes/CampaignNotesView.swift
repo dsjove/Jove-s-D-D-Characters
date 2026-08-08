@@ -7,7 +7,7 @@ func campaignNotes(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 	if !values.isEmpty {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, jargon.campaignNotesTitle)
-			Panel(theme) {
+			OldPanel(theme) {
 				let h = JCSText(size: theme.font(.lineItem), lines: 1).measure().height
 				Grid(vertFlow: .init(dimension), rows: .init(.intrinsic(min: h), minCount: 8)) {
 					values.map {

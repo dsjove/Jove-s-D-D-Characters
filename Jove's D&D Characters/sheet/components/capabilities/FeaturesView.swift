@@ -7,7 +7,7 @@ func features(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimens
 	if c.capabilities.features.hasContent {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, jargon.featuresTitle)
-			Panel(theme) {
+			OldPanel(theme) {
 				Grid(vertFlow: .init(dimension)) {
 					c.capabilities.features.filter { !$0.isEmpty }.map { item in [
 						JCSText([item.name, item.source].filter { !$0.isEmpty }.joined(separator: " — "), theme, font: .lineItemBold),

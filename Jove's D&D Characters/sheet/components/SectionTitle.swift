@@ -3,14 +3,11 @@ import SBJLayout
 
 struct SectionTitle: JCSLayoutElement, EmptyCheckable {
 	let isEmpty: Bool
-	let panel: SBJLayout.Panel<JCSText>
+	let panel: OldPanel
 
 	init(_ theme: Theme, _ title: String) {
 		isEmpty = title.isEmpty
-		self.panel = SBJLayout.Panel(
-			insets: theme.sectionTitleInsets,
-			background: theme.pageHeaderPanel!
-		) {
+		self.panel = OldPanel(theme.sectionTitlePanel, theme.sectionTitleInsets) {
 			JCSText(title, theme, font: .sectionTitle, color: .sectionTitle, lines: 1...1)
 		}
 	}

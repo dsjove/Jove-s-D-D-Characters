@@ -35,15 +35,10 @@ public struct CharacterSheetPDFView: View {
 		NavigationStack {
 			Group {
 				if let pdfDocument {
-#if canImport(UIKit)
 					PDFViewRepresentable(document: pdfDocument) { view in
 						self.pdfView = view
 						self.updateCanGoStates()
 					}
-#else
-					// Fallback to original if UIKit is not available
-					PDFKitView(document: pdfDocument)
-#endif
 				} else if let errorMessage {
 					ContentUnavailableView(
 						"Unable to Generate PDF",
@@ -264,11 +259,7 @@ public struct CharacterSheetPDFView: View {
 			return
 		}
 
-		let generator = PDFGenerator()
-		let generated = generator.form(SheetRender(theme: theme, character: character, jargon: jargon, pages: sheet.pages)) {
-			SheetRender.background(theme, $0)
-		}
-
+		let generated = sheet.render(theme, character, jargon)
 		do {
 			guard let document = generated.1 else {
 				throw CharacterSheetViewError.invalidPDFData
@@ -300,46 +291,6 @@ public struct CharacterSheetPDFView: View {
 		canGoToNextPage = index + 1 < document.pageCount
 	}
 }
-
-#if canImport(UIKit)
-private struct PDFViewRepresentable: UIViewRepresentable {
-	let document: PDFDocument
-	let onChange: (PDFView) -> Void
-
-	final class Coordinator {
-		private var observers: [NSObjectProtocol] = []
-
-		func observe(_ view: PDFView, onChange: @escaping (PDFView) -> Void) {
-			observers.forEach(NotificationCenter.default.removeObserver)
-			observers = [
-				NotificationCenter.default.addObserver(forName: .PDFViewPageChanged, object: view, queue: .main) { _ in onChange(view) },
-				NotificationCenter.default.addObserver(forName: .PDFViewDocumentChanged, object: view, queue: .main) { _ in onChange(view) },
-			]
-		}
-
-		deinit { observers.forEach(NotificationCenter.default.removeObserver) }
-	}
-
-	func makeCoordinator() -> Coordinator { Coordinator() }
-
-	func makeUIView(context: Context) -> PDFView {
-		let view = PDFView()
-		view.autoScales = true
-		view.displayMode = .singlePageContinuous
-		view.displayDirection = .vertical
-		view.displaysPageBreaks = true
-		view.document = document
-		context.coordinator.observe(view, onChange: onChange)
-		onChange(view)
-		return view
-	}
-
-	func updateUIView(_ uiView: PDFView, context: Context) {
-		if uiView.document !== document { uiView.document = document }
-		DispatchQueue.main.async { onChange(uiView) }
-	}
-}
-#endif
 
 private enum CharacterSheetViewError: LocalizedError {
 	case invalidPDFData

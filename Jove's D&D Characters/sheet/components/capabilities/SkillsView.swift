@@ -6,7 +6,7 @@ func skills(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimensio
 	if c.capabilities.skills.hasContent {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, jargon.skillsTitle)
-			Panel(theme) {
+			OldPanel(theme) {
 				let cols: [Track] = [
 					.init(dimension, gap: 20),
 					.init(.intrinsic(), gap: 20),

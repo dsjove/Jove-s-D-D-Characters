@@ -11,7 +11,7 @@ func attacks(
 	if c.capabilities.attacks.hasContent {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, jargon.attacksTitle)
-			Panel(theme) {
+			OldPanel(theme) {
 				let columns: [Track] = [
 					.init(.intrinsic(), gap: 5),
 					.init(.intrinsic(), gap: 5),

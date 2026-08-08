@@ -7,7 +7,7 @@ func spellcasting(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ di
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, "Spellcasting")
 			c.capabilities.spellcasting.filter { !$0.isEmpty }.map { casting in
-				Panel(theme) {
+				OldPanel(theme) {
 					Grid(vertFlow: .init(dimension)) {
 						JCSText(casting.source.isEmpty ? "Spellcasting" : casting.source, theme, font: .lineItemBold)
 						let castingMetadata = [

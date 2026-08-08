@@ -9,7 +9,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 		SectionTitle(theme, "Health")
 		Grid(horzFlow: .init(.uniform(), align: .centerTop), wrapped: 7, rows: .init(.uniform())) {
 			//if health.maxHitPoints != nil {
-				Panel(theme, aspectRatio: true) {
+				OldPanel(theme) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {
 						JCSText("Max HP", theme, font: .lineItemBold)
 						JCSText(health.maxHitPoints?.description, theme, font: .pageTitle, lines: 1...1)
@@ -17,7 +17,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				}
 			//}
 			//if health.hitPoints != nil {
-				Panel(theme, aspectRatio: true) {
+				OldPanel(theme) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {
 						JCSText("HP", theme, font: .lineItemBold)
 						JCSText(health.hitPoints?.description, theme, font: .pageTitle, lines: 1...1)
@@ -25,7 +25,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				}
 			//}
 			//if health.temporaryHitPoints != nil {
-				Panel(theme, aspectRatio: true) {
+				OldPanel(theme) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {
 						JCSText("Temp HP", theme, font: .lineItemBold)
 						JCSText(health.temporaryHitPoints?.description, theme, font: .pageTitle, lines: 1...1)
@@ -33,7 +33,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				}
 			//}
 			//if health.hitPoints != nil || health.deathSaveSuccesses > 0 || health.deathSaveFailures > 0 || health.isStable || conditions.exhaustion > 0 {
-				Panel(theme, aspectRatio: true) {
+				OldPanel(theme) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {
 					//	if health.hitPoints != nil || health.deathSaveSuccesses > 0 || health.deathSaveFailures > 0 || health.isStable {
 							JCSText(health.lifeState.description, theme, font: .lineItemBold)
@@ -47,7 +47,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				}
 			//}
 			if health.hitDice.hasContent || health.remainingHitDice.hasContent {
-				Panel(theme, aspectRatio: true) {
+				OldPanel(theme) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {
 						if health.hitDice.hasContent {
 							JCSText("Hit Dice", theme, font: .lineItemBold)
@@ -61,7 +61,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				}
 			}
 			//if health.deathSaveSuccesses > 0 || health.deathSaveFailures > 0 || health.hitPoints == 0 {
-				Panel(theme, aspectRatio: true) {
+				OldPanel(theme) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {
 						JCSText("Death\nSaves", theme, font: .lineItemBold)
 						JCSText("S\(health.success.description)", theme, font: .body)
@@ -70,7 +70,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				}
 			//}
 			if !conditions.conditions.isEmpty {
-				Panel(theme, aspectRatio: true) {
+				OldPanel(theme) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {
 						JCSText("Conditions", theme, font: .lineItemBold)
 						conditions.conditions.map { JCSText($0, theme, font: .body) }
@@ -78,7 +78,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				}
 			}
 			if !conditions.concentration.isEmpty {
-				Panel(theme, aspectRatio: true) {
+				OldPanel(theme) {
 					Grid(vertFlow: .init(), rows: .init(align: .center)) {
 						JCSText("Concen-\ntration", theme, font: .lineItemBold, lines: 2...2)
 						JCSText(conditions.concentration, theme, font: .sectionTitle, lines: 1...1)

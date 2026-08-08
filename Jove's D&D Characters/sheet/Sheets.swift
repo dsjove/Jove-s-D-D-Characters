@@ -1,11 +1,6 @@
 import Foundation
 
-public struct Sheet {
-	let name: String
-	let pages: [Page]
-}
-
-public let BasicSheet = Sheet(
+let BasicSheet = Sheet(
 	name: "Basic", pages: [
 		CombatPage(),
 		CapabilitiesPage(),
@@ -16,4 +11,4 @@ public let BasicSheet = Sheet(
 	]
 )
 
-public let Sheets: [Sheet] = [BasicSheet]
+let Sheets: [Sheet] = [BasicSheet]

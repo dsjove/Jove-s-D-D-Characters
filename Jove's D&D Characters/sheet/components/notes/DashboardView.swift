@@ -8,7 +8,7 @@ func dashboard(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 			SectionTitle(theme, jargon.dashboardTitle)
 			Grid(horzFlow: .init(dimension)) {
 				c.notes.dashboard.filter { !$0.isEmpty }.map { item in
-					Panel(theme) {
+					OldPanel(theme) {
 						Grid(vertFlow: .init(dimension)) {
 							JCSText(item.name, theme, font: .lineItemBold, align: .centerBottom, lines: 1...1)
 							Grid(table: [.init(.intrinsic()), .init(dimension)]) {

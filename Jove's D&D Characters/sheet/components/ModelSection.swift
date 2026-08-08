@@ -28,7 +28,7 @@ func modelSection(
 	if !visible.isEmpty {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, title)
-			Panel(theme) {
+			OldPanel(theme) {
 				Grid(
 					table: [
 						.init(.intrinsic(), align: .leftCenter, gap: 12),

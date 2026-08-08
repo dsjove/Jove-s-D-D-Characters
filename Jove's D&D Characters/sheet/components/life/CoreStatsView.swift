@@ -16,7 +16,7 @@ func coreStats(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 				let occupied = (abilities.count + combat.count) % 6
 				let remainder = occupied == 0 ? 0 : 6 - occupied
 				abilities.map { item in
-					Panel(theme, aspectRatio: true) {
+					OldPanel(theme) {
 						Grid(vertFlow: .init(.uniform()), rows: .init(align: .center)) {
 							JCSText(item.ability.abbreviation, theme, font: .lineItemBold)
 							JCSText(item.score?.description ?? "", theme, font: .sectionTitle, lines: 1...1)
@@ -25,7 +25,7 @@ func coreStats(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 					}
 				}
 				combat.map { item in
-					Panel(theme, aspectRatio: true) {
+					OldPanel(theme) {
 						Grid(vertFlow: .init(), rows: .init(align: .center)) {
 							JCSText(item.stat.multiLineDescription, theme, font: .lineItemBold, lines: 2...2)
 							JCSText(item.score?.signedDescription(apply: item.isBonus), theme, font: .sectionTitle, lines: 1...1)
@@ -33,7 +33,7 @@ func coreStats(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 					}
 				}
 				(0..<remainder).map { _ in
-					Panel(theme, aspectRatio: true) {
+					OldPanel(theme) {
 					}
 				}
 			}

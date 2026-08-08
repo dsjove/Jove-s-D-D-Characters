@@ -7,7 +7,7 @@ func reminders(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 	if !values.isEmpty {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
 			SectionTitle(theme, jargon.remindersTitle)
-			Panel(theme) {
+			OldPanel(theme) {
 				Grid(vertFlow: .init(dimension, align: .left), rows: .init(align: .centerY)) {
 					values.map { item in
 						JCSText("\(jargon.reminderMarker) \(item)", theme, font: .lineItemBold, lines: 0...2)

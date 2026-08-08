@@ -58,21 +58,20 @@ struct SheetContentGroup: JCSLayoutElement  {
 		pagination.beginMeasureGroup(paginationId)
 //TODO: this hard request needs to go away
 		pagination.requestPageInsert(paginationId)
-		let inset = pageInsets.apply(size: bounds)
-		let size = self.grid.measure(bounds: inset)
-		let outset = pageInsets.apply(size: size, inverse: true)
-		pagination.endMeasureGroup(paginationId, outset)
-		return outset
+		let size = pageInsets.apply(to: bounds) {
+			self.grid.measure(bounds: $0)
+		}
+		pagination.endMeasureGroup(paginationId, size)
+		return size
 	}
 
 	func draw(in allocated: CGRect, measured: CGSize, align: SBJLayout.Alignment) {
 		guard !isEmpty else { return }
-		pagination.rendering(paginationId)
-		var positioned = pageInsets.apply(rect: allocated)
-		let contentMeasured = pageInsets.apply(size: measured)
-//TODO: origin needs to be provided by pagination for groups
-		positioned.origin.x = pagination.printableRect.origin.x + pageInsets.left
-		positioned.origin.y = pagination.printableRect.minY + pageInsets.top
+		let newPage = pagination.rendering(paginationId)
+		var positioned = pageInsets.apply(to: allocated)
+		let contentMeasured = pageInsets.apply(to: measured)
+		positioned.origin.x = (newPage?.x ?? 0) + pageInsets.left
+		positioned.origin.y = (newPage?.y ?? 0) + pageInsets.top
 		self.grid.draw(in: positioned, measured: contentMeasured, align: align)
 	}
 }

@@ -128,6 +128,7 @@ public let Ash = Character(
 			.init("Second-Story Work", source: "Rogue", detail: "climb speed equal to your normal speed. May use Dexterity instead of Strength to determine your jump distance")
 		],
 		spellcasting: [],
+		maneuverSaveDC: 16,
 		maneuvers: [
 			.init("BAIT AND SWITCH", detail: "Swap with a willing creature within 5 ft; one of you gains +1d8 AC until your next turn."),
 			.init("GOADING ATTACK", detail: "On hit, add 1d8 damage; failed Wisdom save gives disadvantage against others."),
@@ -139,7 +140,18 @@ public let Ash = Character(
 			armor: ["Light armor", "Medium armor", "Shields"],
 			weapons: ["Simple weapons", "Martial weapons"],
 			expertise: ["Thieves' tools +12"]
-		)
+		),
+		resources: [
+			.init(
+				"Superiority Dice",
+				counter: .init(
+					recharge: .shortRest,
+					maximum: 4,
+					used: 0,
+					suffix: "d8"
+				)
+			)
+		]
 	),
 	possessions: .init(
 		equipment: [

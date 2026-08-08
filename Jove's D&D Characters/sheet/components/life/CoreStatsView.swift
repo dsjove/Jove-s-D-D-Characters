@@ -4,12 +4,13 @@ import SBJLayout
 @JCSLayoutElementBuilder
 func coreStats(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimension: TrackSize = .fill()) -> JCSLayoutElements {
 	if c.life.combat.hasContent {
-		Grid(table: [.init(.fill(), align: .center), .init(align: .center)], rows: .init(aggregate: {$0.min()})) {
+		Grid(table: [.init(.fill(), align: .center), .init(align: .center)], rows: .init(aggregate: {$0.last})) {
 			JCSImage(ImageSource.bundled(c.person.appearance.portrait, Bundle.main), cornerRadius: 8)
 			let columns: [Track] = (0..<6).map { _ in
 				.init(.uniform(), align: .centerTop)
 			}
 			Grid(table: columns, rows: .init(.uniform())) {
+				let remainder = 6 - (c.life.abilities.count + c.life.combat.count) % 6
 				c.life.abilities.map { item in
 					Panel(theme, aspectRatio: true) {
 						Grid(vertFlow: .init(.uniform()), rows: .init(align: .center)) {
@@ -25,6 +26,10 @@ func coreStats(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimen
 							JCSText(item.stat.multiLineDescription, theme, font: .lineItemBold, lines: 2...2)
 							JCSText(item.score?.signedDescription(apply: item.isBonus), theme, font: .sectionTitle, lines: 1...1)
 						}
+					}
+				}
+				(0..<remainder).map { _ in
+					Panel(theme, aspectRatio: true) {
 					}
 				}
 			}

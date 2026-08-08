@@ -5,7 +5,7 @@ import SBJLayout
 func maneuvers(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimension: TrackSize = .fill()) -> JCSLayoutElements {
 	if c.capabilities.maneuvers.hasContent {
 		Grid(vertFlow: .init(dimension), rows: .init(gap: theme.sectionTitleGap)) {
-			SectionTitle(theme, jargon.maneuverTitle)
+			SectionTitle(theme, "\(jargon.maneuverTitle) Save DC \(c.capabilities.maneuverSaveDC ?? 0)")
 			Grid(horzFlow: .init(.fill()), wrapped: 3) {
 				c.capabilities.maneuvers.map { item in
 					Panel(theme) {

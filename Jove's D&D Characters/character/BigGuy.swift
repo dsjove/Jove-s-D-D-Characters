@@ -245,6 +245,7 @@ public let BigGuy = Character(
 				notes: ["Does not require material components."]
 			),
 		],
+		maneuverSaveDC: 16,
 		maneuvers: [
 			.init("Brace", detail: "Use a reaction to attack a creature entering reach."),
 			.init("Commander's Strike", detail: "Direct an ally to make a weapon attack."),

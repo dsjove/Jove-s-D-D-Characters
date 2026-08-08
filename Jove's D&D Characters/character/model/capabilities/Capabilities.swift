@@ -5,6 +5,7 @@ public struct Capabilities: Codable, Sendable, EmptyCheckable, InvariantCheckabl
 	public let skills: [SkillScore]
 	public let features: [Feature]
 	public let spellcasting: [Spellcasting]
+	public let maneuverSaveDC: Int?
 	public let maneuvers: [Maneuver]
 	public let proficiencies: Proficiencies
 	public let resources: [ReusableResource]
@@ -14,6 +15,7 @@ public struct Capabilities: Codable, Sendable, EmptyCheckable, InvariantCheckabl
 		skills: [SkillScore] = .init(),
 		features: [Feature] = .init(),
 		spellcasting: [Spellcasting] = .init(),
+		maneuverSaveDC: Int? = .init(),
 		maneuvers: [Maneuver] = .init(),
 		proficiencies: Proficiencies = .init(),
 		resources: [ReusableResource] = .init()
@@ -22,6 +24,7 @@ public struct Capabilities: Codable, Sendable, EmptyCheckable, InvariantCheckabl
 		self.skills = skills
 		self.features = features
 		self.spellcasting = spellcasting
+		self.maneuverSaveDC = maneuverSaveDC
 		self.maneuvers = maneuvers
 		self.proficiencies = proficiencies
 		self.resources = resources

@@ -37,7 +37,7 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
 					JCSText(value.lifeState.description, theme, font: .lineItemBold)
-					JCSText("Stable" + (value.isStable ? "Yes" : "No"), theme, font: .body, lines: 1...1)
+					JCSText(value.isStable ? "Stable" : "", theme, font: .body, lines: 1...1)
 				}
 			}
 			Panel(theme, aspectRatio: true) {

@@ -90,7 +90,7 @@ public extension Jargon {
 			"Properties/Effects",
 		]
 	}
-	var maneuverTitle: String { "BATTLE MASTER MANEUVERS - 4d8 • SAVE DC 16 - Short Rest◯◯◯◯◯◯◯◯" }
+	var maneuverTitle: String { "Maneuvers" }
 	var skillsTitle: String { "Skills" }
 	var featuresTitle: String { "Features" }
 	var proficienciesTitle: String { "Proficiencies" }

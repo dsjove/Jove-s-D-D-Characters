@@ -11,7 +11,6 @@ struct CombatPage: Page {
 			PageTitle(theme, c.person.identity.name, c.person.identity.sheetSummary)
 			coreStats(c, theme, jargon)
 			healthDetails(c, theme, jargon)
-			conditions(c, theme, jargon)
 			attacks(c, theme, jargon)
 		}
 	}

@@ -5,17 +5,8 @@ import SBJLayout
 func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ dimension: TrackSize = .fill()) -> JCSLayoutElements {
 	let value = c.life.health
 	if !value.isEmpty {
-//		let deathSaves = value.deathSaveSuccesses == 0 && value.deathSaveFailures == 0
-//			? nil
-//			: "Successes \(value.deathSaveSuccesses) • Failures \(value.deathSaveFailures)"
-//		modelSection(theme, "Health Details", fields: [
-//			.init("Death Saves", deathSaves),
-//		], dimension)
 		SectionTitle(theme, "Heath")
-		let columns: [Track] = (0..<6).map { _ in
-				.init(.uniform(), align: .centerTop)
-			}
-		Grid(table: columns, rows: .init(.uniform())) {
+		Grid(horzFlow: .init(.uniform(), align: .centerTop), rows: .init(.uniform())) {
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
 					JCSText("Max HP", theme, font: .lineItemBold)
@@ -38,14 +29,18 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
 					JCSText(value.lifeState.description, theme, font: .lineItemBold)
 					JCSText(value.isStable ? "Stable" : "", theme, font: .body, lines: 1...1)
+					if c.life.currentConditions.exhaustion > 0 {
+						JCSText("Exhaustion", theme, font: .lineItemBold)
+						JCSText("\(c.life.currentConditions.exhaustion)", theme, font: .body, lines: 1...1)
+					}
 				}
 			}
 			Panel(theme, aspectRatio: true) {
 				Grid(vertFlow: .init(), rows: .init(align: .center)) {
 					JCSText("Hit Dice", theme, font: .lineItemBold)
-					JCSText(value.hitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? "", theme, font: .body, lines: 1...1)
+					JCSText(value.hitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? "", theme, font: .smallBody, lines: 1...1)
 					JCSText("Remaining", theme, font: .lineItemBold)
-					JCSText(value.remainingHitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? "", theme, font: .body, lines: 1...1)
+					JCSText(value.remainingHitDice?.filter { !$0.isEmpty }.map(\.description).joined(separator: ", ") ?? "", theme, font: .smallBody, lines: 1...1)
 				}
 			}
 			Panel(theme, aspectRatio: true) {
@@ -55,6 +50,23 @@ func healthDetails(_ c: Character, _ theme: any Theme, _ jargon: any Jargon, _ d
 					JCSText("F\(value.failures.description)", theme, font: .body)
 				}
 			}
+			Panel(theme, aspectRatio: true) {
+				Grid(vertFlow: .init(), rows: .init(align: .center)) {
+					JCSText("Contitions", theme, font: .lineItemBold)
+					c.life.currentConditions.conditions.map {
+						JCSText($0, theme, font: .body)
+					}
+				}
+			}
+			Panel(theme, aspectRatio: true) {
+				Grid(vertFlow: .init(), rows: .init(align: .center)) {
+					JCSText("Concent", theme, font: .lineItemBold, lines: 2...2)
+					JCSText(c.life.currentConditions.concentration, theme, font: .sectionTitle, lines: 1...1)
+				}
+			}
 		}
+		modelSection(theme, "", fields: [
+			.init("Persistent Effects", c.life.currentConditions.persistentEffects.filter { !$0.isEmpty }.joined(separator: "; ")),
+		], dimension)
 	}
 }
